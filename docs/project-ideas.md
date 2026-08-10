@@ -1,5 +1,6 @@
 # CAB302 Project Idea Development
 
+## Reuben Brainstorm
 Eco-habits Learning Companion/Game (#17/#18 variation):
 - Purpose: incentivise users to develop sustainable behaviours by gamifying behaviours and activities which provide positive environmental and social outcomes. 
   - Relates to people (positive mental and social benefit), planet (promotes eco-friendly behaviour)
