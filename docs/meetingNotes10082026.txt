@@ -1,0 +1,16 @@
+Minutes 10/08/2026
+- Git Repo has been created
+
+- Jira decided on for project management
+	- Jira group created done
+	- Initial Goals/ Todo set up
+
+- Initial Project ideas floating around
+	- Gamified life support, helping motivate the users to better their life
+			- Things like trim the grass, drink water, put $X into savings etc.
+			- Sustainable in the way that it sustains people
+		- Changed to be more focused on mental health
+			- Tasks more like get a certain amount of sleep, exercise for this long etc.
+
+- Team meetings: Friday 3pm Weekly
+ 
