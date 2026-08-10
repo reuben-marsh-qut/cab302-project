@@ -23,3 +23,22 @@ Mental Health Game. Allowing users to learn and track postive behaviours.
 
 Education. Users should be given opportunitines to learn good mental health habbits but the app should have a gamficaiton aspect to it.
 Users should learn but also feel rewarded for continuing their good habbits.
+
+## Sujhav Brainstorm
+
+Building on Ruben and Javier Idea:
+
+- 1 Group habits under the three sustainability areas instead of one list 
+  - People — sleep 7+ hrs, 30 min exercise, message a friend
+  - Planet — take the bus, shorter shower
+  - Prosperity — put $20 in savings, cook instead of takeaway
+  - Level up in each area separately, so the dashboard shows three bars instead of one (Level 6 People, Level 2 Planet).
+- 2 Add a third type alongside Activity and Goal — Habit
+  - Activity - Some task to complete (plant a tree)
+  - Goal - target by a deadline (Save $500 by 21 September)
+  - Habit = recurring, tracked as a streak that resets if you miss(Walk 30 min, 5x a week)
+  - Streaks will keep people coming back like Duolingo, Strava 
+
+- 3 Show real impact next to Xp
+  - Each activity stores an estimated real-world value,take a bus = 5 kg CO₂ avoided · 5 min shorter shower = 45 L water saved · cook instead of takeaway = $18 saved
+  - Dashboard totals it up:"This month: 340 L water saved, 12 kg CO₂ avoided, $95 put away."
