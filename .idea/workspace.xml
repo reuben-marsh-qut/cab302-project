@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1314788b-c817-4226-b021-3b99998c71b4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/project-ideas.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/project-ideas.md" afterDir="false" />
-    </list>
+    <list default="true" id="1314788b-c817-4226-b021-3b99998c71b4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,8 +24,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/reuben-marsh-qut/cab302-project.git",
-    "accountId": "504128ca-fc51-441d-a4d5-cc773dab45c6"
+    "url": "https://github.com/reuben-marsh-qut/cab302-project",
+    "accountId": "8392ab7c-9bd5-4aad-91b4-a9645578bb24"
   }
 }]]></component>
   <component name="McpProjectServerCommands">
@@ -117,6 +114,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Sebastian/Documents/2026/CAB302/cab302-project",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
