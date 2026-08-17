@@ -22,7 +22,18 @@ promoting positive mental health and social, focussing on connection, building m
 This document outlines project objectives, the necessity for APPNAME presently, project scope, requirements, stakeholders and constraints.
 
 ## Project Objectives
-Javier
+The primary objective of APPNAME is to help users develop and maintain postive mental health behvaviours through gamified producitvity systems. This application
+is trying to make the process of building healthy routines more intresting and engaging by combining goals, habbits and activities with progression systems such as XP, levels, streaks and rewards.
+
+The project has the following objectives:
+- Develop a functional application in the given timeframe that allows users to create and account, manage wellbeing goals, establish habbits and complete activities
+- Provide users with templates for goals across mind, body and social categories, and allow goals to be adapated to the users own circumstances
+- It should enable users to monitor their own progress towards goals through measurable habit and activity completion
+- The system needs to implement an XP and level system that rewards users for completing their activites and maintaining their habbits
+- It should implement streaks and in-game rewards to encourage users to return to the application and continue working towards their goal
+- Provide repots that give users the ability to review their progress over time and compare across mind, body and social categories
+- The app should provide personalised recommendations for activities and goals based on user's existing goals and previous activities
+- Help users develop sustainable behaviours relating to their personal wellbeing
 
 ## Needs Statement
 APPNAME addresses a pertinent topic which impacts all people in society in their daily lives - mental health.
@@ -38,7 +49,41 @@ encouraging users to nurture themselves and prioritise their mental health. In t
 achieve financial gain, for example if their goal related to savings, tapping into the *prosperity* dimension.
 
 ## Project Scope
-Javier
+The scope of APPNAME covers the design, implementation and testing of a gamified application which helps users deleop postive wellbeing behaviours.
+
+### In Scope
+The project will include:
+- User Registration and Login
+- User Profile Management
+- Goal creation using predefined goal templates
+- Classification of goals, habits and activies into the mind, body and social wellbeing categories
+- Creation and tracking of habits related to the users goal
+- Support for standalone activites that are not associated with a habbit
+- Tracking progress towards habits and goals
+- Awarding XP for completing things
+- Players levels are based on accumulated XP
+- Habit streak tracking
+- In-game rewards assocaiated with user progress
+- A method for us to view earned rewards
+- Historical tracking of completeed activities
+- Reporting of user progress over time
+- Comparision of progress between mind, body and social categories
+- Suggested new goals based on areas where the users has completed fewer activities
+- Suggestions for users to reconsider goals with their associated activities are repeatedely not completled
+
+### Out of Scope
+The intial version of APPNAME will not include:
+- Diagnosis of mental health conditions
+- Clinical treatment plans or medical advice
+- replacement of professional mental health services
+- Emergency of crisis-support services
+- Communication between users and healthcare professionals
+- A public social-media network or direct messaging between users
+- Real-moeny purchases or finacial transactions
+- Integrations with external wearble devices
+
+These featuers may be future possible extentions but are not required for intial implementation
+
 
 ## Requirements
 The following requirements relate to identified key features of the app:
@@ -57,7 +102,14 @@ The following requirements relate to identified key features of the app:
 - The software shall provide the user suggestions for new goals based on categories which they done the fewest activities in
 
 ## Key Stakeholders
-Javier
+### End Users
+The end user is the primary stakeholder of APPNAME. They are individuals who want to improve their everyday wellbeing. The users need the application
+tobe easy to use, engaging, reliable and motivating. They design needs to account for them to better influence the applications goal setting, habit-tracking and progress reporting/gamification features.
+
+### The Project Development Team
+The Project Team is responsible for planning designing, Implementation, Testing adn documenting APPNAME
+
+The development team acts a key stakeholder as they are responsible for ensuring the applications systems integrate properly and satistfy the agreed project requirements
 
 ## Project Constraints
 Patty
