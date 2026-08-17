@@ -7,7 +7,7 @@ Document Structure: https://plaky.com/blog/business-requirements-document-templa
 
 ## Executive Summary
 
-APPNAME is a productivity game that focuses on behaviours and tasks which promote and facilitate good mental health. 
+*Rooted* is a productivity game that focuses on behaviours and tasks which promote and facilitate good mental health. 
 The game leverages an XP-based level system, as well as player rewards and incentives to encourage them to engage in activities which will improve their mental health.
 Progression in the game is based around three related items: goals, habits and activities. The three pillars act to 
 keep uses engaged and consciously progressing towards their aims, improving their mental health.
@@ -21,11 +21,11 @@ Also, the game divides goals, habits and activities into three categories, which
 developing strong mental health: mind, focussing on being mindful, thoughtful and 'in the moment'; body, physical exercise
 promoting positive mental health and social, focussing on connection, building meaningful relationships.
 
-This document outlines project objectives, the necessity for APPNAME presently, project scope, requirements, stakeholders and constraints.
+This document outlines project objectives, the necessity for *Rooted* presently, project scope, requirements, stakeholders and constraints.
 
 ## Project Objectives
 
-The primary objective of APPNAME is to help users develop and maintain postive mental health behvaviours through gamified producitvity systems. This application
+The primary objective of *Rooted* is to help users develop and maintain postive mental health behvaviours through gamified producitvity systems. This application
 is trying to make the process of building healthy routines more intresting and engaging by combining goals, habbits and activities with progression systems such as XP, levels, streaks and rewards.
 
 The project has the following objectives:
@@ -41,21 +41,21 @@ The project has the following objectives:
 
 ## Needs Statement
 
-APPNAME addresses a pertinent topic which impacts all people in society in their daily lives - mental health.
+*Rooted* addresses a pertinent topic which impacts all people in society in their daily lives - mental health.
 It is a logical and necessary tool to support positive mental health given the continually evolving mobile space.
 The app provides a means for people who may otherwise spend time engaging in unhealthy behaviours like doomsccrolling 
-on social media, isolating themselves from friends and family and eating heavily processed foods. APPNAME bridges the gap between
+on social media, isolating themselves from friends and family and eating heavily processed foods. *Rooted* bridges the gap between
 the addictive pull of social media and healthy, productive activities. In turn, helping people who may be at risk of falling into 
 unhealthy behaviours to avoid them and, instead, foster healthy habits. As such, the app targets people who may be spending lots of 
 time on their devices, on social media, for example. [This demographic is mainly 16 to 24 year olds.](https://explodingtopics.com/blog/social-media-usage)
 
-In relation to the theme 'Technology for Sustainable Futures', APPNAME especially target the *people* dimension of sustainability,
+In relation to the theme 'Technology for Sustainable Futures', *Rooted* especially target the *people* dimension of sustainability,
 encouraging users to nurture themselves and prioritise their mental health. In turn, users could 
 achieve financial gain, for example if their goal related to savings, tapping into the *prosperity* dimension.
 
 ## Project Scope
 
-The scope of APPNAME covers the design, implementation and testing of a gamified application which helps users deleop postive wellbeing behaviours.
+The scope of *Rooted* covers the design, implementation and testing of a gamified application which helps users deleop postive wellbeing behaviours.
 
 ### In Scope
 
@@ -81,7 +81,7 @@ The project will include:
 
 ### Out of Scope
 
-The intial version of APPNAME will not include:
+The intial version of *Rooted* will not include:
 
 - Diagnosis of mental health conditions
 - Clinical treatment plans or medical advice
@@ -116,18 +116,18 @@ The following requirements relate to identified key features of the app:
 
 ### End Users
 
-The end user is the primary stakeholder of APPNAME. They are individuals who want to improve their everyday wellbeing. The users need the application
+The end user is the primary stakeholder of *Rooted*. They are individuals who want to improve their everyday wellbeing. The users need the application
 tobe easy to use, engaging, reliable and motivating. They design needs to account for them to better influence the applications goal setting, habit-tracking and progress reporting/gamification features.
 
 ### The Project Development Team
 
-The Project Team is responsible for planning designing, Implementation, Testing adn documenting APPNAME
+The Project Team is responsible for planning designing, Implementation, Testing adn documenting *Rooted*
 
 The development team acts a key stakeholder as they are responsible for ensuring the applications systems integrate properly and satistfy the agreed project requirements
 
 ## Project Constraints
 
-The development of {to-be-named} is subject to the following constraints:
+The development of *Rooted* is subject to the following constraints:
 
 ### Technical Constraints
 
