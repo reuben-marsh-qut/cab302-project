@@ -1,0 +1,48 @@
+Meeting minutes - 14/08/2026
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Members present: Reuben, Angus, Sebastian, Javier, Patrick
+
+Initial thoughts: 
+
+UI/UX - Planning started and uploaded to git
+
+Project idea - More fleshed out
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Things to talk about 
+	- What we have to complete by Monday
+		- Project Idea
+		- Project Requirements
+			- Group effort
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Beginning Group Brainstorm for fleshing the project idea/requirements out more
+
+	- Narrowing down our project down to mental health as opposed to sustainability in general
+		-easier to justify with less work for group members
+		- In turn the "real world impacts" will have to fall to the cutting room floor as its not applicable & far too complex
+
+	- Have activities for users to complete
+		- Have long term goals - (Save X money, Drink X water etc.)
+		- Short term goals (daily things)
+			- Can measure a "streak" of how long a user does their "daily-s"
+		- Potentially "group/community goals" where all users work together for a single goal
+			- well received, may implement it
+
+	- Design with mobile users in mind
+		- this sort of application works more in favour of mobile accessibility 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	- Idea of using "Excalidraw" for a group mindmap for planning and finalizing
+		- Started using it with quite a lot down
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+	- May start to do UML
+	- decided requirements for each team member before monday
+		
+	
+		
