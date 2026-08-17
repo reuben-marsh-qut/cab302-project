@@ -1,15 +1,17 @@
 # Project Requirements
+
 Date: 17/08/2026
 Version Number: 1.0.0
 
 Document Structure: https://plaky.com/blog/business-requirements-document-template/
 
-
 ## Executive Summary
+
 APPNAME is a productivity game that focuses on behaviours and tasks which promote and facilitate good mental health. 
 The game leverages an XP-based level system, as well as player rewards and incentives to encourage them to engage in activities which will improve their mental health.
 Progression in the game is based around three related items: goals, habits and activities. The three pillars act to 
 keep uses engaged and consciously progressing towards their aims, improving their mental health.
+
 1. Goals: Based on App-defined (using AI) goal templates which are related to, and proven to improve mental health, users are able to tailor goals based on what is realistic and achievable for them. Habits are the cornerstone of goals and contribute to the completion of goals.
 2. Habits: A habit is an app-defined repeated task which the user should complete to gain progress towards goals and procure in-game rewards. A habit may require a user to complete an activity some number of times a day, a week or a month. Habits are defined by the app based on the user-defined goals.
 3. Activities: Activities are the foundation of habits. Habits require activities to be completed periodically. As such, an activitiy is a singular task which may be part of building a habit. Activities can also be standalone (i.e. not attached to a habit).
@@ -22,10 +24,12 @@ promoting positive mental health and social, focussing on connection, building m
 This document outlines project objectives, the necessity for APPNAME presently, project scope, requirements, stakeholders and constraints.
 
 ## Project Objectives
+
 The primary objective of APPNAME is to help users develop and maintain postive mental health behvaviours through gamified producitvity systems. This application
 is trying to make the process of building healthy routines more intresting and engaging by combining goals, habbits and activities with progression systems such as XP, levels, streaks and rewards.
 
 The project has the following objectives:
+
 - Develop a functional application in the given timeframe that allows users to create and account, manage wellbeing goals, establish habbits and complete activities
 - Provide users with templates for goals across mind, body and social categories, and allow goals to be adapated to the users own circumstances
 - It should enable users to monitor their own progress towards goals through measurable habit and activity completion
@@ -36,6 +40,7 @@ The project has the following objectives:
 - Help users develop sustainable behaviours relating to their personal wellbeing
 
 ## Needs Statement
+
 APPNAME addresses a pertinent topic which impacts all people in society in their daily lives - mental health.
 It is a logical and necessary tool to support positive mental health given the continually evolving mobile space.
 The app provides a means for people who may otherwise spend time engaging in unhealthy behaviours like doomsccrolling 
@@ -49,10 +54,13 @@ encouraging users to nurture themselves and prioritise their mental health. In t
 achieve financial gain, for example if their goal related to savings, tapping into the *prosperity* dimension.
 
 ## Project Scope
+
 The scope of APPNAME covers the design, implementation and testing of a gamified application which helps users deleop postive wellbeing behaviours.
 
 ### In Scope
+
 The project will include:
+
 - User Registration and Login
 - User Profile Management
 - Goal creation using predefined goal templates
@@ -72,7 +80,9 @@ The project will include:
 - Suggestions for users to reconsider goals with their associated activities are repeatedely not completled
 
 ### Out of Scope
+
 The intial version of APPNAME will not include:
+
 - Diagnosis of mental health conditions
 - Clinical treatment plans or medical advice
 - replacement of professional mental health services
@@ -84,9 +94,10 @@ The intial version of APPNAME will not include:
 
 These featuers may be future possible extentions but are not required for intial implementation
 
-
 ## Requirements
+
 The following requirements relate to identified key features of the app:
+
 - The user should be able to register to create an account
 - The user should be able to log in once registered with an account
 - The user should be able to update their profile information
@@ -102,19 +113,49 @@ The following requirements relate to identified key features of the app:
 - The software shall provide the user suggestions for new goals based on categories which they done the fewest activities in
 
 ## Key Stakeholders
+
 ### End Users
+
 The end user is the primary stakeholder of APPNAME. They are individuals who want to improve their everyday wellbeing. The users need the application
 tobe easy to use, engaging, reliable and motivating. They design needs to account for them to better influence the applications goal setting, habit-tracking and progress reporting/gamification features.
 
 ### The Project Development Team
+
 The Project Team is responsible for planning designing, Implementation, Testing adn documenting APPNAME
 
 The development team acts a key stakeholder as they are responsible for ensuring the applications systems integrate properly and satistfy the agreed project requirements
 
 ## Project Constraints
-Patty
 
+The development of {to-be-named} is subject to the following constraints:
 
+### Technical Constraints
 
+- The application will be developed using Java and JavaFX as a desktop application.
+- The application should operate consistently on both Windows and macOS, as these are the primary development environments used by the project team.
+- SQLite will be used for local data persistence.
+- Core application functionality should remain available without an internet connection.
+- The user interface should use a responsive design so that the application remains usable across different window sizes and display configurations.
+
+### Time Constraints
+
+- The project must be designed, implemented, tested and documented within the CAB302 teaching period and associated project milestone deadlines.
+- The scope and complexity of features must therefore remain achievable within the available development timeframe.
+
+### Data and Privacy Constraints
+
+- User wellbeing information, including goals, habits, activities and progress history, will be stored locally using SQLite.
+- The application should avoid collecting or exposing information that is not required for its core functionality.
+- User wellbeing information should remain private to the local application unless additional functionality requiring data sharing is explicitly introduced and agreed upon by the project team.
+
+### Scope Constraints
+
+- The project is focused on encouraging positive mental wellbeing behaviours through goals, habits, activities and gamification rather than providing general healthcare functionality.
+- The application will not provide mental health diagnoses, clinical treatment plans, medical advice, crisis-support services or communication with healthcare professionals, as defined within the agreed project scope.
+- Features outside the agreed project scope should only be introduced where they can be completed without negatively affecting delivery of the core requirements.
+
+### Platform Constraints
+
+- Although the application's interface may use responsive and mobile-inspired design principles, the delivered application will remain a JavaFX desktop application rather than a native mobile application.
 
 
