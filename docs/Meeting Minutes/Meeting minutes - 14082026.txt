@@ -42,7 +42,7 @@ Beginning Group Brainstorm for fleshing the project idea/requirements out more
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 	- May start to do UML
-	- decided requirements for each team member before monday
+	- decided requirements for each team member before Monday
 		
 	
 		
