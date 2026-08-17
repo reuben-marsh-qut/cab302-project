@@ -2,9 +2,9 @@
 
 ## Members Present:
 
-### Chairperson:
 ### Scrum Master:
-### "Users":
+### Product Owner:
+### Developers:
 
 ---
 ## Initial Discussion
