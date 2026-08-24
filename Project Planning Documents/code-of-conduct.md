@@ -8,7 +8,7 @@
 We will first try to resolve the conflict ourselves, if that fails we will escelate to the Tutors within our tutorial and failing that the Unit Coordinator.
 
 ## Signed
-Angus Ward, Sujhav Adhikari, Javier Bates, Sebastian Kerr, Reuben Marsh
+Angus Ward, Sujhav Adhikari, Javier Bates, Sebastian Kerr, Reuben Marsh, Patrick Graham
 
 ## notes
 this is partially based of the QUT and the ACS codes of conduct
