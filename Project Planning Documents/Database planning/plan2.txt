@@ -1,0 +1,93 @@
+https://www.sqlite.org/datatype3.html
+TEXT,NUMERIC,INTEGER,REAL,BLOB
+are we going to use STRICT typing (maybe?)
+
+https://www.sqlite.org/lang_createtable.html#check_constraints
+use this for any enums bc sqlite doesn't support enums.
+
+https://andersmurphy.com/2026/06/05/the-perils-of-uuid-primary-keys-in-sqlite.html
+using int.
+https://sqlite.org/foreignkeys.html
+ON DELETE CASCADE means we don't need to manually delete values dependent on FKs. (ie on user delete all records associated are auto deleted)
+
+
+
+This isn't proper SQL syntax but i can clean it up later
+I am assuming that we don't want to support SSO
+All dates will be stored as UNIX times
+should we allow NULL?
+TODO: there should be more constraints for more of the columns
+
+are we doing community goals?
+what is our leveling system??
+
+Activity -> Contributes to z goal, one off, might have due date?
+ex. start & finish EGB342 assignment due 4th of sept contributes to healthy mind goal
+ex. bench 100kg 1rm, no date contributes to a healthy body goal
+ex. tend to garden, no date contributes to healthy planet goal
+ex. talk to 100 people, no date contibutes to 
+
+Habit -> activity that repeats n_to infinity times y often contribting to z goal
+ex. walk at least 10,000 steps a day. Rpt frq each day, infinity repeats, contribute to goal walk 70,000 steps a week. ?
+
+Goal -> completion of children contributes some? progress to goal. Associated with 'super goal', completion of goal contributes significant amount of xp to 'super goal', completion of goal children gives small amount of xp to super goal
+
+'Super goals' (catagory??? idk what to call these) (should these exist?) such as healthy mind, healthy planet, healthy body, etc. 
+
+
+table users
+
+PRIMARY KEY AI INTEGER, userId
+UNIQUE NOT NULL TEXT, email
+NOT NULL blob/text, passwordHash
+NOT NULL INTEGER, userExperience // ???
+
+
+user-key-value allows for flexibility but we lose typing and our schema is now somewhat abstracted from the database.
+We need to keep track of typing, migration (what happens when keys are removed/added/type changes), initalisation is now our responsiblity.
+
+should we allow null? i'm leaning towards no. settings should always have a defined value.
+maybe user,setting,setting,setting might be better when we know exactly what settings we have?
+
+table user_settings
+PRIMARY KEY FORIGN KEY NOT NULL INTEGER, userId ON DELETE CASCADE REFERENCES users(userId)
+PRIMARY KEY TEXT, key
+BLOB, value
+
+
+table goals
+PK AI INT, goalId
+NOT NULL INT, userId FK ON DELETE CASCADE
+NOT NULL TEXT, catagory constraint (mind, body, social, planet)?
+nullable INT dueUnixTime// if null does not expire?
+NOT NULL INT progress
+NOT NULL INT completionThreshold
+NOT NULL INT, isComplete (constraint 0,1) do we need this?
+
+table tasks
+PK AI INT, taskId
+
+NOT NULL INT, goalId FK idk
+
+NOT NULL INT, userId FK ON DELETE CASCADE
+NOT NULL TEXT, taskTitle
+NOT NULL INT, taskDifficulty (constrainted btwen 1 and 10?) idk xp reward dependent on this? or should this just be xpReward
+NOT NULL TEXT, catagory constraint (mind, body, social, planet)?
+
+NOT NULL INT, isHabit (constraint 0,1)
+Nullable INT, repeatFreqUnix ie 2* 86400 * 1000 would be every two days
+Nullable INT, currentStreak can this be derived from task_completion_log?
+Nullable INT,
+
+nullable INT dueUnixTime// if null does not expire?
+NOT NULL INT progress
+NOT NULL INT doesContributeDirectlyToGoal CHECK(doesContributeDirectlyToGoal IN (0, 1)) (ie progress in steps would directly add steps to steps goal)
+NOT NULL INT completionThreshold
+
+
+should this have a userId FK (joins exist for a reason)
+table task_completion_log?
+PK AI INT, logId
+NOT NULL INT FK, taskId
+NOT NULL INT, completedAtUnixTime
+NOT NULL INT, awardedXpReward // why? completing a task after the deadline should not give full xp rewards, this way the can be the source of truth for xp gains
