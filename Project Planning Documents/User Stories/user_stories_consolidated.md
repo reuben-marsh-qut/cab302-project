@@ -10,6 +10,7 @@
 ### US-01 - Register an Account
 
 Priority: Must Have
+Estimated Time: 
 
 As a user, I want to create an account so that my goal and progress is stored privately for me.
 
