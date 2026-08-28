@@ -39,8 +39,8 @@ Create the basic application so a user can create an account, log in, choose a g
 
 ### Assigned To
 
-* 
-* 
+* Javier
+* Patrick
 
 
 
@@ -63,8 +63,8 @@ Create the basic application so a user can create an account, log in, choose a g
 
 ### Assigned To
 
-* 
-* 
+* Reuben
+* Sujhav
 
 
 
@@ -86,7 +86,7 @@ Create the basic application so a user can create an account, log in, choose a g
 
 ### Assigned To
 
-* 
+* Seb & Angus
 
 
 
