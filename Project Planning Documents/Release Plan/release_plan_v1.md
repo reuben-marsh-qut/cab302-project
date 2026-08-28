@@ -1,13 +1,13 @@
 # Rooted — Basic Release Plan
 
 ## Release Goal
-The goal of the first release is to produce a desktop application that gives users the ability to help build postive wellbeing behaviours thorough goals, habits and activities.
+The goal of the first release is to produce a desktop application that gives users the ability to help build positive wellbeing behaviors thorough goals, habits and activities.
 
-The application is intented to include gamification features such as XP, levels, streaks, and rewards to attempt to encougrage users to keep using the app
+The application is intended to include gamification features such as XP, levels, streaks, and rewards to attempt to encourage users to keep using the app
 
-The project is going to be developed through **weekly Sprints**. Each sprint is should aim to add a working part of the applciation rather then leaving all intergation until the end
+The project is going to be developed through **weekly Sprints**. Each sprint it should aim to add a working part of the application rather than leaving all integration until the end
 
-The features included in each sprint is subject to change depending on team progess and feedback. 
+The features included in each sprint is subject to change depending on team progress and feedback. 
 
 
 
@@ -138,16 +138,16 @@ If the team has additional time, later Sprints may include:
 * US-23 — Search and Filter Activities
 * Accessibility improvements
 * Notifications
-* Theme customisation
+* Theme customization
 * Additional testing and UI polish
 
-These features should only be prioritised once the core application is working reliably.
+These features should only be prioritized once the core application is working reliably.
 
 
 
 # Release Priorities
 
-The team should prioritise work in roughly this order:
+The team should prioritize work in roughly this order:
 
 1. Core application functionality
 2. Goals, habits and activities
