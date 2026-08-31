@@ -22,7 +22,7 @@ Acceptance Criteria
 Consolidation Note
 User story was taken from Reuben + Angus
 
-###US-02 - Log In
+### US-02 - Log In
 
 Priority - Must Have
 
@@ -39,7 +39,7 @@ Source Ruben + Angus
 
 Minor Consolidation
 
-###US-03 - Update Profile Information
+### US-03 - Update Profile Information
 Priority: Should Have
 
 As a user, I want to update my profile information so that my account details remain current
@@ -49,7 +49,7 @@ Acceptance Criteria
 - If I attempte to change my username to one that is taken then the application rejects the change
 - If I change the password I must provide a correct and current password before the new password is accepted
 
-###US-04 - Log Out
+### US-04 - Log Out
 
 Priority: Should Have
 
@@ -143,7 +143,7 @@ Acceptance Criteria
 
 
 
-## US-12 — View Completed Goals
+### US-12 — View Completed Goals
 **Priority:** Should Have
 
 **As a user, I want to view goals I have completed so that I can see what I have achieved over time.**
@@ -155,7 +155,7 @@ Acceptance Criteria
 
 
 
-## US-13 — Receive Goal Recommendations
+### US-13 — Receive Goal Recommendations
 **Priority:** Should Have
 
 **As a user, I want the application to recommend goals in areas where I have been less active so that I can develop more balanced wellbeing behaviors.**
@@ -167,7 +167,7 @@ Acceptance Criteria
 
 
 
-## US-14 — Reconsider an Unsuccessful Goal
+### US-14 — Reconsider an Unsuccessful Goal
 **Priority:** Should Have
 
 **As a user, I want the application to suggest reconsidering a goal when I consistently struggle with its activities so that I can choose something more achievable.**
@@ -182,7 +182,7 @@ Acceptance Criteria
 
 # Epic 3 — Habits
 
-## US-15 — Generate Habits From Goals
+### US-15 — Generate Habits From Goals
 **Priority:** Must Have
 
 **As a user, I want appropriate habits to be established from my goals so that I have repeatable behaviors that help me make progress.**
@@ -194,7 +194,7 @@ Acceptance Criteria
 
 
 
-## US-16 — Understand How a Habit Supports a Goal
+### US-16 — Understand How a Habit Supports a Goal
 **Priority:** Must Have
 
 **As a user, I want to see how a habit relates to my goal so that I understand why I am being asked to complete it.**
@@ -206,7 +206,7 @@ Acceptance Criteria
 
 
 
-## US-17 — Track Habit Completion
+### US-17 — Track Habit Completion
 **Priority:** Must Have
 
 **As a user, I want my recurring habit completions to be tracked so that I can monitor whether I am maintaining healthy behaviors.**
@@ -221,7 +221,7 @@ Acceptance Criteria
 
 # Epic 4 — Activities
 
-## US-18 — View Activities I Need to Complete
+### US-18 — View Activities I Need to Complete
 **Priority:** Must Have
 
 **As a user, I want to see my upcoming activities so that I know what I should work on next.**
@@ -234,7 +234,7 @@ Acceptance Criteria
 
 
 
-## US-19 — Complete an Activity
+### US-19 — Complete an Activity
 **Priority:** Must Have
 
 **As a user, I want to mark an activity as completed so that my progress is recorded.**
@@ -247,7 +247,7 @@ Acceptance Criteria
 
 
 
-## US-20 — Complete Standalone Activities
+### US-20 — Complete Standalone Activities
 **Priority:** Must Have
 
 **As a user, I want to complete activities outside my existing goals so that I can engage in additional positive wellbeing behaviors.**
@@ -273,7 +273,7 @@ Acceptance Criteria
 
 
 
-## US-22 — View Completed Activities
+### US-22 — View Completed Activities
 **Priority:** Must Have
 
 **As a user, I want to view my completed activities so that I can review what I have accomplished.**
@@ -286,7 +286,7 @@ Acceptance Criteria
 
 
 
-## US-23 — Search and Filter Activities
+### US-23 — Search and Filter Activities
 **Priority:** Could Have
 
 **As a user, I want to search and filter activities so that I can quickly find relevant items.**
@@ -300,7 +300,7 @@ Acceptance Criteria
 
 # Epic 5 — Gamification
 
-## US-24 — Earn XP
+### US-24 — Earn XP
 **Priority:** Must Have
 
 **As a user, I want to earn XP when I complete activities so that I feel rewarded for making positive progress.**
@@ -313,7 +313,7 @@ Acceptance Criteria
 
 
 
-## US-25 — Increase My Level
+### US-25 — Increase My Level
 **Priority:** Must Have
 
 **As a user, I want my level to increase as I earn XP so that I have a visible sense of progression.**
@@ -325,7 +325,7 @@ Acceptance Criteria
 
 
 
-## US-26 — Build Habit Streaks
+### US-26 — Build Habit Streaks
 **Priority:** Should Have
 
 **As a user, I want to build streaks by consistently completing habits so that I am motivated to maintain positive behaviors.**
@@ -338,7 +338,7 @@ Acceptance Criteria
 
 
 
-## US-27 — Earn and View Rewards
+### US-27 — Earn and View Rewards
 **Priority:** Should Have
 
 **As a user, I want to unlock rewards when I achieve milestones so that my progress feels meaningful and rewarding.**
@@ -353,7 +353,7 @@ Acceptance Criteria
 
 # Epic 6 — Progress & Reporting
 
-## US-28 — View Progress Over Time
+### US-28 — View Progress Over Time
 **Priority:** Must Have
 
 **As a user, I want to view my activity progress over time so that I can see how consistently I have been working on my wellbeing.**
@@ -366,7 +366,7 @@ Acceptance Criteria
 
 
 
-## US-29 — Compare Wellbeing Categories
+### US-29 — Compare Wellbeing Categories
 **Priority:** Should Have
 
 **As a user, I want to compare my Mind, Body and Social progress so that I can identify areas of my wellbeing receiving less attention.**
@@ -381,7 +381,7 @@ Acceptance Criteria
 
 # Epic 7 — Application Experience
 
-## US-30 — Navigate the Main Application
+### US-30 — Navigate the Main Application
 **Priority:** Must Have
 
 **As a user, I want to easily navigate between the application's primary features so that I can use Rooted without unnecessary effort.**
@@ -393,7 +393,7 @@ Acceptance Criteria
 
 
 
-## US-31 — Use Different Window Sizes
+### US-31 — Use Different Window Sizes
 **Priority:** Must Have
 
 **As a user, I want the application to remain usable when its window size changes so that I can use it on different displays.**
@@ -405,7 +405,7 @@ Acceptance Criteria
 
 
 
-## US-32 — Persist My Progress
+### US-32 — Persist My Progress
 **Priority:** Must Have
 
 **As a user, I want my progress to remain saved after I close the application so that I do not lose my work.**
@@ -419,28 +419,28 @@ Acceptance Criteria
 
 # Candidate Enhancement Stories
 
-## CE-01 — High-Contrast Theme
+### CE-01 — High-Contrast Theme
 **Priority:** Could Have
 
 **As a user with visual accessibility needs, I want a high-contrast display option so that application content is easier to distinguish.**
 
 
 
-## CE-02 — Screen Reader Accessibility
+### CE-02 — Screen Reader Accessibility
 **Priority:** Could Have
 
 **As a user who relies on assistive technology, I want application controls and content to work effectively with screen readers so that I can navigate the application.**
 
 
 
-## CE-03 — Notification Reminders
+### CE-03 — Notification Reminders
 **Priority:** Could Have
 
 **As a user, I want optional reminders for activities so that I am encouraged to remain consistent.**
 
 
 
-## CE-04 — Application Theme Customisation
+### CE-04 — Application Theme Customisation
 **Priority:** Could Have
 
 **As a user, I want to customize the visual theme so that I can choose an interface I find comfortable.**
