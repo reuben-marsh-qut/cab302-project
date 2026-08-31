@@ -7,16 +7,13 @@
 **Sprint Goal:**
 Create the basic application so a user can create an account, log in, choose a goal and save it.
 
-
-
 ## User Stories for Sprint 1
 
 * **US-01 — Register an Account**
 * **US-02 — Log In**
 * **US-05 — Browse Goal Templates**
 * **US-06 — Create a Long-Term Goal**
-* **US-32 — Persist My Progress**
-
+* **US-32 — Persist My Progress (initial implementation)**
 
 # Work Groups
 
@@ -42,8 +39,6 @@ Create the basic application so a user can create an account, log in, choose a g
 * Javier
 * Patrick
 
-
-
 ## Group 2 — Goals and UI
 
 ### User Stories
@@ -66,13 +61,11 @@ Create the basic application so a user can create an account, log in, choose a g
 * Reuben
 * Sujhav
 
-
-
 ## Group 3 — Database and Integration
 
 ### User Stories
 
-* US-32 — Persist My Progress
+* US-32 — Persist My Progress (initial implementation)
 
 ### Main Tasks
 
@@ -81,14 +74,14 @@ Create the basic application so a user can create an account, log in, choose a g
 * Save user data.
 * Save goal data.
 * Link goals to users.
-* Load saved data when the application starts.
+* Load saved user and goal data when the application starts.
+* Establish the persistence structure that can later be extended to habits, activities, progress and history.
 * Help connect the account and goal work together.
 
 ### Assigned To
 
-* Seb & Angus
-
-
+* Seb
+* Angus
 
 # Shared Team Tasks
 
@@ -98,8 +91,6 @@ These tasks may need input from everyone:
 * Agree on basic structure.
 * Make sure everyone's code works together.
 * Review code before merging.
-
-
 
 # Sprint 1 Demo
 
@@ -116,8 +107,6 @@ By the end of the Sprint, we want to be able to demonstrate:
 9. Log back in.
 10. See the saved goal.
 
-
-
 # Definition of Done
 
 A User Story is Done when:
@@ -129,6 +118,7 @@ A User Story is Done when:
 * It does not have any known major bugs.
 * It works with the other completed parts of the application.
 
+Where a User Story has acceptance criteria that depend on features planned for a later Sprint, the implemented portion should be identified and the remaining criteria should stay open until they can be completed.
 
 ### Sprint Review
 
@@ -136,4 +126,4 @@ A User Story is Done when:
 * Check whether the Sprint Goal was achieved.
 * Identify anything unfinished.
 * Update the Product Backlog if needed.
-
+* Confirm whether US-32 requires additional work in later Sprints as habits, activities, progress and history are introduced.
