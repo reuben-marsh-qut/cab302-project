@@ -53,6 +53,8 @@ PRIMARY KEY AI INTEGER, userId
 UNIQUE NOT NULL TEXT, email
 NOT NULL blob/text, passwordHash
 NOT NULL INTEGER, userExperience 
+NOT NULL INTEGER, postcode 
+
 ```
 Levels can be something the front end derives from userExperience using an equation (levels get progressively harder)
 
