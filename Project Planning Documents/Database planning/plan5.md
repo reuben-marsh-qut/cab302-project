@@ -4,21 +4,44 @@
 - Text enums need to be changed to Int enums. Storing a catagory string is wasteful when it can be represented by a number instead
 - figure out catagories (mind, body, social, ~~planet~~)
 - figure out better userExperience -> level equation
+- currently the whole application is designed around goals and tasks where progression is 0 to positive threshold, should we consider other progressions (ie going from 100kg->80kg?)
+- think about habit streak
+- Seb "user complete action streak?"
 
-## relationship between activities, tasks, habits and goals.
+## relationship between tasks, habits and goals.
+
+### Habits
+- Habits are benefical behaviours that the user wants to do more regularly.
+- Habits repeat at user specified frequencies (daily, weekly, monthly) and intervals (ie every two days, every four weeks)
+- Habits may have a due/expiry date
+- Habits may be attached to a goal
+- Habits may have a start date (ex created on thursday but task start from friday)
+- Habits automatically create an associated task every interval
+- Habits must have a type for their associated task
+- streak is not directly stored in DB?
+- the experience from completing the associated task will gradually increase as the streak gets longer.
+
+### Tasks
+- Tasks are individual (potentially one-off) activities
+- Tasks may have a due/expiry date
+- Tasks may be attached to a goal
+- Tasks must have a type. This allows for special UI for timer tasks (ex meditate for 15 minutes), binary tasks and progression tasks.
+- Tasks grant xp on completion
 ### Goals
 - Goals are long term achievements that the user is working towards. 
 - Goals must belong to a catagory.
-- On Goal completion the total 
-- Binary Goal. Either completed or not.
+- On goal completion the xp of all the COMPLETED tasks that were assigned to that goal is granted again with some sort of TBD multipier (idk 0.5 or 1.5)?
+- Binary goal. Either completed or not. Ex. Do a marathon next year
+- Progression goal. Tasks can directly progress this goal (in addition to the user adding progress? idk about this). Ex. Walk 1 million steps in the next 12 months, progress in the walk 10 thousand steps daily habit would directly add progress toward the goal.
 
 
-# user flow
+## user flow
 1. Account Creation
 2. User Login
 3. Tutorial?
 4. Create Goal/s, either custom or from one of our templates
-5.
+5. Create Habit/s
+6. Create Task/s
 
 
 # users
@@ -91,8 +114,9 @@ PK AI INT, habitId
 Nullable INT, goalId FK
 NOT NULL INT, userId FK ON DELETE CASCADE
 
-NOT NULL TEXT, habitTitle  // also for derived tasks
+NOT NULL TEXT, habitTitle  // used for derived tasks
 NOT NULL TEXT, catagory constraint (mind, body, social, planet)?
+NOT NULL TEXT, taskType constraint (binary, progression, timer)
 
 NOT NULL TEXT, repeatFrequencyType // constraint daily, weekly, monthly?
 NOT NULL INT, repeatFrequency // 1 and daily = every day, 2 and daily = every 2 days, 2 and weekly = every 2 weeks
@@ -115,6 +139,7 @@ NOT NULL INT, userId FK ON DELETE CASCADE
 
 NOT NULL TEXT, taskTitle
 NOT NULL TEXT, catagory constraint (mind, body, social, planet)?
+NOT NULL TEXT, taskType constraint (binary, progression, timer)
 
 NOT NULL INT startsAtUnixTime
 Nullable INT dueUnixTime
@@ -151,4 +176,15 @@ using autoincrement INT for primary keys.
 https://sqlite.org/foreignkeys.html
 ON DELETE CASCADE means we don't need to manually delete values dependent on FKs. (ie on user delete all records associated are auto deleted)
 
+Gemini recommended that I should add these
+```
+Fast lookup for due tasks per user
+CREATE INDEX idx_tasks_user_due ON tasks(userId, dueUnixTime);
 
+Fast lookup for checking habits generated for a date range
+CREATE INDEX idx_tasks_habit_completion ON tasks(habitId, completedAtUnixTime);
+
+Fast lookup for aggregating progress towards goals
+CREATE INDEX idx_tasks_goal_contribution ON tasks(goalId) WHERE doesContributeDirectlyToGoal = 1;
+
+```
