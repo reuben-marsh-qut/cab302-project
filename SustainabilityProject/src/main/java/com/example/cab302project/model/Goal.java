@@ -14,6 +14,17 @@ public class Goal {
     private int progress;
 
     public Goal(String title, Category category, int target, LocalDate deadline) {
+
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Goal title must not be blank.");
+        }
+        if (target <= 0) {
+            throw new IllegalArgumentException("Goal target must be greater than zero.");
+        }
+        if (deadline == null || deadline.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Goal deadline must not be in the past.");
+        }
+
         this.title = title;
         this.category = category;
         this.target = target;
