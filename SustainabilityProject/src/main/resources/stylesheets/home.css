@@ -1,0 +1,54 @@
+.page-header {
+    -fx-font-size: xx-large;
+    -fx-font-weight: bold;
+}
+
+.home-nav-buttons {
+    -fx-background-color: #EEEE;
+    -fx-border-color: black;
+    -fx-border-radius: 5px;
+}
+
+.page-subheader {
+    -fx-font-size: large;
+    -fx-fill-color: darkgrey;
+}
+
+.item-card {
+    -fx-background-color: #EEEE;
+    -fx-border-color: black;
+    -fx-border-radius: 5px;
+}
+
+.item-header {
+    -fx-font-size: x-large;
+    -fx-font-weight: bold;
+}
+
+.item-category {
+    -fx-font-size: medium;
+    -fx-font-weight: bold;
+}
+
+.item-details {
+    -fx-font-size: medium;
+}
+
+
+.button {
+    -fx-background-color: #EEEEEE;
+    -fx-border-color: #095716;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-weight: bold;
+}
+
+.button:pressed {
+    -fx-background-color: #095716;
+    -fx-border-color: #EEEEEE;
+    -fx-text-fill: #EEEEEE;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+}
