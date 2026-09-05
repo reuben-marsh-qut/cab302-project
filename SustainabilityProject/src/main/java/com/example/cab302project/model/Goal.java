@@ -17,9 +17,24 @@ public class Goal {
     private CompletionType completionType;
     private boolean isComplete;
 
+    /**
+     * Creates a new goal.
+     *
+     * @param userId    the owner of this goal
+     * @param title     what the user wants to achieve
+     * @param category  the wellbeing area this goal belongs to
+     * @param threshold the value that must be reached to complete it
+     * @param startDate the date the goal begins
+     * @param dueDate   the date the goal must be met by, or null if it never expires
+     * @throws IllegalArgumentException if any of the details are invalid
+    **/
     public Goal(Integer userId, String title, Category category, LocalDate startDate,
                 LocalDate dueDate, Integer progress, Integer threshold,
                 CompletionType completionType, boolean isComplete) {
+        validateTitle(title);
+        validateCompletionThreshold(threshold);
+        validateDates(startDate, dueDate);
+
         this.userId = userId;
         this.title = title;
         this.category = category;
@@ -29,6 +44,35 @@ public class Goal {
         this.threshold = threshold;
         this.completionType = completionType;
         this.isComplete = isComplete;
+    }
+
+    private static void validateTitle(String goalTitle) {
+        if (goalTitle == null || goalTitle.isBlank()) {
+            throw new IllegalArgumentException("Goal title must not be blank.");
+        }
+    }
+
+    private static void validateCompletionThreshold(int completionThreshold) {
+        if (completionThreshold <= 0) {
+            throw new IllegalArgumentException(
+                    "Goal completion threshold must be greater than zero.");
+        }
+    }
+
+    private static void validateDates(LocalDate startsAt, LocalDate dueDate) {
+        if (startsAt == null) {
+            throw new IllegalArgumentException("Goal start date must not be null.");
+        }
+        if (dueDate == null) {
+            return; // A goal with no due date never expires.
+        }
+        if (dueDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Goal due date must not be in the past.");
+        }
+        if (dueDate.isBefore(startsAt)) {
+            throw new IllegalArgumentException(
+                    "Goal due date must not be before its start date.");
+        }
     }
 
     public int getId() {
@@ -43,8 +87,10 @@ public class Goal {
         return userId;
     }
 
-    // I've included setters for everything, which might be redundant for mutable things?
-
+    /**
+     * Whether this goal has been achieved. Derived from progress rather than
+     * stored, matching the generated isComplete column in the database design.
+    **/
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
@@ -61,7 +107,9 @@ public class Goal {
         return category;
     }
 
-    public void setCategory(Category category) { this.category = category; }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public LocalDate getStartDate() {
         return startDate;
@@ -110,7 +158,6 @@ public class Goal {
     public void setIsComplete(boolean complete) {
         isComplete = complete;
     }
-
 
 
 }
