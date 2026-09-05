@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ActivityTest {
     private Activity activity;
@@ -83,5 +84,63 @@ public class ActivityTest {
     @Test
     public void testGetAwardedXp() {
         assertEquals(0, activity.getAwardedXpReward());
+    }
+
+    @Test
+    void testCreateActivityWithNoDueDateShouldSucceed() {
+        Activity activity = new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
+                CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
+                null, 0, 1, 10, 0);
+
+        assertNull(activity.getDueDateTime(), "A goal with no due date should never expire.");
+    }
+
+    @Test
+    void newActivityShouldNotBeComplete() {
+        Activity activity = new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
+                CompletionType.BINARY, LocalDateTime.now(),
+                LocalDateTime.of(2026, 9, 11, 12, 0),
+                0, 1, 10, 0);
+        assertTrue(activity.getProgress() < activity.getCompletionThreshold());
+    }
+
+    @Test
+    void createActivityWithBlankTitleShouldThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Activity(1, 1, 1, "", Category.BODY,
+                        CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
+                        LocalDateTime.of(2026, 9, 11, 12, 0),
+                        0, 1, 10, 0),
+                "A habit with a blank title should throw an exception.");
+    }
+
+    @Test
+    void createActivityWithZeroThresholdShouldThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
+                        CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
+                        LocalDateTime.of(2026, 9, 11, 12, 0),
+                        0, 0, 10, 0),
+                "A goal with a completion threshold of zero should throw an exception.");
+    }
+
+    @Test
+    void createActivityWithPastDueDateShouldThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
+                        CompletionType.BINARY, LocalDateTime.of(2025, 9, 4, 12, 0),
+                        LocalDateTime.of(2025, 9, 11, 12, 0),
+                        0, 1, 10, 0),
+                "A habit with a due date in the past should throw an exception.");
+    }
+
+    @Test
+    void createActivityWithDueDateBeforeStartShouldThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
+                        CompletionType.BINARY, LocalDateTime.of(2027, 9, 4, 12, 0),
+                        LocalDateTime.of(2026, 9, 11, 12, 0),
+                        0, 1, 10, 0),
+                "A habit that is due before it starts should throw an exception.");
     }
 }

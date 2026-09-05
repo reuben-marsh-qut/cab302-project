@@ -14,8 +14,8 @@ public class GoalTest {
 
     @BeforeEach
     public void setUp() {
-        goal = new Goal(1, "Tester Goal", Category.BODY, LocalDate.of(2026, 4, 1),
-                LocalDate.of(2026, 12, 1), 1, 10,
+        goal = new Goal(1, "Tester Goal", Category.BODY, LocalDate.now(),
+                LocalDate.now().plusDays(100), 1, 10,
                 CompletionType.BINARY, false);
     }
 
@@ -42,12 +42,12 @@ public class GoalTest {
 
     @Test
     public void testGetStartDate() {
-        assertEquals(LocalDate.of(2026, 4, 1), goal.getStartDate());
+        assertEquals(LocalDate.now(), goal.getStartDate());
     }
 
     @Test
     public void testGetDueDate() {
-        assertEquals(LocalDate.of(2026, 12, 1), goal.getDueDate());
+        assertEquals(LocalDate.now().plusDays(100), goal.getDueDate());
     }
 
     @Test

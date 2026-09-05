@@ -75,6 +75,11 @@ public class Goal {
         }
     }
 
+    /**
+     * Whether this goal has been achieved. Derived from progress rather than
+     * stored, matching the generated isComplete column in the database design.
+     **/
+
     public int getId() {
         return id;
     }
@@ -87,44 +92,20 @@ public class Goal {
         return userId;
     }
 
-    /**
-     * Whether this goal has been achieved. Derived from progress rather than
-     * stored, matching the generated isComplete column in the database design.
-    **/
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
     public LocalDate getDueDate() {
         return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
     }
 
     public Integer getProgress() {
@@ -139,16 +120,8 @@ public class Goal {
         return threshold;
     }
 
-    public void setThreshold(Integer threshold) {
-        this.threshold = threshold;
-    }
-
     public CompletionType getCompletionType() {
         return completionType;
-    }
-
-    public void setCompletionType(CompletionType completionType) {
-        this.completionType = completionType;
     }
 
     public boolean getIsComplete() {
@@ -158,6 +131,4 @@ public class Goal {
     public void setIsComplete(boolean complete) {
         isComplete = complete;
     }
-
-
 }

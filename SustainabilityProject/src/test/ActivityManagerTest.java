@@ -15,24 +15,24 @@ public class ActivityManagerTest {
 
     private Activity[] activities = {
             new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
-                    CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
-                    LocalDateTime.of(2026, 9, 11, 12, 0),
+                    CompletionType.BINARY, LocalDateTime.of(2027, 9, 4, 12, 0),
+                    LocalDateTime.of(2027, 9, 11, 12, 0),
                     0, 1, 10, 0),
             new Activity(1, 2, 1, "Water the garden", Category.BODY,
-                    CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
-                    LocalDateTime.of(2026, 9, 11, 12, 0),
+                    CompletionType.BINARY, LocalDateTime.of(2027, 9, 4, 12, 0),
+                    LocalDateTime.of(2027, 9, 11, 12, 0),
                     0, 1, 5, 0),
             new Activity(2, 3, 2, "Meditate for 30 minutes", Category.MIND,
                     CompletionType.BINARY, LocalDateTime.of(2025, 6, 4, 12, 0),
-                    LocalDateTime.of(2026, 6, 11, 12, 0),
+                    LocalDateTime.of(2027, 6, 11, 12, 0),
                     0, 1, 10, 0),
             new Activity(3, 4, 3, "Mow the lawn", Category.BODY,
                     CompletionType.BINARY, LocalDateTime.of(2025, 9, 4, 12, 0),
-                    LocalDateTime.of(2025, 9, 11, 12, 0),
+                    LocalDateTime.of(2026, 12, 11, 12, 0),
                     0, 1, 10, 0),
             new Activity(4, 5, 3, "Talk to five people", Category.SOCIAL,
-                    CompletionType.PROGRESSIVE, LocalDateTime.of(2026, 8, 4, 12, 0),
-                    LocalDateTime.of(2026, 8, 11, 12, 0),
+                    CompletionType.PROGRESSIVE, LocalDateTime.of(2029, 8, 4, 12, 0),
+                    LocalDateTime.of(2029, 8, 11, 12, 0),
                     0, 1, 10, 0)
     };
 
@@ -153,7 +153,7 @@ public class ActivityManagerTest {
         for (Activity activity : activities) { // add all activities
             activityManager.addActivity(activity);
         }
-        List <Activity> activities = activityManager.getActivitiesBeforeDate(LocalDateTime.of(2025, 12, 31, 0, 0));
+        List <Activity> activities = activityManager.getActivitiesBeforeDate(LocalDateTime.of(2026, 12, 31, 0, 0));
         assertEquals(1, activities.size());
         assertEquals("Mow the lawn", activities.get(0).getTitle());
     }

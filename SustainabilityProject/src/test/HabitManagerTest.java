@@ -18,24 +18,24 @@ public class HabitManagerTest {
 
     private Habit[] habits = {
             new Habit(1, 1, "Mow the lawn weekly", Category.BODY,
-                    CompletionType.BINARY, 7, LocalDate.of(2026, 1, 1),
-                    LocalDate.of(2026, 2, 1), 21, 31, 41,
+                    CompletionType.BINARY, 7, LocalDate.now(),
+                    LocalDate.now().plusDays(30), 21, 31, 41,
                     21),
             new Habit(1, 1, "Water the garden twice a week", Category.BODY,
-                    CompletionType.BINARY, 3, LocalDate.of(2026, 1, 1),
-                    LocalDate.of(2026, 2, 1), 21, 31, 41,
+                    CompletionType.BINARY, 3, LocalDate.now(),
+                    LocalDate.now().plusDays(30), 21, 31, 41,
                     21),
             new Habit(2, 2, "Read 5 pages a day", Category.MIND,
-                    CompletionType.BINARY, 1, LocalDate.of(2025, 1, 1),
-                    LocalDate.of(2025, 2, 1), 21, 31, 41,
+                    CompletionType.BINARY, 1, LocalDate.now().plusDays(30),
+                    LocalDate.now().plusDays(100), 21, 31, 41,
                     21),
             new Habit(3, 2, "Walk 30 minutes a day", Category.BODY,
-                    CompletionType.BINARY, 1, LocalDate.of(2025, 1, 1),
-                    LocalDate.of(2025, 2, 1), 21, 31, 41,
+                    CompletionType.BINARY, 1, LocalDate.now().plusDays(30),
+                    LocalDate.now().plusDays(60), 21, 31, 41,
                     21),
             new Habit(4, 3, "Eat three meals a day", Category.BODY,
-                    CompletionType.BINARY, 1, LocalDate.of(2025, 1, 1),
-                    LocalDate.of(2025, 5, 1), 21, 31, 41,
+                    CompletionType.BINARY, 1, LocalDate.now().plusMonths(2),
+                    LocalDate.now().plusMonths(3), 21, 31, 41,
                     21)
     };
 
@@ -153,10 +153,8 @@ public class HabitManagerTest {
         for (Habit habit : habits) { // add all habits
             habitManager.addHabit(habit);
         }
-        List <Habit> habits = habitManager.getHabitsBeforeDate(LocalDate.of(2025, 12, 31));
-        assertEquals(3, habits.size());
-        assertEquals("Read 5 pages a day", habits.get(0).getTitle());
+        List <Habit> habits = habitManager.getHabitsBeforeDate(LocalDate.now().plusDays(50));
+        assertEquals(2, habits.size());
+        assertEquals("Mow the lawn weekly", habits.get(0).getTitle());
     }
-
-
 }
