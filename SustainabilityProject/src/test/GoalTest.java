@@ -1,13 +1,13 @@
 import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
+import com.sun.prism.shader.AlphaOne_Color_AlphaTest_Loader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GoalTest {
     private Goal goal;
@@ -70,4 +70,51 @@ public class GoalTest {
         assertFalse(goal.getIsComplete());
     }
 
+    @Test
+    void testCreateGoalWithNoDueDateShouldSucceed() {
+        Goal goal = new Goal(1, "Tester Goal", Category.BODY, LocalDate.of(2026, 4, 1),
+                null, 1, 10, CompletionType.BINARY, false);
+
+        assertNull(goal.getDueDate(), "A goal with no due date should never expire.");
+    }
+
+    @Test
+    void newGoalShouldNotBeComplete() {
+        Goal goal = new Goal(1, "Tester Goal", Category.BODY, LocalDate.now(),
+                LocalDate.now().plusDays(7), 0, 10, CompletionType.BINARY, false);
+        assertTrue(goal.getProgress() < goal.getThreshold());
+        assertFalse(goal.getIsComplete(), "A goal with no progress should not be complete.");
+    }
+
+    @Test
+    void createGoalWithBlankTitleShouldThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Goal(1, "", Category.BODY, LocalDate.now(),
+                        LocalDate.now().plusDays(7), 0, 10, CompletionType.BINARY, false),
+                "A goal with a blank title should throw an exception.");
+    }
+
+    @Test
+    void createGoalWithZeroThresholdShouldThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Goal(1, "Tester Goal", Category.BODY, LocalDate.now(),
+                        LocalDate.now().plusDays(7), 0, 0, CompletionType.BINARY, false),
+                "A goal with a completion threshold of zero should throw an exception.");
+    }
+
+    @Test
+    void createGoalWithPastDueDateShouldThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Goal(1, "Tester Goal", Category.BODY, LocalDate.now().minusDays(14),
+                        LocalDate.now().minusDays(7), 0, 10, CompletionType.BINARY, false),
+                "A goal with a due date in the past should throw an exception.");
+    }
+
+    @Test
+    void createGoalWithDueDateBeforeStartShouldThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Goal(1, "Tester Goal", Category.BODY, LocalDate.now(),
+                        LocalDate.now().minusDays(7), 0, 10, CompletionType.BINARY, false),
+                "A goal that is due before it starts should throw an exception.");
+    }
 }
