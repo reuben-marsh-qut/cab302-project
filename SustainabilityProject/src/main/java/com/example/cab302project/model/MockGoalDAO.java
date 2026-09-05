@@ -43,4 +43,15 @@ public class MockGoalDAO implements IGoalDAO {
     public List<Goal> getAllGoals() {
         return new ArrayList<>(goals);
     }
+
+    @Override
+    public List<Goal> getGoalsForUser(int userId) {
+        List<Goal> results = new ArrayList<>();
+        for (Goal goal : goals) {
+            if (goal.getUserId() == userId) {
+                results.add(goal);
+            }
+        }
+        return results;
+    }
 }
