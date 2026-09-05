@@ -1,5 +1,6 @@
 import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.enums.Category;
+import com.example.cab302project.model.enums.CompletionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ public class GoalTest {
     public void setUp() {
         goal = new Goal(1, "Tester Goal", Category.BODY, LocalDate.of(2026, 4, 1),
                 LocalDate.of(2026, 12, 1), 1, 10,
-                Goal.CompletionType.BINARY, false);
+                CompletionType.BINARY, false);
     }
 
     @Test
@@ -61,7 +62,7 @@ public class GoalTest {
 
     @Test
     public void testGetCompletionType() {
-        assertEquals(Goal.CompletionType.BINARY, goal.getCompletionType());
+        assertEquals(CompletionType.BINARY, goal.getCompletionType());
     }
 
     @Test

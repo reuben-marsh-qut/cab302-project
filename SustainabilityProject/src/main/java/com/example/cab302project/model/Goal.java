@@ -1,6 +1,7 @@
 package com.example.cab302project.model;
 
 import com.example.cab302project.model.enums.Category;
+import com.example.cab302project.model.enums.CompletionType;
 
 import java.time.LocalDate;
 
@@ -15,13 +16,6 @@ public class Goal {
     private Integer threshold;
     private CompletionType completionType;
     private boolean isComplete;
-
-    // NOTE: I've put this here since it only relates to goal, unlike category
-    public enum CompletionType {
-        CONSTRAINT,
-        BINARY,
-        PROGRESSIVE
-    }
 
     public Goal(Integer userId, String title, Category category, LocalDate startDate,
                 LocalDate dueDate, Integer progress, Integer threshold,
