@@ -3,6 +3,7 @@ module com.example.cab302project {
     requires javafx.fxml;
 
     requires org.kordamp.bootstrapfx.core;
+    requires java.desktop;
 
     opens com.example.cab302project to javafx.fxml;
     exports com.example.cab302project;

@@ -1,6 +1,7 @@
 package com.example.cab302project.model;
 
 import com.example.cab302project.model.enums.Category;
+import com.example.cab302project.model.enums.CompletionType;
 
 import java.time.LocalDate;
 
@@ -16,16 +17,24 @@ public class Goal {
     private CompletionType completionType;
     private boolean isComplete;
 
-    // NOTE: I've put this here since it only relates to goal, unlike category
-    public enum CompletionType {
-        CONSTRAINT,
-        BINARY,
-        PROGRESSIVE
-    }
-
+    /**
+     * Creates a new goal.
+     *
+     * @param userId    the owner of this goal
+     * @param title     what the user wants to achieve
+     * @param category  the wellbeing area this goal belongs to
+     * @param threshold the value that must be reached to complete it
+     * @param startDate the date the goal begins
+     * @param dueDate   the date the goal must be met by, or null if it never expires
+     * @throws IllegalArgumentException if any of the details are invalid
+    **/
     public Goal(Integer userId, String title, Category category, LocalDate startDate,
                 LocalDate dueDate, Integer progress, Integer threshold,
                 CompletionType completionType, boolean isComplete) {
+        validateTitle(title);
+        validateCompletionThreshold(threshold);
+        validateDates(startDate, dueDate);
+
         this.userId = userId;
         this.title = title;
         this.category = category;
@@ -36,6 +45,40 @@ public class Goal {
         this.completionType = completionType;
         this.isComplete = isComplete;
     }
+
+    private static void validateTitle(String goalTitle) {
+        if (goalTitle == null || goalTitle.isBlank()) {
+            throw new IllegalArgumentException("Goal title must not be blank.");
+        }
+    }
+
+    private static void validateCompletionThreshold(int completionThreshold) {
+        if (completionThreshold <= 0) {
+            throw new IllegalArgumentException(
+                    "Goal completion threshold must be greater than zero.");
+        }
+    }
+
+    private static void validateDates(LocalDate startsAt, LocalDate dueDate) {
+        if (startsAt == null) {
+            throw new IllegalArgumentException("Goal start date must not be null.");
+        }
+        if (dueDate == null) {
+            return; // A goal with no due date never expires.
+        }
+        if (dueDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Goal due date must not be in the past.");
+        }
+        if (dueDate.isBefore(startsAt)) {
+            throw new IllegalArgumentException(
+                    "Goal due date must not be before its start date.");
+        }
+    }
+
+    /**
+     * Whether this goal has been achieved. Derived from progress rather than
+     * stored, matching the generated isComplete column in the database design.
+     **/
 
     public int getId() {
         return id;
@@ -49,40 +92,20 @@ public class Goal {
         return userId;
     }
 
-    // I've included setters for everything, which might be redundant for mutable things?
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) { this.category = category; }
-
     public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
     public LocalDate getDueDate() {
         return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
     }
 
     public Integer getProgress() {
@@ -97,16 +120,8 @@ public class Goal {
         return threshold;
     }
 
-    public void setThreshold(Integer threshold) {
-        this.threshold = threshold;
-    }
-
     public CompletionType getCompletionType() {
         return completionType;
-    }
-
-    public void setCompletionType(CompletionType completionType) {
-        this.completionType = completionType;
     }
 
     public boolean getIsComplete() {
@@ -116,7 +131,4 @@ public class Goal {
     public void setIsComplete(boolean complete) {
         isComplete = complete;
     }
-
-
-
 }

@@ -9,4 +9,5 @@ public interface IGoalDAO {
     public void deleteGoal(Goal goal); // Delete
     public Goal getGoalById(int id); // Read
     public List<Goal> getAllGoals(); // Read
+    public List<Goal> getGoalsForUser(int userId);
 }

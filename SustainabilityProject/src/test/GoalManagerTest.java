@@ -2,6 +2,7 @@ import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.GoalManager;
 import com.example.cab302project.model.MockGoalDAO;
 import com.example.cab302project.model.enums.Category;
+import com.example.cab302project.model.enums.CompletionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,24 +17,24 @@ public class GoalManagerTest {
     private GoalManager goalManager;
 
     private Goal[] goals = {
-            new Goal(1, "Reuben's Goal", Category.BODY, LocalDate.of(2021, 4, 1),
-                    LocalDate.of(2023, 12, 1), 11, 10,
-                    Goal.CompletionType.BINARY, true),
-            new Goal(2, "Patrick's Goal", Category.MIND, LocalDate.of(2025, 10, 1),
-                    LocalDate.of(2025, 11, 1), 8, 10,
-                    Goal.CompletionType.CONSTRAINT, false),
-            new Goal(3, "Sujhav's Goal", Category.SOCIAL, LocalDate.of(2026, 10, 1),
-                    LocalDate.of(2026, 10, 7), 10, 12,
-                    Goal.CompletionType.BINARY, false),
-            new Goal(4, "Angus' Goal", Category.SOCIAL, LocalDate.of(2026, 4, 1),
-                    LocalDate.of(2026, 12, 1), 11, 10,
-                    Goal.CompletionType.BINARY, true),
-            new Goal(5, "Seb's Goal", Category.BODY, LocalDate.of(2020, 12, 10),
-                    LocalDate.of(2026, 12, 10), 1, 10,
-                    Goal.CompletionType.PROGRESSIVE, false),
-            new Goal(5, "Seb's Second Goal", Category.MIND, LocalDate.of(2020, 12, 10),
-                    LocalDate.of(2026, 12, 10), 1, 10,
-                    Goal.CompletionType.PROGRESSIVE, false)
+            new Goal(1, "Reuben's Goal", Category.BODY, LocalDate.now(),
+                    LocalDate.now().plusDays(100), 11, 10,
+                    CompletionType.BINARY, true),
+            new Goal(2, "Patrick's Goal", Category.MIND, LocalDate.now(),
+                    LocalDate.now().plusDays(50), 8, 10,
+                    CompletionType.CONSTRAINT, false),
+            new Goal(3, "Sujhav's Goal", Category.SOCIAL, LocalDate.now().minusDays(100),
+                    LocalDate.now().plusDays(30), 10, 12,
+                    CompletionType.BINARY, false),
+            new Goal(4, "Angus' Goal", Category.SOCIAL, LocalDate.now(),
+                    LocalDate.now().plusMonths(12), 11, 10,
+                    CompletionType.BINARY, true),
+            new Goal(5, "Seb's Goal", Category.BODY, LocalDate.now(),
+                    LocalDate.now().plusDays(50), 1, 10,
+                    CompletionType.PROGRESSIVE, false),
+            new Goal(5, "Seb's Second Goal", Category.MIND, LocalDate.now(),
+                    LocalDate.now().plusMonths(2), 1, 10,
+                    CompletionType.PROGRESSIVE, false)
     };
 
     @BeforeEach
@@ -152,8 +153,8 @@ public class GoalManagerTest {
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }
-        List <Goal> goals = goalManager.getGoalsBeforeDate(LocalDate.of(2025, 12, 31));
-        assertEquals(2, goals.size());
-        assertEquals("Reuben's Goal", goals.get(0).getTitle());
+        List <Goal> goals = goalManager.getGoalsBeforeDate(LocalDate.now().plusDays(50));
+        assertEquals(1, goals.size());
+        assertEquals("Sujhav's Goal", goals.get(0).getTitle());
     }
 }
