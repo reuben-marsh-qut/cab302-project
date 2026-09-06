@@ -66,20 +66,24 @@ public class LoginController {
         hideError();
 
         try {
-            openHomePage();
+            openHomePage(user);
         } catch (IOException e) {
             showError("Unable to open the home page.");
             e.printStackTrace();
         }
     }
 
-    private void openHomePage() throws IOException {
+    private void openHomePage(User user) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("home-view.fxml")
         );
 
         Scene scene = new Scene(loader.load());
+
+        HomeController homeController = loader.getController();
+
+        homeController.setCurrentUser(user);
 
         Stage stage = (Stage) emailField
                 .getScene()

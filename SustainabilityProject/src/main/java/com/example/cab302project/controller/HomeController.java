@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import com.example.cab302project.model.User;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,24 +50,39 @@ public class HomeController {
         goalDAO = new MockGoalDAO();
     }
 
-    private final Integer USER_ID = 1;
+    private User currentUser;
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        syncGoals();
+    }
+
     private List<Goal> userGoals;
 
     private void syncGoals() {
+
         goalsContainer.getChildren().clear();
 
-        userGoals = goalDAO.getGoalsForUser(USER_ID);
-        boolean hasGoal = !userGoals.isEmpty();
+        if (currentUser == null) {
+            return;
+        }
 
-        if (hasGoal) {
-            // add all of the user's goals to the goal container as children
+        userGoals = goalDAO.getGoalsForUser(
+                currentUser.getId()
+        );
+
+        boolean hasGoals = !userGoals.isEmpty();
+
+        if (hasGoals) {
             for (Goal goal : userGoals) {
-                goalsContainer.getChildren().add(createGoalCard(goal));
+                goalsContainer.getChildren().add(
+                        createGoalCard(goal)
+                );
             }
         }
 
-        goalsContainer.setVisible(hasGoal);
-        goalsContainer.setManaged(hasGoal);
+        goalsContainer.setVisible(hasGoals);
+        goalsContainer.setManaged(hasGoals);
     }
 
     private VBox createGoalCard(Goal goal)
@@ -133,7 +149,7 @@ public class HomeController {
 
     @FXML
     private void initialize() {
-        syncGoals();
+        // Wait until the authenticated user is supplied.
     }
 
 }
