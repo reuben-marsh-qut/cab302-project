@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -46,25 +47,47 @@ public class GoalCreationController {
         startDatePicker.setValue(LocalDate.now());
     }
 
-    /**
-     * Builds a goal from the form's contents, stores it, and closes the dialog.
-     */
     @FXML
     private void onCreateGoal() {
+        hideError();
+
         String title = titleField.getText();
         Category category = categoryComboBox.getValue();
-        int target = Integer.parseInt(targetField.getText());
         LocalDate startDate = startDatePicker.getValue();
         LocalDate dueDate = dueDatePicker.getValue();
 
-        // A new goal always starts at zero progress and incomplete
-        Goal goal = new Goal(userId, title, category, startDate, dueDate,
-                0, target, CompletionType.PROGRESSIVE, false);
+        Integer target = parseTarget(targetField.getText());
+        if (target == null) {
+            showError("Target must be a whole number, for example 600.");
+            return;
+        }
 
-        goalDAO.addGoal(goal);
-        close();
+        try {
+            // A new goal always starts at zero progress and incomplete
+            Goal goal = new Goal(userId, title, category, startDate, dueDate,
+                    0, target, CompletionType.PROGRESSIVE, false);
+            goalDAO.addGoal(goal);
+            close();
+        } catch (IllegalArgumentException exception) {
+            showError(exception.getMessage());
+        }
     }
 
+    /**
+     * Converts the target field's text into a whole number.
+     * @param text The text typed into the target field.
+     * @return The number, or null if the text is not a whole number.
+     */
+    private Integer parseTarget(String text) {
+        if (text == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(text.trim());
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
     /**
      * Discards the form and closes the dialog without creating anything.
      */
@@ -80,4 +103,28 @@ public class GoalCreationController {
         Stage stage = (Stage) titleField.getScene().getWindow();
         stage.close();
     }
+
+    /**
+     * Displays a validation message on the form.
+     * @param message The message to show the user.
+     */
+    private void showError(String message) {
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
+        errorLabel.setManaged(true);
+    }
+
+    /**
+     * Hides any validation message currently on the form.
+     */
+    private void hideError() {
+        errorLabel.setText("");
+        errorLabel.setVisible(false);
+        errorLabel.setManaged(false);
+    }
+
+    @FXML
+    private Label errorLabel;
+
+
 }
