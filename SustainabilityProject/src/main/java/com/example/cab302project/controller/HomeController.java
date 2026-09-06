@@ -1,10 +1,13 @@
 package com.example.cab302project.controller;
 
+import com.example.cab302project.HelloApplication;
 import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.IGoalDAO;
 import com.example.cab302project.model.MockGoalDAO;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -17,12 +20,15 @@ import javafx.scene.text.Text;
 import javax.swing.text.Element;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class HomeController {
     @FXML
@@ -100,6 +106,29 @@ public class HomeController {
         goalCard.getChildren().addAll(categoryLabel, titleLabel, progressLabel, endDateLabel, spacer);
 
         return goalCard;
+    }
+
+    /**
+     * Opens the goal creation dialog, then refreshes the goal list once it closes.
+     */
+    @FXML
+    private void onNewGoal() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("goal-creation-view.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        // Share this screen's DAO so the new goal lands in the same list
+        GoalCreationController controller = loader.getController();
+        controller.setGoalDAO(goalDAO);
+        controller.setUserId(USER_ID);
+
+        Stage dialog = new Stage();
+        dialog.setTitle("New Goal");
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setScene(scene);
+        dialog.showAndWait();
+
+        syncGoals();
     }
 
     @FXML

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="420.0" spacing="12.0" stylesheets="@../../../stylesheets/home.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302project.controller.GoalCreationController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <children>
+      <Label styleClass="page-header" text="New Goal" />
+      <Label styleClass="page-subheader" text="What would you like to work towards?" />
+      <Separator prefWidth="200.0" />
+      <Label styleClass="item-category" text="Title" />
+      <TextField fx:id="titleField" promptText="e.g. Meditate 600 minutes" />
+      <Label styleClass="item-category" text="Category" />
+      <ComboBox fx:id="categoryComboBox" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
+      <Label styleClass="item-category" text="Target" />
+      <TextField fx:id="targetField" promptText="e.g. 600" />
+      <Label styleClass="item-category" text="Start Date" />
+      <DatePicker fx:id="startDatePicker" maxWidth="1.7976931348623157E308" />
+      <Label layoutX="10.0" layoutY="306.0" styleClass="item-category" text="Due Date" />
+      <DatePicker fx:id="dueDatePicker" layoutX="10.0" layoutY="336.0" maxWidth="1.7976931348623157E308" />
+      <Label fx:id="errorLabel" layoutX="10.0" layoutY="373.0" styleClass="form-error" visible="false" wrapText="true" />
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onCancel" prefHeight="40.0" prefWidth="100.0" text="Cancel" />
+            <Button mnemonicParsing="false" onAction="#onCreateGoal" prefHeight="40.0" prefWidth="100.0" text="Create" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

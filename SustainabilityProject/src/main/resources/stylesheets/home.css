@@ -51,4 +51,8 @@
     -fx-background-radius: 5px;
 }
 
+.form-error {
+    -fx-text-fill: #b00020;
+    -fx-font-size: medium;
+    -fx-font-weight: bold;
 }
