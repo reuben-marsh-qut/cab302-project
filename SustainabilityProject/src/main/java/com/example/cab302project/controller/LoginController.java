@@ -1,15 +1,15 @@
 package com.example.cab302project.controller;
 
+import com.example.cab302project.HelloApplication;
 import com.example.cab302project.model.MockUserDAO;
 import com.example.cab302project.model.User;
 import com.example.cab302project.model.UserManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import com.example.cab302project.HelloApplication;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -39,6 +39,14 @@ public class LoginController {
                 )
         );
 
+        userDAO.addUser(
+                new User(
+                        2,
+                        "second@example.com",
+                        "differentPassword"
+                )
+        );
+
         userManager = new UserManager(userDAO);
     }
 
@@ -57,9 +65,28 @@ public class LoginController {
 
         hideError();
 
-        System.out.println(
-                "Login successful. User ID: " + user.getId()
+        try {
+            openHomePage();
+        } catch (IOException e) {
+            showError("Unable to open the home page.");
+            e.printStackTrace();
+        }
+    }
+
+    private void openHomePage() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("home-view.fxml")
         );
+
+        Scene scene = new Scene(loader.load());
+
+        Stage stage = (Stage) emailField
+                .getScene()
+                .getWindow();
+
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void showError(String message) {

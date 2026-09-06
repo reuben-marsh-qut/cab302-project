@@ -35,8 +35,8 @@
             fx:id="errorLabel"
             visible="false"
             managed="false"
-            wrapText="true"
-            maxWidth="300"/>
+            maxWidth="300"
+            wrapText="true"/>
 
     <Button
             text="Log In"
