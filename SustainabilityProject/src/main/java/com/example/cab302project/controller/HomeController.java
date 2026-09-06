@@ -108,17 +108,27 @@ public class HomeController {
         return goalCard;
     }
 
+    /**
+     * Opens the goal creation dialog, then refreshes the goal list once it closes.
+     */
     @FXML
     private void onNewGoal() throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("goal-creation-view.fxml"));
         Scene scene = new Scene(loader.load());
 
+        // Share this screen's DAO so the new goal lands in the same list
+        GoalCreationController controller = loader.getController();
+        controller.setGoalDAO(goalDAO);
+        controller.setUserId(USER_ID);
+
         Stage dialog = new Stage();
         dialog.setTitle("New Goal");
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setScene(scene);
-        dialog.show();
+        dialog.showAndWait();
+
+        syncGoals();
     }
 
     @FXML
