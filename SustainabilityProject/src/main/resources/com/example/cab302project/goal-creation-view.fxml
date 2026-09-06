@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="420.0" spacing="12.0" styleClass="Sub Heading" stylesheets="@../../../stylesheets/home.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302project.controller.GoalCreationController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="420.0" spacing="12.0" stylesheets="@../../../stylesheets/home.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302project.controller.GoalCreationController">
    <padding>
-      <Insets top="20.0" />
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
    <children>
       <Label styleClass="page-header" text="New Goal" />
@@ -24,7 +24,7 @@
       <Label styleClass="item-category" text="Category" />
       <ComboBox fx:id="categoryComboBox" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
       <Label styleClass="item-category" text="Target" />
-      <TextField fx:id="targetFeild" promptText="e.g. 600" />
+      <TextField fx:id="targetField" promptText="e.g. 600" />
       <Label styleClass="item-category" text="Start Date" />
       <DatePicker fx:id="startDatePicker" maxWidth="1.7976931348623157E308" />
       <Label layoutX="10.0" layoutY="306.0" styleClass="item-category" text="Due Date" />
