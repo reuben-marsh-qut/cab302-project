@@ -56,6 +56,11 @@ public class GoalCreationController {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate dueDate = dueDatePicker.getValue();
 
+        if (dueDate == null) {
+            showError("Please choose a due date.");
+            return;
+        }
+
         Integer target = parseTarget(targetField.getText());
         if (target == null) {
             showError("Target must be a whole number, for example 600.");
@@ -71,6 +76,8 @@ public class GoalCreationController {
         } catch (IllegalArgumentException exception) {
             showError(exception.getMessage());
         }
+
+
     }
 
     /**
