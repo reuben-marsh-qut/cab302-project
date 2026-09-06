@@ -4,6 +4,7 @@ module com.example.cab302project {
 
     requires org.kordamp.bootstrapfx.core;
     requires java.desktop;
+    requires java.sql;
 
     opens com.example.cab302project to javafx.fxml;
     exports com.example.cab302project;

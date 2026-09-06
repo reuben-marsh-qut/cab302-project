@@ -21,7 +21,7 @@ public class MockGoalDAO implements IGoalDAO {
                 CompletionType.BINARY, true));
         addGoal(new Goal(2, "Patrick's Goal", Category.MIND, LocalDate.now(),
                         LocalDate.now().plusDays(50), 8, 10,
-                        CompletionType.CONSTRAINT, false));
+                        CompletionType.PROGRESSIVE, false));
         addGoal(new Goal(3, "Sujhav's Goal", Category.SOCIAL, LocalDate.now().minusDays(100),
                         LocalDate.now().plusDays(30), 10, 12,
                         CompletionType.BINARY, false));
