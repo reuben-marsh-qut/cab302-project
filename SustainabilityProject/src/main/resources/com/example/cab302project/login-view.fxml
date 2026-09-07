@@ -41,6 +41,7 @@
     <Button
             text="Log In"
             onAction="#handleLogin"
+            defaultButton="true"
             maxWidth="300"/>
 
 </VBox>

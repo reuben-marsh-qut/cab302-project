@@ -28,7 +28,7 @@ public class LoginController {
     private final UserManager userManager;
 
     public LoginController() {
-
+        // TODO: Replace MockUserDAO with database-backed UserDAO.
         MockUserDAO userDAO = new MockUserDAO();
 
         userDAO.addUser(
