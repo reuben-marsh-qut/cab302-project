@@ -22,6 +22,22 @@ public class User {
         return postcode;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public void setUserExperience(int userExperience) {
+        this.userExperience = userExperience;
+    }
+
+    public void setPostcode(int postcode) {
+        this.postcode = postcode;
+    }
+
     private int userId;
     private String email;
     private String passwordHash;

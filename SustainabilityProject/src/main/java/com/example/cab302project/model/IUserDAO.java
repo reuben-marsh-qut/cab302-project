@@ -11,6 +11,8 @@ public interface IUserDAO {
     // updates the user in the database with the changes you made to user object returns success == true, failure == false
     public boolean updateUser(User user);
 
+    public User getUserById(int userId);
+
     // ideally this does not get used
 //    public void createRawUser(int userId, String email, String passwordHash, int userExperience, int postcode);
     public List<User> getAllUsers();
