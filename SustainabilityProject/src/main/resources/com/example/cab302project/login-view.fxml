@@ -38,7 +38,7 @@
             <ImageView fitWidth="64"
                        fitHeight="64"
                        preserveRatio="true">
-                <Image url="@../../../assets/officialFlowerBusiness.png"/>
+                <Image url="@../../../assets/logo.png"/>
             </ImageView>
 
             <VBox spacing="-3">
