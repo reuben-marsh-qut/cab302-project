@@ -258,7 +258,7 @@ Estimated Time: 5 hours
 **As a user, I want to mark an activity as completed so that my progress is recorded.**
 
 ### Acceptance Criteria
-- An incomplete activity can be marked complete.
+- An incomplete activity can't be marked complete.
 - Its completion date is recorded.
 - Related goal/habit progress is updated.
 - Applicable XP is awarded once.
