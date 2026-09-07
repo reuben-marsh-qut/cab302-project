@@ -17,23 +17,23 @@ public class ActivityManagerTest {
             new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
                     CompletionType.BINARY, LocalDateTime.of(2027, 9, 4, 12, 0),
                     LocalDateTime.of(2027, 9, 11, 12, 0),
-                    0, 1, 10, 0),
+                    0, 1, 10, 0, false),
             new Activity(1, 2, 1, "Water the garden", Category.BODY,
                     CompletionType.BINARY, LocalDateTime.of(2027, 9, 4, 12, 0),
                     LocalDateTime.of(2027, 9, 11, 12, 0),
-                    0, 1, 5, 0),
+                    0, 1, 5, 0, false),
             new Activity(2, 3, 2, "Meditate for 30 minutes", Category.MIND,
                     CompletionType.BINARY, LocalDateTime.of(2025, 6, 4, 12, 0),
                     LocalDateTime.of(2027, 6, 11, 12, 0),
-                    0, 1, 10, 0),
+                    0, 1, 10, 0, false),
             new Activity(3, 4, 3, "Mow the lawn", Category.BODY,
                     CompletionType.BINARY, LocalDateTime.of(2025, 9, 4, 12, 0),
                     LocalDateTime.of(2026, 12, 11, 12, 0),
-                    0, 1, 10, 0),
+                    0, 1, 10, 0, false),
             new Activity(4, 5, 3, "Talk to five people", Category.SOCIAL,
                     CompletionType.PROGRESSIVE, LocalDateTime.of(2029, 8, 4, 12, 0),
                     LocalDateTime.of(2029, 8, 11, 12, 0),
-                    0, 1, 10, 0)
+                    0, 1, 10, 0, false)
     };
 
     @BeforeEach

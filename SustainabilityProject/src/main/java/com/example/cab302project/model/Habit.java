@@ -20,13 +20,14 @@ public class Habit {
     private Integer completionThreshold;
     private Integer baseXpReward;
     private Integer awardedXpReward;
-    // NOTE: If an acitivity has a goalId associated, it will contrivute directly to the goal's progress.
+    // if true this progress in this activity directly adds contribution to the associated goal
+    private boolean doesContributeDirectlyToGoal;
 
 
     public Habit(Integer goalId, Integer userId, String title, Category category,
                  CompletionType habitType, Integer repeatFrequencyDays, LocalDate startDate,
                  LocalDate endDate, Integer progress, Integer completionThreshold, Integer baseXpReward,
-                 Integer awardedXpReward) {
+                 Integer awardedXpReward, boolean doesContributeDirectlyToGoal) {
         validateTitle(title);
         validateCompletionThreshold(completionThreshold);
         validateDates(startDate, endDate);
@@ -43,6 +44,7 @@ public class Habit {
         this.completionThreshold = completionThreshold;
         this.baseXpReward = baseXpReward;
         this.awardedXpReward = awardedXpReward;
+        this.doesContributeDirectlyToGoal = doesContributeDirectlyToGoal;
     }
 
     private static void validateTitle(String habitTitle) {
@@ -134,4 +136,8 @@ public class Habit {
     }
 
     public void setAwardedXpReward(Integer awardedXpReward) { this.awardedXpReward = awardedXpReward;}
+
+    public boolean isDoesContributeDirectlyToGoal() {
+        return doesContributeDirectlyToGoal;
+    }
 }

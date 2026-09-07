@@ -20,7 +20,7 @@ public class HabitTest {
         habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
                 CompletionType.BINARY, 1, LocalDate.now(),
                 LocalDate.now().plusDays(30), 21, 31, 41,
-                21);
+                21, false);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class HabitTest {
         Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
                 CompletionType.BINARY, 1, LocalDate.now(),
                 null, 0, 31, 41,
-                21);
+                21, false);
 
         assertNull(habit.getDueDateTime(), "A goal with no due date should never expire.");
     }
@@ -104,7 +104,7 @@ public class HabitTest {
         Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
                 CompletionType.BINARY, 1, LocalDate.now(),
                 LocalDate.now().plusDays(30), 0, 31, 41,
-                21);
+                21, false);
         assertTrue(habit.getProgress() < habit.getCompletionThreshold());
     }
 
@@ -114,7 +114,7 @@ public class HabitTest {
                 () -> new Habit(1, 1, "", Category.MIND,
                         CompletionType.BINARY, 1, LocalDate.now(),
                         LocalDate.now().plusDays(30), 21, 31, 41,
-                        21),
+                        21, false),
                 "A habit with a blank title should throw an exception.");
     }
 
@@ -124,7 +124,7 @@ public class HabitTest {
                 () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
                         CompletionType.BINARY, 1, LocalDate.now(),
                         LocalDate.now().plusDays(30), 0, 0, 41,
-                        21),
+                        21, false),
                 "A goal with a completion threshold of zero should throw an exception.");
     }
 
@@ -134,7 +134,7 @@ public class HabitTest {
                 () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
                         CompletionType.BINARY, 1, LocalDate.now().minusDays(60),
                         LocalDate.now().minusDays(30), 21, 31, 41,
-                        21),
+                        21, false),
                 "A habit with a due date in the past should throw an exception.");
     }
 
@@ -144,7 +144,7 @@ public class HabitTest {
                 () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
                         CompletionType.BINARY, 1, LocalDate.now(),
                         LocalDate.now().minusDays(30), 21, 31, 41,
-                        21),
+                        21, false),
                 "A habit that is due before it starts should throw an exception.");
     }
 }

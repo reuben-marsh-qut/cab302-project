@@ -22,7 +22,7 @@ public class GoalManagerTest {
                     CompletionType.BINARY, true),
             new Goal(2, "Patrick's Goal", Category.MIND, LocalDate.now(),
                     LocalDate.now().plusDays(50), 8, 10,
-                    CompletionType.CONSTRAINT, false),
+                    CompletionType.PROGRESSIVE, false),
             new Goal(3, "Sujhav's Goal", Category.SOCIAL, LocalDate.now().minusDays(100),
                     LocalDate.now().plusDays(30), 10, 12,
                     CompletionType.BINARY, false),
@@ -44,6 +44,7 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchByTitleInOneGoal() {
+        goalManager.deleteAllGoals();
         goalManager.addGoal(goals[0]); // add just the first goal
         List<Goal> goals = goalManager.searchGoalsByTitle("Reuben's Goal"); // search for goal based on firstname
         assertEquals(1, goals.size()); // assertion - correct quantity
@@ -52,6 +53,7 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchByCategoryInOneGoal() {
+        goalManager.deleteAllGoals();
         goalManager.addGoal(goals[0]); // add just the first goal
         List<Goal> goals = goalManager.searchGoalsByCategory(Category.BODY); // search for goal based on firstname
         assertEquals(1, goals.size()); // assertion - correct quantity
@@ -60,6 +62,7 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchByTitleInMultipleGoals() {
+        goalManager.deleteAllGoals();
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }
@@ -72,6 +75,7 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchByCategoryInMultipleGoals() {
+        goalManager.deleteAllGoals();
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }
@@ -84,6 +88,7 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchNoResults() {
+        goalManager.deleteAllGoals();
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }
@@ -93,6 +98,7 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchEmptyQuery() {
+        goalManager.deleteAllGoals();
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }
@@ -102,6 +108,7 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchNullQuery() {
+        goalManager.deleteAllGoals();
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }
@@ -111,6 +118,7 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchByTitleCaseInsensitive() {
+        goalManager.deleteAllGoals();
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }
@@ -134,12 +142,15 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchEmptyGoals() {
+        goalManager.deleteAllGoals();
         List<Goal> goals = goalManager.searchGoalsByTitle("Sujhav's Goal");
         assertEquals(0, goals.size());
     }
 
     @Test
     public void testSearchByUserId() {
+        goalManager.deleteAllGoals();
+
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }
@@ -150,6 +161,8 @@ public class GoalManagerTest {
 
     @Test
     public void testSearchByDate() {
+        goalManager.deleteAllGoals();
+
         for (Goal goal : goals) { // add all goals
             goalManager.addGoal(goal);
         }

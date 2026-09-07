@@ -23,7 +23,7 @@ public class databasetesting {
 //            User anne = dao.loginUser("anne@anne.com", "chickens");
 //            System.out.println(dao.getAllUsers());
 //            dao.deleteUser(anne);
-            System.out.println(dao.getAllUsers());
+//            System.out.println(dao.getAllUsers());
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -13,7 +13,6 @@ public class Activity {
     private Integer habitId; // nullable
     private Habit habit; // nullable
     private Integer userId;
-    private User user;
     private String title;
     private Category category;
     private CompletionType activityType;
@@ -27,7 +26,8 @@ public class Activity {
     private boolean doesContributeDirectlyToGoal;
     public Activity(Integer goalId, Integer habitId, Integer userId, String title, Category category,
                     CompletionType activityType, LocalDateTime startDateTime, LocalDateTime dueDateTime,
-                    Integer progress, Integer completionThreshold, Integer baseXpReward, Integer awardedXpReward) {
+                    Integer progress, Integer completionThreshold, Integer baseXpReward, Integer awardedXpReward,
+                    boolean doesContributeDirectlyToGoal) {
         validateTitle(title);
         validateCompletionThreshold(completionThreshold);
         validateDates(startDateTime, dueDateTime);
@@ -44,6 +44,8 @@ public class Activity {
         this.completionThreshold = completionThreshold;
         this.baseXpReward = baseXpReward;
         this.awardedXpReward = awardedXpReward;
+        this.doesContributeDirectlyToGoal = doesContributeDirectlyToGoal;
+
     }
 
     private static void validateTitle(String activityTitle) {
@@ -133,6 +135,10 @@ public class Activity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isDoesContributeDirectlyToGoal() {
+        return doesContributeDirectlyToGoal;
     }
 }
 
