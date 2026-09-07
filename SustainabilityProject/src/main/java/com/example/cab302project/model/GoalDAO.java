@@ -204,7 +204,7 @@ public class GoalDAO implements IGoalDAO
             Connection getAllGoalsConnection = DatabaseConnection.getInstance();
             List<Goal> goalsList = new ArrayList<>();
 
-            String query = "GET * FROM goals";
+            String query = "SELECT * FROM goals";
             PreparedStatement preparedStatement = getAllGoalsConnection.prepareStatement(query);
             ResultSet goalGetResults = preparedStatement.executeQuery();
 
@@ -256,7 +256,7 @@ public class GoalDAO implements IGoalDAO
         try
         {
             Connection userGoals = DatabaseConnection.getInstance();
-            String query = "GET * FROM goals WHERE userId = ?";
+            String query = "SELECT * FROM goals WHERE userId = ?";
             PreparedStatement preparedStatement = userGoals.prepareStatement(query);
             preparedStatement.setInt(1, userId);
             ResultSet goalGetResults = preparedStatement.executeQuery();
