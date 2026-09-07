@@ -18,9 +18,15 @@ public class DatabaseInitialisation {
         String createQuery = new String(raw);
 //        System.out.println(createQuery);
         Connection connection = DatabaseConnection.getInstance();
+        var queries = createQuery.split(";");
         try {
             Statement statement = connection.createStatement();
-            statement.execute(createQuery);
+
+            for (String query: queries){
+                statement.addBatch(query);
+            }
+
+            statement.executeBatch();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

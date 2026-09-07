@@ -1,66 +1,62 @@
 PRAGMA foreign_keys = ON;
-CREATE TABLE IF NOT EXISTS users(
-                                    userId PRIMARY KEY INTEGER,
-                                    email UNIQUE NOT NULL TEXT,
-                                    passwordHash NOT NULL TEXT,
-                                    userExperience NOT NULL INTEGER,
-                                    postcode NOT NULL INTEGER
+
+CREATE TABLE IF NOT EXISTS users (
+                                     userId INTEGER PRIMARY KEY,
+                                     email TEXT UNIQUE NOT NULL,
+                                     passwordHash TEXT NOT NULL,
+                                     userExperience INTEGER NOT NULL,
+                                     postcode INTEGER NOT NULL
 ) STRICT;
+
 CREATE TABLE IF NOT EXISTS user_settings (
-                                             userId PRIMARY KEY INTEGER,
                                              userId INTEGER NOT NULL REFERENCES users(userId) ON DELETE CASCADE,
-    settingsKey PRIMARY KEY TEXT,
-    settingsValue NOT NULL ANY,
+    settingsKey TEXT NOT NULL,
+    settingsValue ANY NOT NULL,
+    PRIMARY KEY (userId, settingsKey)
     ) STRICT;
 
 CREATE TABLE IF NOT EXISTS goals (
-                                     goalId PRIMARY KEY INTEGER,
+                                     goalId INTEGER PRIMARY KEY,
                                      userId INTEGER NOT NULL REFERENCES users(userId) ON DELETE CASCADE,
-
-    goalTitle NOT NULL TEXT,
-    catagory NOT NULL INTEGER CHECK (catagory IN (0, 1, 2, 3)), -- mind, body, social, planet
-    startsAtUnixTime NOT NULL INTEGER,
-    dueUnixTime INTEGER,  -- if null does not expire
-
-    progress NOT NULL INTEGER,
-    completionThreshold NOT NULL INTEGER, -- if binary this is 1
-    completionType NOT NULL INTEGER, -- binary (yes/no)=0, progression (0->1m steps by eoy)=1 . No constraint as this might be extended
-    isComplete NOT NULL INT GENERATED ALWAYS AS (progress>=completionThreshold)
+    goalTitle TEXT NOT NULL,
+    catagory INTEGER NOT NULL CHECK (catagory IN (0, 1, 2, 3)),
+    startsAtUnixTime INTEGER NOT NULL,
+    dueUnixTime INTEGER,
+    progress INTEGER NOT NULL,
+    completionThreshold INTEGER NOT NULL,
+    completionType INTEGER NOT NULL,
+    isComplete INT GENERATED ALWAYS AS (progress >= completionThreshold)
     ) STRICT;
+
 CREATE TABLE IF NOT EXISTS habits (
-
-                                      habitId PRIMARY KEY INTEGER,
-                                      goalId PRIMARY KEY INTEGER REFERENCES goals(goalId),
+                                      habitId INTEGER PRIMARY KEY,
+                                      goalId INTEGER REFERENCES goals(goalId),
     userId INTEGER NOT NULL REFERENCES users(userId) ON DELETE CASCADE,
-
-    baseXpReward NOT NULL INTEGER, -- of the derivied task
-    habitTitle NOT NULL TEXT, -- used for derived tasks
-    catagory NOT NULL INTEGER CHECK (catagory IN (0, 1, 2, 3)), -- mind, body, social, planet
-    taskType NOT NULL INTEGER, -- binary (yes/no)=0, progression (0->1m steps by eoy)=1, timer=2 . No constraint as this might be extended
-    repeatFrequencyType NOT NULL INTEGER CHECK (catagory IN (0, 1, 2, 3)), -- daily, weekly, monthly, yearly
-    repeatFrequency NOT NULL INTEGER, -- 1 and daily = every day, 2 and daily = every 2 days, 2 and weekly = every 2 weeks
-    startsAtUnixTime NOT NULL INTEGER, -- start tracking habit from this point.
-    dueUnixTime INTEGER, -- if null does not expire IE if you wanted to go for a walk each day in November but none thereafter this would be set to expire 30th nov 11:59
-    completionThreshold NOT NULL INTEGER, -- for derived tasks
-
-    doesContributeDirectlyToGoal NOT NULL INTEGER CHECK(doesContributeDirectlyToGoal IN (0, 1)), -- (ie progress in steps would directly add steps to steps goal)
+    baseXpReward INTEGER NOT NULL,
+    habitTitle TEXT NOT NULL,
+    catagory INTEGER NOT NULL CHECK (catagory IN (0, 1, 2, 3)),
+    taskType INTEGER NOT NULL,
+    repeatFrequencyType INTEGER NOT NULL CHECK (repeatFrequencyType IN (0, 1, 2, 3)),
+    repeatFrequency INTEGER NOT NULL,
+    startsAtUnixTime INTEGER NOT NULL,
+    dueUnixTime INTEGER,
+    completionThreshold INTEGER NOT NULL,
+    doesContributeDirectlyToGoal INTEGER NOT NULL CHECK (doesContributeDirectlyToGoal IN (0, 1))
     ) STRICT;
-CREATE TABLE IF NOT EXISTS tasks (
-                                     taskId PRIMARY KEY INTEGER,
-                                     goalId PRIMARY KEY INTEGER REFERENCES goals(goalId),
 
+CREATE TABLE IF NOT EXISTS tasks (
+                                     taskId INTEGER PRIMARY KEY,
+                                     goalId INTEGER REFERENCES goals(goalId),
     habitId INTEGER REFERENCES habits(habitId),
     userId INTEGER NOT NULL REFERENCES users(userId) ON DELETE CASCADE,
-
-    taskTitle NOT NULL TEXT,
-    catagory NOT NULL INTEGER CHECK (catagory IN (0, 1, 2, 3)), -- mind, body, social, planet
-    taskType NOT NULL INTEGER, -- binary (yes/no)=0, progression (0->1m steps by eoy)=1, timer=2 . No constraint as this might be extended
-
-    startsAtUnixTime NOT NULL INTEGER,
+    taskTitle TEXT NOT NULL,
+    catagory INTEGER NOT NULL CHECK (catagory IN (0, 1, 2, 3)),
+    taskType INTEGER NOT NULL,
+    startsAtUnixTime INTEGER NOT NULL,
     dueUnixTime INTEGER,
-    progress NOT NULL INTEGER ,
-    completionThreshold NOT NULL INTEGER,
-    baseXpReward NOT NULL INTEGER,
-    awardedXpReward NOT NULL INTEGER,  -- up scaled for habit streak, down scaled if late.??
-    doesContributeDirectlyToGoal NOT NULL INTEGER CHECK(doesContributeDirectlyToGoal IN (0, 1)), -- (ie progress in steps would directly add steps to steps goal)
+    progress INTEGER NOT NULL,
+    completionThreshold INTEGER NOT NULL,
+    baseXpReward INTEGER NOT NULL,
+    awardedXpReward INTEGER NOT NULL,
+    doesContributeDirectlyToGoal INTEGER NOT NULL CHECK (doesContributeDirectlyToGoal IN (0, 1))
     ) STRICT;
