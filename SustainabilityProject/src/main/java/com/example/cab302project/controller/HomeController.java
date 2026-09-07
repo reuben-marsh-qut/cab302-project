@@ -63,7 +63,7 @@ public class HomeController {
         }
 
         userGoals = goalDAO.getGoalsForUser(
-                currentUser.getId()
+                currentUser.getUserId()
         );
 
         boolean hasGoals = !userGoals.isEmpty();
@@ -207,7 +207,7 @@ public class HomeController {
 
         // Associate the new goal with the logged-in user.
         controller.setUserId(
-                currentUser.getId()
+                currentUser.getUserId()
         );
 
         Stage dialog = new Stage();

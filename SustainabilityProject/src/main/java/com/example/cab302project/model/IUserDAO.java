@@ -19,5 +19,6 @@ public interface IUserDAO {
     public List<User> getAllUsers();
     public void deleteUser(User user);
     public void deleteAllUsers();
+    // use for testing ONLY
     void addUser(User user);
 }

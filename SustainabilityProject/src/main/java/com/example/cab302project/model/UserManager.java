@@ -18,15 +18,12 @@ public class UserManager {
             return null;
         }
 
-        User user = userDAO.getUserByEmail(email);
+        User user = userDAO.loginUser(email,password);
 
         if (user == null) {
             return null;
         }
 
-        if (!user.getPassword().equals(password)) {
-            return null;
-        }
 
         return user;
     }

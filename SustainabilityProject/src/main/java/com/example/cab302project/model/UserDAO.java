@@ -97,6 +97,16 @@ public class UserDAO implements IUserDAO{
         }
     }
 
+    @Override
+    public User getUserById(int userId) {
+        return null;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return null;
+    }
+
 //    // Dont use this
 //    @Override
 //    public void createRawUser(int userId, String email, String passwordHash, int userExperience, int postcode) {
@@ -146,5 +156,24 @@ public class UserDAO implements IUserDAO{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void addUser(User user) {
+        Connection conn = DatabaseConnection.getInstance();
+        PreparedStatement insertInto = null;
+        try {
+            insertInto = conn.prepareStatement("INSERT INTO users (userId, email, passwordHash, userExperience, postcode) VALUES (?,?, ?, ?, ?)");
+            insertInto.setInt(1,user.getUserId());
+            insertInto.setString(2,user.getEmail());
+            insertInto.setString(3,user.getPasswordHash());
+            insertInto.setInt(4,user.getUserExperience());
+            insertInto.setInt(5,user.getPostcode());
+            int rowsAffected = insertInto.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+//
     }
 }

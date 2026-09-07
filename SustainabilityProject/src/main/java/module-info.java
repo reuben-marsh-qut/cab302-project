@@ -6,6 +6,7 @@ module com.example.cab302project {
     requires java.desktop;
     requires java.sql;
     requires password4j;
+    requires jdk.jshell;
 
     opens com.example.cab302project to javafx.fxml;
     exports com.example.cab302project;
