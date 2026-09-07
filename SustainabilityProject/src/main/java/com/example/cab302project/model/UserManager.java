@@ -10,6 +10,14 @@ public class UserManager {
 
     public User login(String email, String password) {
 
+        if (email == null || password == null) {
+            return null;
+        }
+
+        if (email.isBlank() || password.isBlank()) {
+            return null;
+        }
+
         User user = userDAO.getUserByEmail(email);
 
         if (user == null) {

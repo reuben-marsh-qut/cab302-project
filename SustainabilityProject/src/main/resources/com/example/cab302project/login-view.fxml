@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.cab302project.controller.LoginController"
+      stylesheets="@../../../stylesheets/login.css"
+      spacing="28"
+      alignment="CENTER"
+      styleClass="login-root">
+
+    <padding>
+        <Insets top="28" right="28" bottom="28" left="28"/>
+    </padding>
+
+    <!-- LEFT LOGIN PANEL -->
+    <VBox styleClass="login-panel"
+          prefWidth="430"
+          minWidth="430"
+          maxWidth="430"
+          alignment="TOP_LEFT">
+
+        <!-- Logo / Brand -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+
+            <ImageView fitWidth="64"
+                       fitHeight="64"
+                       preserveRatio="true">
+                <Image url="@../../../assets/officialFlowerBusiness.png"/>
+            </ImageView>
+
+            <VBox spacing="-3">
+                <Label text="Rooted"
+                       styleClass="brand-title"/>
+
+                <Label text="Water your mind"
+                       styleClass="brand-tagline"/>
+            </VBox>
+
+        </HBox>
+
+
+        <!-- Flexible space above form -->
+        <Region prefHeight="80"/>
+
+
+        <!-- Heading -->
+        <Label text="Welcome back"
+               styleClass="login-title"/>
+
+        <Label text="Log in to continue your journey."
+               styleClass="login-subtitle"/>
+
+
+        <Region prefHeight="32"/>
+
+
+        <!-- Email -->
+        <Label text="Email"
+               styleClass="field-label"/>
+
+        <TextField fx:id="emailField"
+                   promptText="you@example.com"
+                   maxWidth="Infinity"
+                   styleClass="login-field"/>
+
+
+        <Region prefHeight="18"/>
+
+
+        <!-- Password -->
+        <Label text="Password"
+               styleClass="field-label"/>
+
+        <PasswordField fx:id="passwordField"
+                       promptText="Enter your password"
+                       maxWidth="Infinity"
+                       styleClass="login-field"/>
+
+
+        <!-- Error -->
+        <Label fx:id="errorLabel"
+               visible="false"
+               managed="false"
+               wrapText="true"
+               maxWidth="Infinity"
+               styleClass="error-label">
+
+            <VBox.margin>
+                <Insets top="10"/>
+            </VBox.margin>
+
+        </Label>
+
+
+        <!-- Login -->
+        <Button text="Log In"
+                onAction="#handleLogin"
+                defaultButton="true"
+                maxWidth="Infinity"
+                styleClass="primary-button">
+
+            <VBox.margin>
+                <Insets top="22"/>
+            </VBox.margin>
+
+        </Button>
+
+
+        <!-- OR divider -->
+        <HBox alignment="CENTER"
+              spacing="12">
+
+            <VBox.margin>
+                <Insets top="28" bottom="22"/>
+            </VBox.margin>
+
+            <Separator HBox.hgrow="ALWAYS"/>
+
+            <Label text="or"
+                   styleClass="divider-label"/>
+
+            <Separator HBox.hgrow="ALWAYS"/>
+
+        </HBox>
+
+        <!-- Sign up -->
+        <HBox alignment="CENTER"
+              spacing="4">
+
+            <VBox.margin>
+                <Insets top="28"/>
+            </VBox.margin>
+
+            <Label text="New to Rooted?"
+                   styleClass="signup-label"/>
+
+            <Button text="Create an account"
+                    styleClass="link-button"/>
+
+        </HBox>
+
+    </VBox>
+
+
+    <!-- RIGHT HERO -->
+    <StackPane styleClass="hero-panel"
+               HBox.hgrow="ALWAYS">
+
+        <VBox alignment="BOTTOM_LEFT"
+              mouseTransparent="true">
+
+            <padding>
+                <Insets top="40"
+                        right="40"
+                        bottom="42"
+                        left="42"/>
+            </padding>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Label text="Grow at your own pace."
+                   styleClass="hero-title"/>
+
+            <Label text="Build habits, reach goals, and make progress that lasts."
+                   styleClass="hero-subtitle"
+                   wrapText="true"
+                   maxWidth="500"/>
+
+        </VBox>
+
+    </StackPane>
+
+</HBox>
