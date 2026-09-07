@@ -1,0 +1,299 @@
+.root {
+    -fx-font-family: "Arial";
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.login-root {
+    -fx-background-color: #f5f7f3;
+}
+
+
+/* =========================================================
+   LOGIN PANEL
+   ========================================================= */
+
+.login-panel {
+    -fx-background-color: #ffffff;
+
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+
+    -fx-border-color: #e3e7e1;
+    -fx-border-width: 1;
+
+    -fx-padding: 34 38 34 38;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(25, 40, 28, 0.08),
+            20,
+            0.15,
+            0,
+            5
+    );
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #151915;
+}
+
+.brand-tagline {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #5e675f;
+}
+
+
+/* =========================================================
+   HEADINGS
+   ========================================================= */
+
+.login-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #171b18;
+}
+
+.login-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6c746d;
+
+    -fx-padding: 6 0 0 0;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.field-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #303731;
+
+    -fx-padding: 0 0 7 2;
+}
+
+
+.login-field {
+    -fx-pref-height: 48;
+
+    -fx-background-color: #fafbf9;
+    -fx-background-radius: 9;
+
+    -fx-border-color: #d8ddd7;
+    -fx-border-radius: 9;
+    -fx-border-width: 1;
+
+    -fx-padding: 0 14 0 14;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #1d221e;
+
+    -fx-prompt-text-fill: #9aa19b;
+}
+
+
+.login-field:hover {
+    -fx-border-color: #bbc4bc;
+}
+
+
+.login-field:focused {
+    -fx-background-color: #ffffff;
+
+    -fx-border-color: #176b36;
+    -fx-border-width: 1.5;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+
+    -fx-text-fill: #b42318;
+
+    -fx-background-color: #fff3f2;
+    -fx-background-radius: 7;
+
+    -fx-padding: 9 11 9 11;
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.primary-button {
+    -fx-pref-height: 48;
+
+    -fx-background-color: #176b36;
+    -fx-background-radius: 9;
+
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+
+    -fx-cursor: hand;
+}
+
+
+.primary-button:hover {
+    -fx-background-color: #135c2e;
+}
+
+
+.primary-button:pressed {
+    -fx-background-color: #104d27;
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.secondary-button {
+    -fx-pref-height: 48;
+
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 9;
+
+    -fx-border-color: #d8ddd7;
+    -fx-border-radius: 9;
+    -fx-border-width: 1;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+
+    -fx-text-fill: #252b26;
+
+    -fx-cursor: hand;
+}
+
+
+.secondary-button:hover {
+    -fx-background-color: #f5f7f4;
+}
+
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.separator .line {
+    -fx-border-color: #e1e5e0;
+    -fx-border-width: 1 0 0 0;
+}
+
+
+.divider-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #8a928b;
+}
+
+
+/* =========================================================
+   SIGN UP
+   ========================================================= */
+
+.signup-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #727a73;
+}
+
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-padding: 4 2 4 2;
+
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+
+    -fx-text-fill: #176b36;
+
+    -fx-cursor: hand;
+}
+
+
+.link-button:hover {
+    -fx-underline: true;
+}
+
+
+/* =========================================================
+   HERO IMAGE
+   ========================================================= */
+
+.hero-panel {
+    -fx-min-width: 600;
+
+    -fx-background-image: url("../assets/login/forest.jpg");
+
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+
+    -fx-background-radius: 30;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(25, 40, 28, 0.18),
+            22,
+            0.10,
+            0,
+            6
+    );
+}
+
+
+.hero-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: 700;
+
+    -fx-text-fill: #ffffff;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.30),
+            4,
+            0,
+            0,
+            1
+    );
+}
+
+
+.hero-subtitle {
+    -fx-font-size: 15px;
+
+    -fx-text-fill: rgba(255, 255, 255, 0.90);
+
+    -fx-padding: 8 0 0 0;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.25),
+            3,
+            0,
+            0,
+            1
+    );
+}

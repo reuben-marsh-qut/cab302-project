@@ -12,10 +12,12 @@ public interface IUserDAO {
     public boolean updateUser(User user);
 
     public User getUserById(int userId);
+    User getUserByEmail(String email);
 
     // ideally this does not get used
 //    public void createRawUser(int userId, String email, String passwordHash, int userExperience, int postcode);
     public List<User> getAllUsers();
     public void deleteUser(User user);
     public void deleteAllUsers();
+    void addUser(User user);
 }
