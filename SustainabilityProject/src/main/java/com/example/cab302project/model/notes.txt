@@ -1,0 +1,47 @@
+
+updateThing(thing) realigns the database's representation of the thing to the thing that you have changed between getting it from DB and calling updateThing
+The basic CRUD functions should also be present? for debugging purposes? (then should they be marked protected?)
+
+user dao
+createUser(..)
+getUser(username&passwordHash)
+updateUser(user)
+// debug
+getUsers
+UpdateUser(raw
+
+goal dao
+createGoal(user, ...)
+getGoalsOf(user)
+completeGoal(goal)mb
+UpdateGoal(goal)
+
+
+// debug
+getGoals
+createGoal(raw)
+UpdateGoal(raw)
+
+
+on start up and then (using a timer (java has those?)) if the task does not exist the child task should be created
+habit dao
+createHabit(user,)
+getStreak(Habit)
+UpdateHabit(habit)
+getHabitsOfUser(
+
+/ddebug
+getHabits() list
+
+
+DoesContributeDirecly applies to tasks. when updateTask is called
+tasks dao
+createTask(..)
+getTasksOf(user
+
+updateTask(task)
+
+//debug
+
+createTask(raw)
+UpdateTask(raw)

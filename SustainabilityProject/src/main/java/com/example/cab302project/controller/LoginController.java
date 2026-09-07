@@ -1,9 +1,7 @@
 package com.example.cab302project.controller;
 
 import com.example.cab302project.HelloApplication;
-import com.example.cab302project.model.MockUserDAO;
-import com.example.cab302project.model.User;
-import com.example.cab302project.model.UserManager;
+import com.example.cab302project.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,22 +27,18 @@ public class LoginController {
 
     public LoginController() {
         // TODO: Replace MockUserDAO with database-backed UserDAO.
-        MockUserDAO userDAO = new MockUserDAO();
+        IUserDAO userDAO = new UserDAO();
 
-        userDAO.addUser(
-                new User(
-                        1,
-                        "test@example.com",
-                        "password123"
-                )
+        userDAO.createUser("test@example.com",
+                        "password123",
+                            4000
         );
 
-        userDAO.addUser(
-                new User(
-                        2,
+        userDAO.createUser(
                         "second@example.com",
-                        "differentPassword"
-                )
+                        "differentPassword",
+                        4000
+
         );
 
         userManager = new UserManager(userDAO);

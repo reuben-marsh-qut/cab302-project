@@ -17,7 +17,7 @@ public class ActivityTest {
         activity = new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
                 CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
                 LocalDateTime.of(2026, 9, 11, 12, 0),
-                0, 1, 10, 0);
+                0, 1, 10, 0, false);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ActivityTest {
     void testCreateActivityWithNoDueDateShouldSucceed() {
         Activity activity = new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
                 CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
-                null, 0, 1, 10, 0);
+                null, 0, 1, 10, 0, false);
 
         assertNull(activity.getDueDateTime(), "A goal with no due date should never expire.");
     }
@@ -100,7 +100,7 @@ public class ActivityTest {
         Activity activity = new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
                 CompletionType.BINARY, LocalDateTime.now(),
                 LocalDateTime.of(2026, 9, 11, 12, 0),
-                0, 1, 10, 0);
+                0, 1, 10, 0, false);
         assertTrue(activity.getProgress() < activity.getCompletionThreshold());
     }
 
@@ -110,7 +110,7 @@ public class ActivityTest {
                 () -> new Activity(1, 1, 1, "", Category.BODY,
                         CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
                         LocalDateTime.of(2026, 9, 11, 12, 0),
-                        0, 1, 10, 0),
+                        0, 1, 10, 0, false),
                 "A habit with a blank title should throw an exception.");
     }
 
@@ -120,7 +120,7 @@ public class ActivityTest {
                 () -> new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
                         CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
                         LocalDateTime.of(2026, 9, 11, 12, 0),
-                        0, 0, 10, 0),
+                        0, 0, 10, 0, false),
                 "A goal with a completion threshold of zero should throw an exception.");
     }
 
@@ -130,7 +130,7 @@ public class ActivityTest {
                 () -> new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
                         CompletionType.BINARY, LocalDateTime.of(2025, 9, 4, 12, 0),
                         LocalDateTime.of(2025, 9, 11, 12, 0),
-                        0, 1, 10, 0),
+                        0, 1, 10, 0, false),
                 "A habit with a due date in the past should throw an exception.");
     }
 
@@ -140,7 +140,7 @@ public class ActivityTest {
                 () -> new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
                         CompletionType.BINARY, LocalDateTime.of(2027, 9, 4, 12, 0),
                         LocalDateTime.of(2026, 9, 11, 12, 0),
-                        0, 1, 10, 0),
+                        0, 1, 10, 0, false),
                 "A habit that is due before it starts should throw an exception.");
     }
 }

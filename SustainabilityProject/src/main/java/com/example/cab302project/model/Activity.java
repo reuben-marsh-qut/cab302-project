@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 public class Activity {
     private Integer id;
     private Integer goalId; // inherently nullable
-    private Integer habitId;
+    private Goal goal; // inherently nullable
+    private Integer habitId; // nullable
+    private Habit habit; // nullable
     private Integer userId;
     private String title;
     private Category category;
@@ -20,11 +22,12 @@ public class Activity {
     private Integer completionThreshold;
     private Integer baseXpReward;
     private Integer awardedXpReward;
-    // NOTE: If an acitivty has a goalId associated, it will contrivute directly to the goalId's progress.
-
+    // if true this progress in this activity directly adds contribution to the associated goal
+    private boolean doesContributeDirectlyToGoal;
     public Activity(Integer goalId, Integer habitId, Integer userId, String title, Category category,
                     CompletionType activityType, LocalDateTime startDateTime, LocalDateTime dueDateTime,
-                    Integer progress, Integer completionThreshold, Integer baseXpReward, Integer awardedXpReward) {
+                    Integer progress, Integer completionThreshold, Integer baseXpReward, Integer awardedXpReward,
+                    boolean doesContributeDirectlyToGoal) {
         validateTitle(title);
         validateCompletionThreshold(completionThreshold);
         validateDates(startDateTime, dueDateTime);
@@ -41,6 +44,8 @@ public class Activity {
         this.completionThreshold = completionThreshold;
         this.baseXpReward = baseXpReward;
         this.awardedXpReward = awardedXpReward;
+        this.doesContributeDirectlyToGoal = doesContributeDirectlyToGoal;
+
     }
 
     private static void validateTitle(String activityTitle) {
@@ -130,6 +135,10 @@ public class Activity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isDoesContributeDirectlyToGoal() {
+        return doesContributeDirectlyToGoal;
     }
 }
 

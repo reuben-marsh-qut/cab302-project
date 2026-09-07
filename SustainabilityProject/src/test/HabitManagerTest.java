@@ -20,23 +20,23 @@ public class HabitManagerTest {
             new Habit(1, 1, "Mow the lawn weekly", Category.BODY,
                     CompletionType.BINARY, 7, LocalDate.now(),
                     LocalDate.now().plusDays(30), 21, 31, 41,
-                    21),
+                    21, false),
             new Habit(1, 1, "Water the garden twice a week", Category.BODY,
                     CompletionType.BINARY, 3, LocalDate.now(),
                     LocalDate.now().plusDays(30), 21, 31, 41,
-                    21),
+                    21, false),
             new Habit(2, 2, "Read 5 pages a day", Category.MIND,
                     CompletionType.BINARY, 1, LocalDate.now().plusDays(30),
                     LocalDate.now().plusDays(100), 21, 31, 41,
-                    21),
+                    21, false),
             new Habit(3, 2, "Walk 30 minutes a day", Category.BODY,
                     CompletionType.BINARY, 1, LocalDate.now().plusDays(30),
                     LocalDate.now().plusDays(60), 21, 31, 41,
-                    21),
+                    21, false),
             new Habit(4, 3, "Eat three meals a day", Category.BODY,
                     CompletionType.BINARY, 1, LocalDate.now().plusMonths(2),
                     LocalDate.now().plusMonths(3), 21, 31, 41,
-                    21)
+                    21, false)
     };
 
     @BeforeEach

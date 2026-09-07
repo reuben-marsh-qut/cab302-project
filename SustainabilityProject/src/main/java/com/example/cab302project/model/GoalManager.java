@@ -58,6 +58,11 @@ public class GoalManager {
                 .filter(goal -> goal.getDueDate().isBefore(date))
                 .toList();
     }
+    public void deleteAllGoals(){
+        for(Goal goal : goalDAO.getAllGoals()){
+            goalDAO.deleteGoal(goal);
+        }
+    }
 
     public void addGoal(Goal goal) {
         goalDAO.addGoal(goal);

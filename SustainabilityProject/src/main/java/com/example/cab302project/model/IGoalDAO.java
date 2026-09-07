@@ -4,6 +4,7 @@ import java.util.List;
 
 // Handle CRUD operations for the Goal class with db
 public interface IGoalDAO {
+
     public void addGoal(Goal goal); // Create
     public void updateGoal(Goal goal); // Update
     public void deleteGoal(Goal goal); // Delete

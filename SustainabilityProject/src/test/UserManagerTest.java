@@ -20,7 +20,9 @@ public class UserManagerTest {
                 new User(
                         1,
                         "test@example.com",
-                        "password123"
+                        "password123",
+                        10,
+                        4000
                 )
         );
 
@@ -28,7 +30,9 @@ public class UserManagerTest {
                 new User(
                         2,
                         "second@example.com",
-                        "differentPassword"
+                        "differentPassword",
+                        20,
+                        4000
                 )
         );
     }
@@ -42,7 +46,7 @@ public class UserManagerTest {
         );
 
         assertNotNull(result);
-        assertEquals(1, result.getId());
+        assertEquals(1, result.getUserId());
         assertEquals("test@example.com", result.getEmail());
     }
 
@@ -154,7 +158,7 @@ public class UserManagerTest {
         );
 
         assertNotNull(result);
-        assertEquals(2, result.getId());
+        assertEquals(2, result.getUserId());
         assertEquals("second@example.com", result.getEmail());
     }
 
@@ -178,6 +182,6 @@ public class UserManagerTest {
         );
 
         assertNotNull(result);
-        assertEquals(1, result.getId());
+        assertEquals(1, result.getUserId());
     }
 }
