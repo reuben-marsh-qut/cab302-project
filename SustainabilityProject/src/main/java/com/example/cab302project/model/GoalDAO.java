@@ -68,7 +68,7 @@ public class GoalDAO implements IGoalDAO
             statement.setInt(7, newGoalCompletionThreshold);
             statement.setInt(8, newGoalCompletionType);
 
-            ResultSet resultSet = statement.executeQuery();
+            int resultSet = statement.executeUpdate();
 
         }
         catch (Exception e)
@@ -168,7 +168,7 @@ public class GoalDAO implements IGoalDAO
             statement.setInt(8, newGoalCompletionType);
             statement.setInt(9, goalId);
 
-            ResultSet resultSet = statement.executeQuery();
+            int resultSet = statement.executeUpdate();
 
 
         }
@@ -189,7 +189,7 @@ public class GoalDAO implements IGoalDAO
             String query = "DELETE FROM goals WHERE goalId = ?";
             PreparedStatement statement = deleteConnection.prepareStatement(query);
             statement.setInt(1, goalId);
-            ResultSet results = statement.executeQuery();
+            int results = statement.executeUpdate();
         }
         catch (Exception e)
         {

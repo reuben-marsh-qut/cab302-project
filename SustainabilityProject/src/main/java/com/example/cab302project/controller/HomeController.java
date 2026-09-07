@@ -1,10 +1,7 @@
 package com.example.cab302project.controller;
 
 import com.example.cab302project.HelloApplication;
-import com.example.cab302project.model.Goal;
-import com.example.cab302project.model.IGoalDAO;
-import com.example.cab302project.model.MockGoalDAO;
-import com.example.cab302project.model.User;
+import com.example.cab302project.model.*;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,7 +34,7 @@ public class HomeController {
     private List<Goal> userGoals;
 
     public HomeController() {
-        goalDAO = new MockGoalDAO();
+        goalDAO = new GoalDAO();
     }
 
     /**
