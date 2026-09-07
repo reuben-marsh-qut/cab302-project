@@ -46,12 +46,20 @@ public class Goal {
         this.isComplete = isComplete;
     }
 
+    /**
+     *
+     * @param goalTitle the title of the goal, which must not be blank
+     */
     private static void validateTitle(String goalTitle) {
         if (goalTitle == null || goalTitle.isBlank()) {
             throw new IllegalArgumentException("Goal title must not be blank.");
         }
     }
 
+    /**
+     *
+     * @param completionThreshold The threshold at which point the goal is considered complete, must be greater than zero
+     */
     private static void validateCompletionThreshold(int completionThreshold) {
         if (completionThreshold <= 0) {
             throw new IllegalArgumentException(
@@ -59,6 +67,11 @@ public class Goal {
         }
     }
 
+    /**
+     *
+     * @param startsAt Goal start date, must not be null
+     * @param dueDate Goal due date, may be null
+     */
     private static void validateDates(LocalDate startsAt, LocalDate dueDate) {
         if (startsAt == null) {
             throw new IllegalArgumentException("Goal start date must not be null.");
