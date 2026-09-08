@@ -35,7 +35,7 @@ jobs:
     - name: Publish Javadoc
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        folder: target/docs/javadoc
+        folder: SustainabilityProject/target/docs/javadoc
     - name: Test
       run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
    
@@ -44,6 +44,6 @@ jobs:
       if: always()
       with:
         name: Maven Tests
-        path: target/surefire-reports/*.xml
+        path: SustainabilityProject/target/surefire-reports/*.xml
         reporter: java-junit
         fail-on-error: true
