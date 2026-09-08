@@ -1,5 +1,3 @@
-import com.example.cab302project.model.Activity;
-import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.Habit;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;

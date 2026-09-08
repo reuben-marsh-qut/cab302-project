@@ -1,5 +1,4 @@
 import com.example.cab302project.model.Habit;
-import com.example.cab302project.model.Habit;
 import com.example.cab302project.model.HabitManager;
 import com.example.cab302project.model.MockHabitDAO;
 import com.example.cab302project.model.enums.Category;
