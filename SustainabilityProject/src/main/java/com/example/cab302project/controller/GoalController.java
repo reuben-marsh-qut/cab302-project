@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
-public class HomeController {
+public class GoalController {
 
     @FXML
     private HBox goalsContainer;
@@ -27,7 +27,7 @@ public class HomeController {
 
     private List<Goal> userGoals;
 
-    public HomeController() {
+    public GoalController() {
         goalDAO = new GoalDAO();
     }
 

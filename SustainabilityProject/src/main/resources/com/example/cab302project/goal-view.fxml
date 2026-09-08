@@ -16,7 +16,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.cab302project.controller.HomeController"
+            fx:controller="com.example.cab302project.controller.GoalController"
             prefHeight="412.0" prefWidth="732.0"
             stylesheets="@../../../stylesheets/home.css"
             fx:id="rootPane">
@@ -25,53 +25,17 @@
     </padding>
 
     <left>
-        <VBox prefWidth="250" alignment="TOP_CENTER">
-            <ImageView fitHeight="70" fitWidth="70" preserveRatio="true">
-                <Image url="@../../../assets/logo.png"/>
-            </ImageView>
-
-            <Separator prefHeight="50"/>
-
-            <VBox spacing="20">
-                <!--                TODO: Create handlers for page navigation-->
-                <Button text="Home" maxWidth="Infinity" prefHeight="50"/>
-                <Button text="Your Page" maxWidth="Infinity" prefHeight="50"/>
-                <Button text="Settings" maxWidth="Infinity" prefHeight="50"/>
-            </VBox>
-
-            <Separator prefHeight="50"/>
-
-            <Region VBox.vgrow="ALWAYS"/>
-            <!--            TODO: Create a handler for sign out-->
-            <Button text="Sign Out" maxWidth="Infinity" prefHeight="50"/>
-        </VBox>
+        <fx:include source="sidebar-view.fxml"/>
     </left>
 
     <!--    NOTE: The sidebar defined above doesn't actually change between pages I don't think, just the contents below-->
     <center>
         <BorderPane fx:id="contentPane">
 
-            <!--    The nav row stays put when the content below it is swapped-->
-            <top>
-                <HBox spacing="20" styleClass="home-nav-buttons" maxWidth="350">
-                    <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                    </padding>
+            <fx:include source="nav-bar-view.fxml"/>
 
-                    <Button text="Goals" maxWidth="Infinity" prefHeight="40" prefWidth="100"/>
-                    <Button text="Social" maxWidth="Infinity" prefHeight="40" prefWidth="100"/>
-                    <Button text="Stats" maxWidth="Infinity" prefHeight="40" prefWidth="100"/>
-                </HBox>
-            </top>
-
-            <center>
-                <VBox spacing="15">
-                    <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                    </padding>
-
-                    <Label styleClass="page-header">Goals</Label>
-                    <Label styleClass="page-subheader">Contribute to your own Goal!</Label>
+            <Label styleClass="page-header">Goals</Label>
+            <Label styleClass="page-subheader">Contribute to your own Goal!</Label>
 
                     <!-- Opens the goal creation dialog (US-06)-->
                     <Button text="New Goal" prefHeight="40" prefWidth="120" onAction="#onNewGoal"/>
