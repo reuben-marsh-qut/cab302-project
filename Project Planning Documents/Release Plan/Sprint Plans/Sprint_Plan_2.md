@@ -59,12 +59,12 @@ US-04 — Log Out
 
 ### User Stories
 
-US-05 — Browse Goal Templates
-US-06 — Create a Long-Term Goal
-US-07 — Have Multiple Active Goals
-US-08 — Edit a Goal
-US-11 — View Goal Progress
-US-12 — View Completed Goals
+US-05 — Browse Goal Templates - Sujhav
+US-06 — Create a Long-Term Goal - Sujhav
+US-07 — Have Multiple Active Goals - Sujhav
+US-08 — Edit a Goal - Sujhav
+US-11 — View Goal Progress - Reuben
+US-12 — View Completed Goals - Reuben
 
 ### Main Tasks
 **Add stuff**
@@ -93,9 +93,9 @@ US-17 — Track Habit Completion
 
 ### User Stories
 
-US-18 — View Activities I Need to Complete
-US-19 — Complete an Activity
-US-20 — Complete Standalone Activities
+US-18 — View Activities I Need to Complete - Seb
+US-19 — Complete an Activity - Seb
+US-20 — Complete Standalone Activities - Seb
 US-21 — View Activity Information – Reuben
 US-22 — View Completed Activities – Reuben
 
