@@ -56,3 +56,8 @@
     -fx-font-size: medium;
     -fx-font-weight: bold;
 }
+.option-selected {
+    -fx-background-color: #095716;
+    -fx-text-fill: #EEEEEE;
+    -fx-border-color: #095716;
+}

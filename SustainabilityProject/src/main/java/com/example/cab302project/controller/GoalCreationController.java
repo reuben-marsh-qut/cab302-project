@@ -1,12 +1,17 @@
 package com.example.cab302project.controller;
 
+import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.IGoalDAO;
+import com.example.cab302project.model.enums.Category;
+import com.example.cab302project.model.enums.CompletionType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+
+import java.time.LocalDate;
 
 /**
  * Controller for the goal creation page. Collects the details of a new goal
@@ -32,9 +37,14 @@ public class GoalCreationController {
     @FXML
     private Label errorLabel;
 
+
     private IGoalDAO goalDAO;
     private int userId;
     private Runnable onFinished;
+    private static final String SELECTED_STYLE_CLASS = "option-selected";
+
+    private Category selectedCategory;
+    private CompletionType selectedCompletionType;
 
     public void setGoalDAO(IGoalDAO goalDAO) {
         this.goalDAO = goalDAO;
@@ -55,32 +65,65 @@ public class GoalCreationController {
     @FXML
     public void initialize() {
         hideError();
+        selectCategory(Category.MIND);
+        selectCompletionType(CompletionType.PROGRESSIVE);
     }
 
     @FXML
     private void onSelectMind() {
+        selectCategory(Category.MIND);
     }
 
     @FXML
     private void onSelectBody() {
+        selectCategory(Category.BODY);
     }
 
     @FXML
     private void onSelectWorld() {
+        selectCategory(Category.WORLD);
     }
 
     @FXML
     private void onWorkOverTime() {
+        selectCompletionType(CompletionType.PROGRESSIVE);
     }
 
     @FXML
     private void onOneAndDone() {
+        selectCompletionType(CompletionType.BINARY);
     }
 
     @FXML
     private void onCreateGoal() {
-        // Wired up in a later commit, once category and
-        // completion type can actually be selected.
+        hideError();
+
+        String title = titleArea.getText();
+        int target = 1;
+
+        if (selectedCompletionType == CompletionType.PROGRESSIVE) {
+            Integer enteredTarget = parseTarget(targetField.getText());
+
+            if (enteredTarget == null) {
+                showError("Target must be a whole number, for example 600.");
+                return;
+            }
+
+            target = enteredTarget;
+        }
+
+        try {
+            // Goals start at zero progress, and this screen has no dates,
+            // so the goal starts today and never expires.
+            Goal goal = new Goal(userId, title, selectedCategory,
+                    LocalDate.now(), null,
+                    0, target, selectedCompletionType, false);
+
+            goalDAO.addGoal(goal);
+            close();
+        } catch (IllegalArgumentException exception) {
+            showError(exception.getMessage());
+        }
     }
 
     @FXML
@@ -120,5 +163,40 @@ public class GoalCreationController {
         errorLabel.setText("");
         errorLabel.setVisible(false);
         errorLabel.setManaged(false);
+    }
+
+    /**
+     * Records the chosen category and highlights its button.
+     * @param category The category the user picked.
+     */
+    private void selectCategory(Category category) {
+        selectedCategory = category;
+
+        highlight(mindButton, category == Category.MIND);
+        highlight(bodyButton, category == Category.BODY);
+        highlight(worldButton, category == Category.WORLD);
+    }
+
+
+    private void highlight(Button button, boolean selected) {
+        button.getStyleClass().remove(SELECTED_STYLE_CLASS);
+
+        if (selected) {
+            button.getStyleClass().add(SELECTED_STYLE_CLASS);
+        }
+    }
+    private void selectCompletionType(CompletionType completionType) {
+        selectedCompletionType = completionType;
+
+        highlight(workOverTimeButton, completionType == CompletionType.PROGRESSIVE);
+        highlight(oneAndDoneButton, completionType == CompletionType.BINARY);
+
+        boolean needsTarget = completionType == CompletionType.PROGRESSIVE;
+
+        targetField.setDisable(!needsTarget);
+
+        if (!needsTarget) {
+            targetField.clear();
+        }
     }
 }
