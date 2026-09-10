@@ -73,7 +73,7 @@ public class LoginController {
                 HelloApplication.class.getResource("home-view.fxml")
         );
 
-        Scene scene = new Scene(loader.load());
+        Scene scene = new Scene(loader.load(), 732 * 2, 412 * 2);
 
         HomeController homeController = loader.getController();
 

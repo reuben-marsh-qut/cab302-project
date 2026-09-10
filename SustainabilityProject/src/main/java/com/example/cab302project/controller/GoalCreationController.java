@@ -1,35 +1,40 @@
 package com.example.cab302project.controller;
 
-import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.IGoalDAO;
-import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.CompletionType;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
 
-import java.time.LocalDate;
-
-
+/**
+ * Controller for the goal creation page. Collects the details of a new goal
+ * and stores it using the DAO supplied by the calling screen.
+ */
 public class GoalCreationController {
     @FXML
-    private TextField titleField;
-    @FXML
-    private ComboBox<Category> categoryComboBox;
+    private TextArea titleArea;
     @FXML
     private TextField targetField;
     @FXML
-    private DatePicker startDatePicker;
+    private Button mindButton;
     @FXML
-    private DatePicker dueDatePicker;
+    private Button bodyButton;
+    @FXML
+    private Button worldButton;
+    @FXML
+    private Button workOverTimeButton;
+    @FXML
+    private Button oneAndDoneButton;
+    @FXML
+    private HBox templatesContainer;
+    @FXML
+    private Label errorLabel;
 
     private IGoalDAO goalDAO;
     private int userId;
-
+    private Runnable onFinished;
 
     public void setGoalDAO(IGoalDAO goalDAO) {
         this.goalDAO = goalDAO;
@@ -39,45 +44,48 @@ public class GoalCreationController {
         this.userId = userId;
     }
 
+    /**
+     * Sets what to run when the user finishes with this form,
+     * whether by creating a goal or cancelling.
+     */
+    public void setOnFinished(Runnable onFinished) {
+        this.onFinished = onFinished;
+    }
+
     @FXML
     public void initialize() {
-        // Fill the dropdown from the enum so new categories appear here automatically
-        categoryComboBox.setItems(FXCollections.observableArrayList(Category.values()));
-        categoryComboBox.getSelectionModel().selectFirst();
-        startDatePicker.setValue(LocalDate.now());
+        hideError();
+    }
+
+    @FXML
+    private void onSelectMind() {
+    }
+
+    @FXML
+    private void onSelectBody() {
+    }
+
+    @FXML
+    private void onSelectWorld() {
+    }
+
+    @FXML
+    private void onWorkOverTime() {
+    }
+
+    @FXML
+    private void onOneAndDone() {
     }
 
     @FXML
     private void onCreateGoal() {
-        hideError();
+        // Wired up in a later commit, once category and
+        // completion type can actually be selected.
+    }
 
-        String title = titleField.getText();
-        Category category = categoryComboBox.getValue();
-        LocalDate startDate = startDatePicker.getValue();
-        LocalDate dueDate = dueDatePicker.getValue();
-
-        if (dueDate == null) {
-            showError("Please choose a due date.");
-            return;
-        }
-
-        Integer target = parseTarget(targetField.getText());
-        if (target == null) {
-            showError("Target must be a whole number, for example 600.");
-            return;
-        }
-
-        try {
-            // A new goal always starts at zero progress and incomplete
-            Goal goal = new Goal(userId, title, category, startDate, dueDate,
-                    0, target, CompletionType.PROGRESSIVE, false);
-            goalDAO.addGoal(goal);
-            close();
-        } catch (IllegalArgumentException exception) {
-            showError(exception.getMessage());
-        }
-
-
+    @FXML
+    private void onCancel() {
+        close();
     }
 
     /**
@@ -95,54 +103,22 @@ public class GoalCreationController {
             return null;
         }
     }
-    /**
-     * Discards the form and closes the dialog without creating anything.
-     */
-    @FXML
-    private void onCancel() {
-        close();
-    }
 
-    /**
-     * Closes the window this dialog is displayed in.
-     */
     private void close() {
         if (onFinished != null) {
             onFinished.run();
         }
     }
 
-    /**
-     * Displays a validation message on the form.
-     * @param message The message to show the user.
-     */
     private void showError(String message) {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
         errorLabel.setManaged(true);
     }
 
-    /**
-     * Hides any validation message currently on the form.
-     */
     private void hideError() {
         errorLabel.setText("");
         errorLabel.setVisible(false);
         errorLabel.setManaged(false);
-    }
-
-    @FXML
-    private Label errorLabel;
-
-
-    private Runnable onFinished;
-
-    /**
-     * Sets what to run when the user finishes with this form,
-     * whether by creating a goal or cancelling.
-     * @param onFinished The action to run when the form is done.
-     */
-    public void setOnFinished(Runnable onFinished) {
-        this.onFinished = onFinished;
     }
 }
