@@ -107,8 +107,9 @@ public class GoalCreationController {
      * Closes the window this dialog is displayed in.
      */
     private void close() {
-        Stage stage = (Stage) titleField.getScene().getWindow();
-        stage.close();
+        if (onFinished != null) {
+            onFinished.run();
+        }
     }
 
     /**
@@ -134,4 +135,14 @@ public class GoalCreationController {
     private Label errorLabel;
 
 
+    private Runnable onFinished;
+
+    /**
+     * Sets what to run when the user finishes with this form,
+     * whether by creating a goal or cancelling.
+     * @param onFinished The action to run when the form is done.
+     */
+    public void setOnFinished(Runnable onFinished) {
+        this.onFinished = onFinished;
+    }
 }

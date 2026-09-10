@@ -6,17 +6,11 @@ import com.example.cab302project.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
+import javafx.scene.layout.*;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -36,6 +30,11 @@ public class HomeController {
     public HomeController() {
         goalDAO = new GoalDAO();
     }
+
+    @FXML
+    private BorderPane rootPane;
+
+    private Node goalsPanel;
 
     /**
      * Supplies the authenticated user to the home screen.
@@ -183,49 +182,33 @@ public class HomeController {
      */
     @FXML
     private void onNewGoal() throws IOException {
-
         if (currentUser == null) {
             return;
         }
 
-        FXMLLoader loader =
-                new FXMLLoader(
-                        HelloApplication.class.getResource(
-                                "goal-creation-view.fxml"
-                        )
-                );
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("goal-creation-view.fxml"));
+        Node goalCreationPanel = loader.load();
 
-        Scene scene =
-                new Scene(loader.load());
-
-        GoalCreationController controller =
-                loader.getController();
-
-        // Share the same DAO so the newly created goal
-        // appears immediately on the home screen.
+        GoalCreationController controller = loader.getController();
         controller.setGoalDAO(goalDAO);
+        controller.setUserId(currentUser.getUserId());
+        controller.setOnFinished(this::showGoalsPanel);
 
-        // Associate the new goal with the logged-in user.
-        controller.setUserId(
-                currentUser.getUserId()
-        );
-
-        Stage dialog = new Stage();
-
-        dialog.setTitle("New Goal");
-        dialog.initModality(
-                Modality.APPLICATION_MODAL
-        );
-
-        dialog.setScene(scene);
-        dialog.showAndWait();
-
-        syncGoals();
+        rootPane.setCenter(goalCreationPanel);
     }
 
+    /**
+     * Returns to the goals panel and refreshes the list.
+     */
+    private void showGoalsPanel() {
+        rootPane.setCenter(goalsPanel);
+        syncGoals();
+    }
     @FXML
     private void initialize() {
         // User-specific data is loaded after LoginController
         // supplies the authenticated user.
+        goalsPanel = rootPane.getCenter();
     }
 }
