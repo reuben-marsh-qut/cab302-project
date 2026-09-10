@@ -3,7 +3,8 @@ package com.example.cab302project.model.enums;
 public enum Category {
         MIND("Mind"),
         BODY("Body"),
-        SOCIAL("Social");
+        SOCIAL("Social"),
+        WORLD("World");
 
         private final String label;
 

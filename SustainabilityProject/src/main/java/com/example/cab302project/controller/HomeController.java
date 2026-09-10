@@ -126,10 +126,13 @@ public class HomeController {
                         "dd/MM/yyyy"
                 );
 
-        String endDateFormat =
-                "End Date: "
-                        + goal.getDueDate()
-                        .format(endDateFormatter);
+        String endDateFormat;
+        if (goal.getDueDate() == null) {
+            endDateFormat = "No end date";
+        } else {
+            endDateFormat = "End Date: "
+                    + goal.getDueDate().format(endDateFormatter);
+        }
 
         Label endDateLabel =
                 new Label(endDateFormat);
