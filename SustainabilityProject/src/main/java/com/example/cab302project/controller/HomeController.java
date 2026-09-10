@@ -32,9 +32,10 @@ public class HomeController {
     }
 
     @FXML
-    private BorderPane rootPane;
 
     private Node goalsPanel;
+    @FXML
+    private BorderPane contentPane;
 
     /**
      * Supplies the authenticated user to the home screen.
@@ -195,20 +196,19 @@ public class HomeController {
         controller.setUserId(currentUser.getUserId());
         controller.setOnFinished(this::showGoalsPanel);
 
-        rootPane.setCenter(goalCreationPanel);
-    }
+        contentPane.setCenter(goalCreationPanel);    }
 
     /**
      * Returns to the goals panel and refreshes the list.
      */
     private void showGoalsPanel() {
-        rootPane.setCenter(goalsPanel);
+        contentPane.setCenter(goalsPanel);
         syncGoals();
     }
     @FXML
     private void initialize() {
         // User-specific data is loaded after LoginController
         // supplies the authenticated user.
-        goalsPanel = rootPane.getCenter();
+        goalsPanel = contentPane.getCenter();
     }
 }

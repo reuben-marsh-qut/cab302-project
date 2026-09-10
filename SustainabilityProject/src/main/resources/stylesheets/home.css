@@ -11,13 +11,14 @@
 
 .page-subheader {
     -fx-font-size: large;
-    -fx-fill-color: darkgrey;
+    -fx-text-fill: #4A4A4A;
 }
 
 .item-card {
-    -fx-background-color: #EEEE;
-    -fx-border-color: black;
+    -fx-background-color: white;
+    -fx-border-color: #095716;
     -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 
 .item-header {
@@ -60,4 +61,28 @@
     -fx-background-color: #095716;
     -fx-text-fill: #EEEEEE;
     -fx-border-color: #095716;
+}
+.page-body {
+    -fx-background-color: #F2F9F2;
+}
+
+.template-card {
+    -fx-background-color: white;
+    -fx-border-color: #095716;
+    -fx-font-size: medium;
+    -fx-font-weight: bold;
+}
+.primary-button {
+    -fx-background-color: #095716;
+    -fx-text-fill: #EEEEEE;
+    -fx-border-color: #095716;
+}
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
 }

@@ -1,6 +1,7 @@
 package com.example.cab302project.controller;
 
 import com.example.cab302project.model.Goal;
+import com.example.cab302project.model.GoalTemplate;
 import com.example.cab302project.model.IGoalDAO;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Controller for the goal creation page. Collects the details of a new goal
@@ -93,6 +95,30 @@ public class GoalCreationController {
     private void onOneAndDone() {
         selectCompletionType(CompletionType.BINARY);
     }
+    @FXML
+    private Button template1Button;
+    @FXML
+    private Button template2Button;
+    @FXML
+    private Button template3Button;
+
+    @FXML
+    private void onTemplate1() {
+        applyTemplate(shownTemplates.get(0));
+    }
+
+    @FXML
+    private void onTemplate2() {
+        applyTemplate(shownTemplates.get(1));
+    }
+
+    @FXML
+    private void onTemplate3() {
+        applyTemplate(shownTemplates.get(2));
+    }
+
+
+    private List<GoalTemplate> shownTemplates;
 
     @FXML
     private void onCreateGoal() {
@@ -175,8 +201,33 @@ public class GoalCreationController {
         highlight(mindButton, category == Category.MIND);
         highlight(bodyButton, category == Category.BODY);
         highlight(worldButton, category == Category.WORLD);
+        showTemplates(category);
     }
+    /**
+     * Shows the starter templates for a category on the three buttons.
+     * @param category The category to show suggestions for.
+     */
+    private void showTemplates(Category category) {
+        shownTemplates = GoalTemplate.getTemplatesForCategory(category);
 
+        template1Button.setText(shownTemplates.get(0).getTitle());
+        template2Button.setText(shownTemplates.get(1).getTitle());
+        template3Button.setText(shownTemplates.get(2).getTitle());
+    }
+    /**
+     * Fills the form in from a template. Everything stays editable.
+     * @param template The template the user picked.
+     */
+    private void applyTemplate(GoalTemplate template) {
+        hideError();
+
+        titleArea.setText(template.getTitle());
+        selectCompletionType(template.getCompletionType());
+
+        if (template.getCompletionType() == CompletionType.PROGRESSIVE) {
+            targetField.setText(String.valueOf(template.getTarget()));
+        }
+    }
 
     private void highlight(Button button, boolean selected) {
         button.getStyleClass().remove(SELECTED_STYLE_CLASS);
