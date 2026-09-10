@@ -9,31 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GoalTemplateTest {
 
-    @Test
-    public void testGetTemplatesForCategoryReturnsOnlyThatCategory() {
-        List<GoalTemplate> bodyTemplates =
-                GoalTemplate.getTemplatesForCategory(Category.BODY);
-
-        for (GoalTemplate template : bodyTemplates) {
-            assertEquals(Category.BODY, template.getCategory());
-        }
-    }
-
-    @Test
-    public void testEachCategoryHasThreeTemplates() {
-        assertEquals(3, GoalTemplate.getTemplatesForCategory(Category.MIND).size());
-        assertEquals(3, GoalTemplate.getTemplatesForCategory(Category.BODY).size());
-        assertEquals(3, GoalTemplate.getTemplatesForCategory(Category.WORLD).size());
-    }
-
-    @Test
-    public void testCategoryWithNoTemplatesReturnsEmptyList() {
-        List<GoalTemplate> socialTemplates =
-                GoalTemplate.getTemplatesForCategory(Category.SOCIAL);
-
-        assertNotNull(socialTemplates);
-        assertTrue(socialTemplates.isEmpty());
-    }
 
     @Test
     public void testBlankTitleThrowsException() {
@@ -50,12 +25,44 @@ public class GoalTemplateTest {
     }
 
     @Test
-    public void testOneAndDoneTemplatesHaveTargetOfOne() {
-        List<GoalTemplate> mindTemplates =
-                GoalTemplate.getTemplatesForCategory(Category.MIND);
+    public void testGetTemplatesForReturnsOnlyMatchingCategoryAndType() {
+        List<GoalTemplate> templates =
+                GoalTemplate.getTemplatesFor(Category.BODY, CompletionType.BINARY);
 
-        for (GoalTemplate template : mindTemplates) {
-            if (template.getCompletionType() == CompletionType.BINARY) {
+        for (GoalTemplate template : templates) {
+            assertEquals(Category.BODY, template.getCategory());
+            assertEquals(CompletionType.BINARY, template.getCompletionType());
+        }
+    }
+
+    @Test
+    public void testEachCategoryAndTypeHasThreeTemplates() {
+        Category[] categories = { Category.MIND, Category.BODY, Category.WORLD };
+
+        for (Category category : categories) {
+            assertEquals(3,
+                    GoalTemplate.getTemplatesFor(category, CompletionType.PROGRESSIVE).size());
+            assertEquals(3,
+                    GoalTemplate.getTemplatesFor(category, CompletionType.BINARY).size());
+        }
+    }
+
+    @Test
+    public void testCategoryWithNoTemplatesReturnsEmptyList() {
+        List<GoalTemplate> socialTemplates =
+                GoalTemplate.getTemplatesFor(Category.SOCIAL, CompletionType.PROGRESSIVE);
+
+        assertNotNull(socialTemplates);
+        assertTrue(socialTemplates.isEmpty());
+    }
+
+    @Test
+    public void testOneAndDoneTemplatesHaveTargetOfOne() {
+        Category[] categories = { Category.MIND, Category.BODY, Category.WORLD };
+
+        for (Category category : categories) {
+            for (GoalTemplate template :
+                    GoalTemplate.getTemplatesFor(category, CompletionType.BINARY)) {
                 assertEquals(1, template.getTarget());
             }
         }

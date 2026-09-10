@@ -201,14 +201,18 @@ public class GoalCreationController {
         highlight(mindButton, category == Category.MIND);
         highlight(bodyButton, category == Category.BODY);
         highlight(worldButton, category == Category.WORLD);
-        showTemplates(category);
+        showTemplates();
     }
     /**
-     * Shows the starter templates for a category on the three buttons.
-     * @param category The category to show suggestions for.
+     * Shows the starter templates matching the current category and
+     * completion type on the three template buttons.
      */
-    private void showTemplates(Category category) {
-        shownTemplates = GoalTemplate.getTemplatesForCategory(category);
+    private void showTemplates() {
+        if (selectedCategory == null || selectedCompletionType == null) {
+            return;
+        }
+
+        shownTemplates = GoalTemplate.getTemplatesFor(selectedCategory, selectedCompletionType);
 
         template1Button.setText(shownTemplates.get(0).getTitle());
         template2Button.setText(shownTemplates.get(1).getTitle());
@@ -222,7 +226,6 @@ public class GoalCreationController {
         hideError();
 
         titleArea.setText(template.getTitle());
-        selectCompletionType(template.getCompletionType());
 
         if (template.getCompletionType() == CompletionType.PROGRESSIVE) {
             targetField.setText(String.valueOf(template.getTarget()));
@@ -249,5 +252,6 @@ public class GoalCreationController {
         if (!needsTarget) {
             targetField.clear();
         }
+        showTemplates();
     }
 }
