@@ -142,7 +142,9 @@ public class GoalDAO implements IGoalDAO
             long newGoalEndTime;
             if (goal.getDueDate() == null) {
                 newGoalEndTime = 0;
-            } else {
+            }
+            else
+            {
                 newGoalEndTime = goal.getDueDate().atStartOfDay(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             }
 
