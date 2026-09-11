@@ -67,8 +67,8 @@
                         </content>
                     </ScrollPane>
 
-                    <Label styleClass="page-header">Habits</Label>
-                    <Label styleClass="page-subheader">Have you completed your habits for today?</Label>
+            <Label styleClass="page-header">Completed Goals</Label>
+            <Label styleClass="page-subheader">Reflect on your past goals</Label>
 
                     <Separator/>
 

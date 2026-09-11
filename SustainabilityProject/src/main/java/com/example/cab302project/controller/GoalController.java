@@ -77,6 +77,11 @@ public class GoalController {
         goalsContainer.setManaged(hasGoals);
     }
 
+    // create another syncGoals func (and discretise the current contents into a separate func) for getting past goals
+    // this may involve creating a new func in IGoalDAO
+    // then, apply something similar for activities
+    // start scripting for video (10 mins) -> we could do a split 2 mins each or something - but I am happy to do more
+
     /**
      * Creates a visual goal card for the supplied goal.
      */
