@@ -73,11 +73,10 @@ public class LoginController {
                 HelloApplication.class.getResource("home-view.fxml")
         );
 
+        // Set the singleton user session instance
+        UserSession.getInstance().setUser(user);
+
         Scene scene = new Scene(loader.load(), 732 * 2, 412 * 2);
-
-        HomeController homeController = loader.getController();
-
-        homeController.setCurrentUser(user);
 
         Stage stage = (Stage) emailField
                 .getScene()

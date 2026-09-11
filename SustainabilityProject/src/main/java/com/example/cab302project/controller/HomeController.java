@@ -38,14 +38,6 @@ public class HomeController {
     private BorderPane contentPane;
 
     /**
-     * Supplies the authenticated user to the home screen.
-     */
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-        syncGoals();
-    }
-
-    /**
      * Refreshes the goal cards using only goals belonging
      * to the currently authenticated user.
      */
@@ -209,6 +201,8 @@ public class HomeController {
     private void initialize() {
         // User-specific data is loaded after LoginController
         // supplies the authenticated user.
+        currentUser = UserSession.getInstance().getUser();
         goalsPanel = contentPane.getCenter();
+        syncGoals();
     }
 }
