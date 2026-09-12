@@ -146,7 +146,7 @@ public class GoalDAO implements IGoalDAO
                 newGoalEndTime = goal.getDueDate().atStartOfDay(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             }
 
-            int newGoalProgress = 0;
+            int newGoalProgress = goal.getProgress();
             int newGoalCompletionThreshold = goal.getThreshold();
             int newGoalCompletionType = goal.getCompletionType().ordinal();
 
