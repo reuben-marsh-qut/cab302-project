@@ -11,4 +11,6 @@ public interface IGoalDAO {
     public Goal getGoalById(int id); // Read
     public List<Goal> getAllGoals(); // Read
     public List<Goal> getGoalsForUser(int userId);
+    public List<Goal> getIncompletedGoalsForUser(int userId);
+    public List<Goal> getCompletedGoalsForUser(int userId);
 }
