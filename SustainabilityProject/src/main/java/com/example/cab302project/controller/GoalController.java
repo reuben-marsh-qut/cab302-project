@@ -214,6 +214,7 @@ public class GoalController {
     private void initialize() {
         // User-specific data is loaded after LoginController
         // supplies the authenticated user.
+        currentUser = UserSession.getInstance().getUser();
         goalsPanel = contentPane.getCenter();
     }
 }

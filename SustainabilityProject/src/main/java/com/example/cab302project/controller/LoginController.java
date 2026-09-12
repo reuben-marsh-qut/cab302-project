@@ -73,11 +73,9 @@ public class LoginController {
                 HelloApplication.class.getResource("goal-view.fxml")
         );
 
+        UserSession.getInstance().setUser(user);
+
         Scene scene = new Scene(loader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-
-        GoalController goalController = loader.getController();
-
-        goalController.setCurrentUser(user);
 
         Stage stage = (Stage) emailField
                 .getScene()
