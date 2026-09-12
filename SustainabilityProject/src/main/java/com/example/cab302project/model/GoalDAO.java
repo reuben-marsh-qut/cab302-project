@@ -87,37 +87,45 @@ public class GoalDAO implements IGoalDAO
             Connection getGoalconnection = DatabaseConnection.getInstance();
             PreparedStatement getGoal = getGoalconnection.prepareStatement("SELECT * FROM goals WHERE goalId = ?");
             getGoal.setInt(1, id);
-            ResultSet goalGetResults = getGoal.executeQuery();
-            int goalId = goalGetResults.getInt("goalId");
-            int userId = goalGetResults.getInt("userId");
-            String goalTitle = goalGetResults.getString("goalTitle");
-            int category = goalGetResults.getInt("catagory");
-            Category enumCat = Category.values()[category];
-            int startTime = goalGetResults.getInt("startsAtUnixTime");
-            LocalDate localStartDate = Instant.ofEpochSecond(startTime).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
-            String dueDate = goalGetResults.getString("dueUnixTime");
-            int dueDateInt;
-            LocalDate localDueDate;
-            if (dueDate == null)
+            try (ResultSet goalGetResults = getGoal.executeQuery())
             {
-                localDueDate = null;
-            }
-            else
-            {
-                dueDateInt = Integer.parseInt(dueDate);
-                localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
-            }
-            int progress = goalGetResults.getInt("progress");
-            int completionThreshold = goalGetResults.getInt("completionThreshold");
-            int completionType = goalGetResults.getInt("completionType");
-            CompletionType enumComp = CompletionType.values()[completionType];
-            int isComplete = goalGetResults.getInt("isComplete");
-            boolean boolComplete = (isComplete != 0);
+                if (!goalGetResults.next())
+                {
+                    return null;
+                }
+                int goalId = goalGetResults.getInt("goalId");
+                int userId = goalGetResults.getInt("userId");
+                String goalTitle = goalGetResults.getString("goalTitle");
+                int category = goalGetResults.getInt("catagory");
+                Category enumCat = Category.values()[category];
+                int startTime = goalGetResults.getInt("startsAtUnixTime");
+                LocalDate localStartDate = Instant.ofEpochSecond(startTime).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
+                String dueDate = goalGetResults.getString("dueUnixTime");
+                int dueDateInt;
+                LocalDate localDueDate;
+                if (dueDate == null)
+                {
+                    localDueDate = null;
+                }
+                else
+                {
+                    dueDateInt = Integer.parseInt(dueDate);
+                    localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
+                }
+                int progress = goalGetResults.getInt("progress");
+                int completionThreshold = goalGetResults.getInt("completionThreshold");
+                int completionType = goalGetResults.getInt("completionType");
+                CompletionType enumComp = CompletionType.values()[completionType];
+                int isComplete = goalGetResults.getInt("isComplete");
+                boolean boolComplete = (isComplete != 0);
 
-            Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
-            goal.setId(id);
+                Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
+                goal.setId(id);
 
-            return goal;
+                return goal;
+            }
+
+
         }
         catch (Exception e)
         {
@@ -133,7 +141,7 @@ public class GoalDAO implements IGoalDAO
         {
             Connection updateGoalConnection = DatabaseConnection.getInstance();
             int goalId = goal.getId();
-            getGoalById(goalId);
+
 
             int newGoalUserId = goal.getUserId();
             String newGoalTitle = goal.getTitle();

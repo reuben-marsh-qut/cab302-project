@@ -74,7 +74,7 @@ public class ActivityDAO
             int habitId = results.getInt("habitId");
             int userId = results.getInt("userId");
             String taskTitle = results.getString("taskTitle");
-            int category = results.getInt("category");
+            int category = results.getInt("catagory");
             Category enumCategory = Category.values()[category];
             int type = results.getInt("taskType");
             CompletionType enumTaskType = CompletionType.values()[type];
@@ -95,7 +95,7 @@ public class ActivityDAO
             int progress = results.getInt("progress");
             int completionThreshold = results.getInt("completionThreshold");
             int xpReward = results.getInt("baseXpReward");
-            int awardedXpReward = results.getInt("rewardedXpReward");
+            int awardedXpReward = results.getInt("awardedXpReward");
             int contributeToGoal = results.getInt("doesContributeDirectlyToGoal");
             boolean boolContribute = (contributeToGoal != 0);
 
@@ -183,20 +183,24 @@ public class ActivityDAO
 
             Connection connection = DatabaseConnection.getInstance();
 
-            String query = "SELECT * FROM tasks WHERE userId = ?";
+            String query = "SELECT * FROM tasks WHERE taskId = ?";
             PreparedStatement request = connection.prepareStatement(query);
             request.setInt(1, id);
-            ResultSet results = request.executeQuery();
+            try (ResultSet results = request.executeQuery())
+            {
+                if (!results.next() )
+                {
+                    return null;
+                }
 
-            Activity activityById = activityFromDatabaseRequest(results);
-            return activityById;
+                return activityFromDatabaseRequest(results);
+            }
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new RuntimeException(e);
         }
-
-        return null;
     }
 
     public List<Activity> getAllActivities()
