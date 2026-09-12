@@ -124,6 +124,7 @@
 <center>
     <BorderPane fx:id="contentPane">
         <center>
+            <ScrollPane fitToHeight="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" fitToWidth="true">
 
             <VBox spacing="15">
 
@@ -163,6 +164,7 @@
 
 
             </VBox>
+            </ScrollPane>
         </center>
 
     </BorderPane>
