@@ -19,31 +19,27 @@ import java.util.Objects;
 public class GoalController {
 
     @FXML
-    private HBox goalsContainer;
+    private HBox incompleteGoalsContainer;
+
+    @FXML
+    private HBox completeGoalsContainer;
 
     private final IGoalDAO goalDAO;
 
     private User currentUser;
 
-    private List<Goal> userGoals;
+    private List<Goal> incompleteUserGoals;
+    private List<Goal> completedUserGoals;
 
     public GoalController() {
         goalDAO = new GoalDAO();
     }
 
     @FXML
-
     private Node goalsPanel;
+
     @FXML
     private BorderPane contentPane;
-
-    /**
-     * Supplies the authenticated user to the home screen.
-     */
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-        syncGoals();
-    }
 
     /**
      * Refreshes the goal cards using only goals belonging
@@ -51,36 +47,49 @@ public class GoalController {
      */
     private void syncGoals() {
 
-        goalsContainer.getChildren().clear();
+        incompleteGoalsContainer.getChildren().clear();
+        completeGoalsContainer.getChildren().clear();
 
         if (currentUser == null) {
-            goalsContainer.setVisible(false);
-            goalsContainer.setManaged(false);
+            incompleteGoalsContainer.setVisible(false);
+            incompleteGoalsContainer.setManaged(false);
+            completeGoalsContainer.setVisible(false);
+            completeGoalsContainer.setManaged(false);
             return;
         }
 
-        userGoals = goalDAO.getGoalsForUser(
+        incompleteUserGoals = goalDAO.getIncompletedGoalsForUser(
                 currentUser.getUserId()
         );
 
-        boolean hasGoals = !userGoals.isEmpty();
+        completedUserGoals = goalDAO.getCompletedGoalsForUser(
+                currentUser.getUserId()
+        );
 
-        if (hasGoals) {
-            for (Goal goal : userGoals) {
-                goalsContainer.getChildren().add(
+        boolean hasIncompleteGoals = !incompleteUserGoals.isEmpty();
+        boolean hasCompletedGoals = !completedUserGoals.isEmpty();
+
+        if (hasIncompleteGoals) {
+            for (Goal goal : incompleteUserGoals) {
+                incompleteGoalsContainer.getChildren().add(
                         createGoalCard(goal)
                 );
             }
         }
 
-        goalsContainer.setVisible(hasGoals);
-        goalsContainer.setManaged(hasGoals);
-    }
+        if (hasCompletedGoals) {
+            for (Goal goal : completedUserGoals) {
+                completeGoalsContainer.getChildren().add(
+                        createGoalCard(goal)
+                );
+            }
+        }
 
-    // create another syncGoals func (and discretise the current contents into a separate func) for getting past goals
-    // this may involve creating a new func in IGoalDAO
-    // then, apply something similar for activities
-    // start scripting for video (10 mins) -> we could do a split 2 mins each or something - but I am happy to do more
+        incompleteGoalsContainer.setVisible(hasIncompleteGoals);
+        incompleteGoalsContainer.setManaged(hasIncompleteGoals);
+        completeGoalsContainer.setVisible(hasIncompleteGoals);
+        completeGoalsContainer.setManaged(hasIncompleteGoals);
+    }
 
     /**
      * Creates a visual goal card for the supplied goal.
@@ -210,11 +219,14 @@ public class GoalController {
         contentPane.setCenter(goalsPanel);
         syncGoals();
     }
+
+    /**
+     * when the goal-view is loaded, this is called
+     */
     @FXML
     private void initialize() {
-        // User-specific data is loaded after LoginController
-        // supplies the authenticated user.
         currentUser = UserSession.getInstance().getUser();
         goalsPanel = contentPane.getCenter();
+        syncGoals();
     }
 }

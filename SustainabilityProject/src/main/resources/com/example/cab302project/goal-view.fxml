@@ -46,7 +46,7 @@
 <!--                    <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"-->
 <!--                                minHeight="270" prefHeight="270" maxHeight="270">-->
 <!--                        <content>-->
-<!--                            <HBox fx:id="goalsContainer" spacing="20">-->
+<!--                            <HBox fx:id="incompleteGoalsContainer" spacing="20">-->
 <!--                                &lt;!&ndash;                <VBox styleClass="item-card" spacing="10" prefHeight="250" prefWidth="250">&ndash;&gt;-->
 <!--                                &lt;!&ndash;                    <padding>&ndash;&gt;-->
 <!--                                &lt;!&ndash;                        <Insets left="10.0" right="10.0" top="10.0"/>&ndash;&gt;-->
@@ -145,7 +145,7 @@
                 <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
                             minHeight="270" prefHeight="270" maxHeight="270">
                     <content>
-                        <HBox fx:id="goalsContainer" spacing="20"/>
+                        <HBox fx:id="incompleteGoalsContainer" spacing="20"/>
                     </content>
                 </ScrollPane>
 
@@ -157,24 +157,7 @@
                 <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
                             minHeight="270" prefHeight="270" maxHeight="270">
                     <content>
-                        <HBox spacing="20">
-                            <VBox styleClass="item-card" spacing="10" prefHeight="250" prefWidth="250">
-                                <padding>
-                                    <Insets left="10.0" right="10.0" top="10.0"/>
-                                </padding>
-                                <!--                    TODO: Implement handlers for all of these fields-->
-                                <Label styleClass="item-category">Body</Label>
-                                <Label styleClass="item-header" wrapText="true">Run 10 kilometres each week</Label>
-                                <Label styleClass="item-details">Progress: 3km/10km</Label>
-                                <Label styleClass="item-details">End Date: 06/09/2026</Label>
-
-                                <Region VBox.vgrow="ALWAYS"/>
-
-                                <ImageView fitHeight="70" fitWidth="70" preserveRatio="true">
-                                    <Image url="@../../../assets/plantPot.png"/>
-                                </ImageView>
-                            </VBox>
-                        </HBox>
+                        <HBox fx:id="completeGoalsContainer" spacing="20"/>
                     </content>
                 </ScrollPane>
 
