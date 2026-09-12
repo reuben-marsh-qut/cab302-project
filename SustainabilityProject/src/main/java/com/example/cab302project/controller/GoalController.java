@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,6 +30,7 @@ public class GoalController {
     private User currentUser;
 
     private List<Goal> incompleteUserGoals;
+
     private List<Goal> completedUserGoals;
 
     public GoalController() {
@@ -72,7 +74,7 @@ public class GoalController {
         if (hasIncompleteGoals) {
             for (Goal goal : incompleteUserGoals) {
                 incompleteGoalsContainer.getChildren().add(
-                        createGoalCard(goal)
+                        goalCard(goal)
                 );
             }
         }
@@ -80,7 +82,7 @@ public class GoalController {
         if (hasCompletedGoals) {
             for (Goal goal : completedUserGoals) {
                 completeGoalsContainer.getChildren().add(
-                        createGoalCard(goal)
+                        goalCard(goal)
                 );
             }
         }
@@ -94,7 +96,7 @@ public class GoalController {
     /**
      * Creates a visual goal card for the supplied goal.
      */
-    private VBox createGoalCard(Goal goal) {
+    private VBox goalCard(Goal goal) {
 
         VBox goalCard = new VBox();
 
@@ -179,16 +181,58 @@ public class GoalController {
         imageView.setFitWidth(70);
         imageView.setPreserveRatio(true);
 
+        Button seeMoreButton = new Button("See More");
+
+        seeMoreButton
+                .getStyleClass()
+                .add("home-nav-buttons");
+
+        seeMoreButton.setOnAction(event -> {
+            try {
+                handleSeeMoreButton(goal.getId());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Region Hspacer = new Region();
+
+        HBox.setHgrow(
+                Hspacer,
+                Priority.ALWAYS
+        );
+
+        HBox imageButtonContainer = new HBox();
+        imageButtonContainer.getChildren().addAll(imageView, Hspacer, seeMoreButton);
+
         goalCard.getChildren().addAll(
                 categoryLabel,
                 titleLabel,
                 progressLabel,
                 endDateLabel,
                 spacer,
-                imageView
+                imageButtonContainer
         );
 
         return goalCard;
+    }
+
+    private void handleSeeMoreButton(Integer goalId) throws IOException {
+        if (currentUser == null) {
+            return;
+        }
+
+
+
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("goal-details-view.fxml"));
+        Node goalDetailsView = loader.load();
+
+        GoalDetailsController controller = loader.getController();
+        controller.setGoalId(goalId);
+        controller.setOnFinished(this::showGoalsPanel);
+
+        contentPane.setCenter(goalDetailsView);
     }
 
     /**
@@ -207,7 +251,7 @@ public class GoalController {
 
         GoalCreationController controller = loader.getController();
         controller.setGoalDAO(goalDAO);
-        controller.setUserId(currentUser.getUserId());
+        controller.setUserId(currentUser.getUserId()); // REFACTOR: could we replace this sort of thing just using the singleton instead
         controller.setOnFinished(this::showGoalsPanel);
 
         contentPane.setCenter(goalCreationPanel);    }

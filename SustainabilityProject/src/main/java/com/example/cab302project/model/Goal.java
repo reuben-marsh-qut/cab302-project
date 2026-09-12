@@ -93,7 +93,7 @@ public class Goal {
      * stored, matching the generated isComplete column in the database design.
      **/
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
