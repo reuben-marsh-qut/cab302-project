@@ -4,9 +4,13 @@ import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.GoalDAO;
 import com.example.cab302project.model.IGoalDAO;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+
+import java.util.Optional;
 
 
 public class GoalDetailsController {
@@ -83,8 +87,17 @@ public class GoalDetailsController {
     @FXML
     private void onDelete() {
         Goal goal = goalDAO.getGoalById(goalId);
-        goalDAO.deleteGoal(goal);
-        close();
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Delete Goal");
+        alert.setHeaderText("Are you sure you want to delete this goal?");
+        alert.setContentText("This action cannot be undone.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            goalDAO.deleteGoal(goal);
+            close();
+        }
     }
 
     private void LoadGoalDetails() {
