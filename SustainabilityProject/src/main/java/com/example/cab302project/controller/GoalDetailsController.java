@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.util.Optional;
@@ -17,6 +18,7 @@ public class GoalDetailsController {
     private int goalId;
     private Runnable onFinished;
     private final IGoalDAO goalDAO;
+
     public GoalDetailsController() {
         goalDAO = new GoalDAO();
     }
@@ -35,6 +37,9 @@ public class GoalDetailsController {
 
     @FXML
     private TextField progressUpdate;
+
+    @FXML
+    private HBox completeGoalButtons;
 
     /**
      * Closes the current window.
@@ -55,6 +60,7 @@ public class GoalDetailsController {
 
     /**
      * Sets the goal ID and loads the goal details.
+     *
      * @param goalId The ID of the goal.
      */
     public void setGoalId(int goalId) {
@@ -64,6 +70,7 @@ public class GoalDetailsController {
 
     /**
      * Set the start and end date text
+     *
      * @param goal the goal with start/end dates
      */
     private void setDateText(Goal goal) {
@@ -75,6 +82,7 @@ public class GoalDetailsController {
 
     /**
      * Set the progress text
+     *
      * @param goal the goal with progress
      */
     private void setProgressText(Goal goal) {
@@ -135,6 +143,8 @@ public class GoalDetailsController {
         goalNameLabel.setText(goal.getTitle());
         setDateText(goal);
         setProgressText(goal);
+        completeGoalButtons.setVisible(!goal.getIsComplete());
+        completeGoalButtons.setManaged(!goal.getIsComplete());
     }
 
     /**

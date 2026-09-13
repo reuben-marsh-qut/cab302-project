@@ -16,34 +16,34 @@
 
     <Label fx:id="goalNameLabel" styleClass="page-header"/>
 
-        <Text fx:id="startDateText"/>
-        <Text fx:id="endDateText"/>
-        <Text fx:id="progressText"/>
-
-    <Separator />
-
-    <HBox spacing="100">
+    <Text fx:id="startDateText"/>
+    <Text fx:id="endDateText"/>
+    <Text fx:id="progressText"/>
+    
+    <HBox spacing="100" fx:id="completeGoalButtons">
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Update your progress!"/>
-            <TextField fx:id="progressUpdate" promptText="Add to progress" />
-            <Button mnemonicParsing="false" onAction="#onUpdateProgress" prefHeight="40.0" prefWidth="120.0" text="Update progress" />
+            <TextField fx:id="progressUpdate" promptText="Add to progress"/>
+            <Button mnemonicParsing="false" onAction="#onUpdateProgress" prefHeight="40.0" prefWidth="120.0"
+                    text="Update progress"/>
         </VBox>
 
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Mark you goal as complete!"/>
-            <Button mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="120.0" text="Mark as Complete" />
+            <Button mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="120.0"
+                    text="Mark as Complete"/>
         </VBox>
     </HBox>
 
-    <Separator />
+    <Separator/>
 
     <Label styleClass="page-subheader" text="Delete your goal"/>
-    <Button mnemonicParsing="false" onAction="#onDelete" prefHeight="40.0" prefWidth="120.0" text="Delete this Goal" />
+    <Button mnemonicParsing="false" onAction="#onDelete" prefHeight="40.0" prefWidth="120.0" text="Delete this Goal"/>
 
-    <Separator />
+    <Separator/>
 
     <Region VBox.vgrow="ALWAYS"/>
 
-    <Button mnemonicParsing="false" onAction="#onBack" prefHeight="40.0" prefWidth="120.0" text="Back" />
+    <Button mnemonicParsing="false" onAction="#onBack" prefHeight="40.0" prefWidth="120.0" text="Back"/>
 
 </VBox>
