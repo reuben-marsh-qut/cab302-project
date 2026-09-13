@@ -47,7 +47,7 @@ public class Goal {
     }
 
     /**
-     *
+     * validates the title of the goal
      * @param goalTitle the title of the goal, which must not be blank
      */
     private static void validateTitle(String goalTitle) {
@@ -57,7 +57,7 @@ public class Goal {
     }
 
     /**
-     *
+     * validates the completion threshold of the goal
      * @param completionThreshold The threshold at which point the goal is considered complete, must be greater than zero
      */
     private static void validateCompletionThreshold(int completionThreshold) {
@@ -68,7 +68,7 @@ public class Goal {
     }
 
     /**
-     *
+     * validates the start and end dates of the goal
      * @param startsAt Goal start date, must not be null
      * @param dueDate Goal due date, may be null
      */
@@ -87,11 +87,6 @@ public class Goal {
                     "Goal due date must not be before its start date.");
         }
     }
-
-    /**
-     * Whether this goal has been achieved. Derived from progress rather than
-     * stored, matching the generated isComplete column in the database design.
-     **/
 
     public Integer getId() {
         return id;

@@ -36,22 +36,36 @@ public class GoalDetailsController {
     @FXML
     private TextField progressUpdate;
 
+    /**
+     * Closes the current window.
+     */
     private void close() {
         if (onFinished != null) {
             onFinished.run();
         }
     }
 
+    /**
+     * Handles the back button click event.
+     */
     @FXML
     private void onBack() {
         close();
     }
 
+    /**
+     * Sets the goal ID and loads the goal details.
+     * @param goalId The ID of the goal.
+     */
     public void setGoalId(int goalId) {
         this.goalId = goalId;
         LoadGoalDetails();
     }
 
+    /**
+     * Set the start and end date text
+     * @param goal the goal with start/end dates
+     */
     private void setDateText(Goal goal) {
         String formattedStartDate = String.format("Goal Start Date: %tF", goal.getStartDate());
         String formattedEndDate = String.format("Goal End Date: %tF", goal.getDueDate());
@@ -59,12 +73,19 @@ public class GoalDetailsController {
         endDateText.setText(formattedEndDate);
     }
 
+    /**
+     * Set the progress text
+     * @param goal the goal with progress
+     */
     private void setProgressText(Goal goal) {
         String formattedProgress = String.format("Progress: %d/%d", goal.getProgress(),
                 goal.getThreshold());
         progressText.setText(formattedProgress);
     }
 
+    /**
+     * Handles the update progress button click event by updating the goal's progress and displayed text
+     */
     @FXML
     private void onUpdateProgress() {
         Goal goal = goalDAO.getGoalById(goalId);
@@ -75,6 +96,9 @@ public class GoalDetailsController {
         setProgressText(goal);
     }
 
+    /**
+     * Handles the complete button click event by updating the goal's progress to the threshold and closing the dialog
+     */
     @FXML
     private void onComplete() {
         Goal goal = goalDAO.getGoalById(goalId);
@@ -84,7 +108,9 @@ public class GoalDetailsController {
         close();
     }
 
-
+    /**
+     * Handles the delete button click event by deleting the goal (first prompting the user to confirm) and closing the dialog
+     */
     @FXML
     private void onDelete() {
         Goal goal = goalDAO.getGoalById(goalId);
@@ -101,6 +127,9 @@ public class GoalDetailsController {
         }
     }
 
+    /**
+     * Loads the goal details into the form
+     */
     private void LoadGoalDetails() {
         Goal goal = goalDAO.getGoalById(goalId);
         goalNameLabel.setText(goal.getTitle());

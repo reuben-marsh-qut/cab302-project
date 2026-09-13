@@ -101,10 +101,18 @@ public class GoalController {
         completeGoalsContainer.setManaged(true);
     }
 
+    /**
+     * If there are no current goals, this message is displayed
+     * @return no current goals label
+     */
     private Label noGoalText() {
         return new Label("No goals yet. Set a goal to track your progress!");
     }
 
+    /**
+     * If there are no completed goals, this message is displayed
+     * @return no compelted goals label
+     */
     private Label noCompleteGoalText() {
         return new Label("No completed goals yet. Achieve your goals and they will appear here!");
     }
@@ -233,6 +241,10 @@ public class GoalController {
         return goalCard;
     }
 
+    /**
+     * @param goalId the id of the goal to investigate
+     * @throws IOException exception thrown if the goal details view cannot be loaded
+     */
     private void handleSeeMoreButton(Integer goalId) throws IOException {
         if (currentUser == null) {
             return;
