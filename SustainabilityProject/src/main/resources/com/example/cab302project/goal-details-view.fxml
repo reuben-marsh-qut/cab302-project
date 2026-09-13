@@ -16,6 +16,7 @@
 
     <Label fx:id="goalNameLabel" styleClass="page-header"/>
 
+    <Text fx:id="categoryText"/>
     <Text fx:id="startDateText"/>
     <Text fx:id="endDateText"/>
     <Text fx:id="progressText"/>

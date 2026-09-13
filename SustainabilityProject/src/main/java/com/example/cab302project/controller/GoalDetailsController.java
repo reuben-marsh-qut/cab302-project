@@ -36,6 +36,9 @@ public class GoalDetailsController {
     private Text progressText;
 
     @FXML
+    private Text categoryText;
+
+    @FXML
     private TextField progressUpdate;
 
     @FXML
@@ -91,6 +94,11 @@ public class GoalDetailsController {
         progressText.setText(formattedProgress);
     }
 
+    private void setCategoryText(Goal goal) {
+        String formattedCategory = String.format("Category: %s", goal.getCategory());
+        categoryText.setText(formattedCategory);
+    }
+
     /**
      * Handles the update progress button click event by updating the goal's progress and displayed text
      */
@@ -143,6 +151,7 @@ public class GoalDetailsController {
         goalNameLabel.setText(goal.getTitle());
         setDateText(goal);
         setProgressText(goal);
+        setCategoryText(goal);
         completeGoalButtons.setVisible(!goal.getIsComplete());
         completeGoalButtons.setManaged(!goal.getIsComplete());
     }
