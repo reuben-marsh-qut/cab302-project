@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cab302project.controller.ActivityController"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../../../stylesheets/home.css">
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <left>
+        <fx:include source="sidebar-view.fxml"/>
+    </left>
+
+    <center>
+        <VBox spacing="15">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+
+            <fx:include source="nav-bar-view.fxml"/>
+
+            <Label styleClass="page-header">Activities</Label>
+            <Label styleClass="page-subheader">Your activities to complete</Label>
+
+            <Separator/>
+
+            <HBox spacing="20">
+                <VBox styleClass="item-card" spacing="10" prefHeight="250" prefWidth="250">
+                    <padding>
+                        <Insets left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <!--                    TODO: Implement handlers for all of these fields-->
+                    <Label styleClass="item-category">Mind</Label>
+                    <Label styleClass="item-header" wrapText="true">Water the garden</Label>
+                    <Label styleClass="item-details">Progress: 0/1</Label>
+                    <Label styleClass="item-details">End Date: 06/09/2026</Label>
+
+                    <Region VBox.vgrow="ALWAYS"/>
+
+                    <ImageView fitHeight="70" fitWidth="70" preserveRatio="true">
+                        <Image url="@../../../assets/plantPot.png"/>
+                    </ImageView>
+                </VBox>
+            </HBox>
+
+            <Label styleClass="page-header">Completed Activities</Label>
+            <Label styleClass="page-subheader">View your completed activities</Label>
+
+            <Separator/>
+
+            <HBox spacing="20">
+                <VBox styleClass="item-card" spacing="10" prefHeight="250" prefWidth="250">
+                    <padding>
+                        <Insets left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <!--                    TODO: Implement handlers for all of these fields-->
+                    <Label styleClass="item-category">Mind</Label>
+                    <Label styleClass="item-header" wrapText="true">Mow the lawn</Label>
+                    <Label styleClass="item-details">Progress: 1/1</Label>
+                    <Label styleClass="item-details">End Date: 02/09/2026</Label>
+
+                    <Region VBox.vgrow="ALWAYS"/>
+
+                    <ImageView fitHeight="70" fitWidth="70" preserveRatio="true">
+                        <Image url="@../../../assets/plantPot.png"/>
+                    </ImageView>
+                </VBox>
+            </HBox>
+
+
+        </VBox>
+    </center>
+
+</BorderPane>

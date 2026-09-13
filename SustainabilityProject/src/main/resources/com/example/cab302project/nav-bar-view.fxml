@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.cab302project.controller.NavBarController"
+      stylesheets="@../../../stylesheets/home.css"
+      spacing="20" styleClass="home-nav-buttons" maxWidth="500">
+
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+    </padding>
+
+    <Button maxWidth="Infinity" prefHeight="40" prefWidth="100" onAction="#onGoalsButtonClick" fx:id="goalsButton" text="Goals"/>
+    <Button maxWidth="Infinity" prefHeight="40" prefWidth="100" onAction="#onHabitsButtonClick" fx:id="habitsButton" text="Habits"/>
+    <Button maxWidth="Infinity" prefHeight="40" prefWidth="100" onAction="#onActivitiesButtonClick" fx:id="activitiesButton" text="Activities"/>
+    <Button maxWidth="Infinity" prefHeight="40" prefWidth="100" onAction="#onSocialButtonClick" fx:id="socialButton" text="Social"/>
+    <Button maxWidth="Infinity" prefHeight="40" prefWidth="100" onAction="#onStatsButtonClick" fx:id="statsButton" text="Stats"/>
+
+</HBox>
