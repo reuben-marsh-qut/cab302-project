@@ -72,6 +72,7 @@ public class GoalDetailsController {
         Integer currentProgress = goal.getProgress();
         goal.setProgress(currentProgress + progressUpdate);
         goalDAO.updateGoal(goal);
+        setProgressText(goal);
     }
 
     @FXML

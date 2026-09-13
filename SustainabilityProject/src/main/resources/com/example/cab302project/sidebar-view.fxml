@@ -22,7 +22,7 @@
 
         <VBox spacing="20">
             <!--                TODO: Create handlers for page navigation-->
-            <Button text="Home" maxWidth="Infinity" prefHeight="50"/>
+            <Button text="Home" maxWidth="Infinity" prefHeight="50" onAction="#onHomeButtonClick" fx:id="homeButton"/>
             <Button text="Your Page" maxWidth="Infinity" prefHeight="50"/>
             <Button text="Settings" maxWidth="Infinity" prefHeight="50"/>
         </VBox>

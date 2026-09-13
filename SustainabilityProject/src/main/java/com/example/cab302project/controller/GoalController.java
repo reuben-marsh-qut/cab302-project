@@ -77,6 +77,10 @@ public class GoalController {
                         goalCard(goal)
                 );
             }
+        } else {
+            incompleteGoalsContainer.getChildren().add(
+                    noGoalText()
+            );
         }
 
         if (hasCompletedGoals) {
@@ -85,12 +89,24 @@ public class GoalController {
                         goalCard(goal)
                 );
             }
+        } else {
+            completeGoalsContainer.getChildren().add(
+                    noCompleteGoalText()
+            );
         }
 
-        incompleteGoalsContainer.setVisible(hasIncompleteGoals);
-        incompleteGoalsContainer.setManaged(hasIncompleteGoals);
-        completeGoalsContainer.setVisible(hasIncompleteGoals);
-        completeGoalsContainer.setManaged(hasIncompleteGoals);
+        incompleteGoalsContainer.setVisible(true);
+        incompleteGoalsContainer.setManaged(true);
+        completeGoalsContainer.setVisible(true);
+        completeGoalsContainer.setManaged(true);
+    }
+
+    private Label noGoalText() {
+        return new Label("No goals yet. Set a goal to track your progress!");
+    }
+
+    private Label noCompleteGoalText() {
+        return new Label("No completed goals yet. Achieve your goals and they will appear here!");
     }
 
     /**
