@@ -70,14 +70,12 @@ public class LoginController {
     private void openHomePage(User user) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(
-                HelloApplication.class.getResource("home-view.fxml")
+                HelloApplication.class.getResource("goal-view.fxml")
         );
 
-        Scene scene = new Scene(loader.load(), 732 * 2, 412 * 2);
+        UserSession.getInstance().setUser(user);
 
-        HomeController homeController = loader.getController();
-
-        homeController.setCurrentUser(user);
+        Scene scene = new Scene(loader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
 
         Stage stage = (Stage) emailField
                 .getScene()

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.cab302project.controller.SidebarController"
+      stylesheets="@../../../stylesheets/home.css"
+      prefWidth="250" alignment="TOP_CENTER">
+
+        <ImageView fitHeight="70" fitWidth="70" preserveRatio="true">
+            <Image url="@../../../assets/logo.png"/>
+        </ImageView>
+
+        <Separator prefHeight="50"/>
+
+        <VBox spacing="20">
+            <!--                TODO: Create handlers for page navigation-->
+            <Button text="Home" maxWidth="Infinity" prefHeight="50" onAction="#onHomeButtonClick" fx:id="homeButton"/>
+            <Button text="Your Page" maxWidth="Infinity" prefHeight="50"/>
+            <Button text="Settings" maxWidth="Infinity" prefHeight="50"/>
+        </VBox>
+
+        <Separator prefHeight="50"/>
+
+        <Region VBox.vgrow="ALWAYS"/>
+        <!--            TODO: Create a handler for sign out-->
+        <Button text="Sign Out" maxWidth="Infinity" prefHeight="50"/>
+</VBox>

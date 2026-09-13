@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.cab302project.controller.GoalDetailsController"
+      prefHeight="400.0" prefWidth="600.0" spacing="20">
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Label fx:id="goalNameLabel" styleClass="page-header"/>
+
+    <Text fx:id="categoryText"/>
+    <Text fx:id="startDateText"/>
+    <Text fx:id="endDateText"/>
+    <Text fx:id="progressText"/>
+    
+    <HBox spacing="100" fx:id="completeGoalButtons">
+        <VBox spacing="20">
+            <Label styleClass="page-subheader" text="Update your progress!"/>
+            <TextField fx:id="progressUpdate" promptText="Add to progress"/>
+            <Button mnemonicParsing="false" onAction="#onUpdateProgress" prefHeight="40.0" prefWidth="120.0"
+                    text="Update progress"/>
+        </VBox>
+
+        <VBox spacing="20">
+            <Label styleClass="page-subheader" text="Mark you goal as complete!"/>
+            <Button mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="120.0"
+                    text="Mark as Complete"/>
+        </VBox>
+    </HBox>
+
+    <Separator/>
+
+    <Label styleClass="page-subheader" text="Delete your goal"/>
+    <Button mnemonicParsing="false" onAction="#onDelete" prefHeight="40.0" prefWidth="120.0" text="Delete this Goal"/>
+
+    <Separator/>
+
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <Button mnemonicParsing="false" onAction="#onBack" prefHeight="40.0" prefWidth="120.0" text="Back"/>
+
+</VBox>
