@@ -216,7 +216,7 @@ public class ActivityDAO
         }
     }
 
-    public void createActivity(Activity activity)
+    public void addActivity(Activity activity)
     {
         try
         {
