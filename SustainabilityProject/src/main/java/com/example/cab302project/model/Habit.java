@@ -139,6 +139,9 @@ public class Habit {
     public Integer getRepeatFrequency() {
         return repeatFrequency;
     }
+    public RepeatFrequencyType getRepeatFrequencyType() {
+        return repeatFrequencyType;
+    }
 
     public LocalDate getStartDateTime() {
         return startDate;
@@ -169,7 +172,11 @@ public class Habit {
 
     public void setAwardedXpReward(Integer awardedXpReward) { }// TODO:Fix
 
-    public boolean isDoesContributeDirectlyToGoal() {
+    public boolean getDoesContributeDirectlyToGoal() {
         return doesContributeDirectlyToGoal;
+    }
+
+    public TaskType getHabitType() {
+        return habitType;
     }
 }

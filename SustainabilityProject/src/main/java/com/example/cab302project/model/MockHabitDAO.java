@@ -3,9 +3,7 @@ package com.example.cab302project.model;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
-import org.apache.maven.wagon.ResourceDoesNotExistException;
 
-import java.awt.color.ICC_ColorSpace;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +13,22 @@ public class MockHabitDAO implements IHabitDAO {
     private int autoIncrementedId = 0;
 
     @Override
-    public void addHabit(Habit activity) {
+    public boolean addHabit(Habit activity) {
         activity.setId(autoIncrementedId);
         autoIncrementedId++;
         habits.add(activity);
+        return true;
     }
 
     @Override
-    public void updateHabit(Habit activity) {
+    public boolean updateHabit(Habit activity) {
         for (int i = 0; i < habits.size(); i++) {
             if (habits.get(i).getId() == activity.getId()) {
                 habits.set(i, activity);
                 break;
             }
         }
+        return false;
     }
 
     @Override
@@ -54,6 +54,16 @@ public class MockHabitDAO implements IHabitDAO {
     @Override
     public int getHabitCompletionStreak(Habit habit) {
         return -1; // TODO: fix me
+    }
+
+    @Override
+    public Activity getCurrentAssociatedTask(Habit habit) {
+        return null; // TODO: fix me
+    }
+
+    @Override
+    public List<Activity> getAllAssociatedTasks(Habit habit) {
+        return List.of(); // TODO: fix me
     }
 
     @Override
