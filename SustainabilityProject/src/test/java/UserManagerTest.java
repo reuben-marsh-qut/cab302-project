@@ -163,6 +163,48 @@ public class UserManagerTest {
     }
 
     @Test
+    void validRegistrationShouldCreateUser() {
+        String result = userManager.register(
+                "new@example.com",
+                "password123",
+                4000
+        );
+
+        assertNull(result);
+
+        User user = userDAO.getUserByEmail("new@example.com");
+        assertNotNull(user);
+        assertEquals("new@example.com", user.getEmail());
+        assertEquals(0, user.getUserExperience());
+        assertEquals(4000, user.getPostcode());
+    }
+
+    @Test
+    void duplicateEmailShouldFailRegistration() {
+        assertEquals("Email already registered.", userManager.register("test@example.com", "password123", 4000));
+    }
+
+    @Test
+    void blankEmailShouldFailRegistration() {
+        assertEquals("Enter an email and password.", userManager.register(" ", "password123", 4000));
+    }
+
+    @Test
+    void invalidEmailShouldFailRegistration() {
+        assertEquals("Enter a valid email.", userManager.register("not-an-email", "password123", 4000));
+    }
+
+    @Test
+    void shortPasswordShouldFailRegistration() {
+        assertEquals("Password must be at least 8 characters.", userManager.register("new@example.com", "short", 4000));
+    }
+
+    @Test
+    void invalidPostcodeShouldFailRegistration() {
+        assertEquals("Enter a valid postcode.", userManager.register("new@example.com", "password123", 999));
+    }
+
+    @Test
     void passwordShouldBeCaseSensitive() {
 
         User result = userManager.login(
