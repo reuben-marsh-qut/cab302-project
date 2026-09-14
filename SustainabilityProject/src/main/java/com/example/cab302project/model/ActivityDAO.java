@@ -36,6 +36,7 @@ public class ActivityDAO implements IActivityDAO
 
         try
         {
+
             int taskId = results.getInt("taskId");
             int goalId = results.getInt("goalId");
             int habitId = results.getInt("habitId");
