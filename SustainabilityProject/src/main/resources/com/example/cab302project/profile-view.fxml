@@ -5,24 +5,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cab302project.controller.ProfileController"
-            prefHeight="800.0"
-            prefWidth="1400.0"
-            stylesheets="@../../../stylesheets/home.css">
+            prefHeight="800"
+            prefWidth="1400"
+            stylesheets="@../../../stylesheets/home.css"
+            styleClass="page-body">
 
     <padding>
-        <Insets bottom="20.0"
-                left="20.0"
-                right="20.0"
-                top="20.0"/>
+        <Insets top="28"
+                right="28"
+                bottom="28"
+                left="28"/>
     </padding>
 
     <left>
@@ -37,98 +38,174 @@
                     hbarPolicy="NEVER"
                     vbarPolicy="AS_NEEDED">
 
-            <VBox spacing="18"
-                  maxWidth="700">
+            <VBox spacing="26">
 
                 <padding>
-                    <Insets bottom="40.0"
-                            left="30.0"
-                            right="30.0"
-                            top="20.0"/>
+                    <Insets top="8"
+                            right="10"
+                            bottom="40"
+                            left="32"/>
                 </padding>
 
-                <!-- Top navigation -->
                 <fx:include source="nav-bar-view.fxml"/>
 
-                <Region prefHeight="5"/>
+                <VBox spacing="6">
 
-                <!-- Page heading -->
-                <Label text="Your Profile"
-                       styleClass="page-header"/>
+                    <Label text="Your Profile"
+                           styleClass="page-header"/>
 
-                <Label text="View and manage your account details."
-                       styleClass="page-subheader"/>
+                    <Label text="Manage your account information and security."
+                           styleClass="page-subheader"/>
 
-                <Separator/>
+                </VBox>
 
-                <!-- Account details -->
-                <Label text="Account Details"
-                       styleClass="item-header"/>
 
-                <Label text="Email"/>
+                <!-- ACCOUNT DETAILS -->
 
-                <TextField fx:id="emailField"
-                           promptText="Email"
-                           maxWidth="600"/>
+                <VBox spacing="0"
+                      maxWidth="650"
+                      styleClass="card">
 
-                <Label text="Postcode"/>
+                    <Label text="Account details"
+                           styleClass="section-title"/>
 
-                <TextField fx:id="postcodeField"
-                           promptText="Postcode"
-                           maxWidth="600"/>
+                    <Label text="Update the information associated with your Rooted account."
+                           styleClass="section-description"
+                           wrapText="true">
 
-                <Button text="Save Changes"
-                        onAction="#onSaveProfileClick"
-                        prefWidth="180"
-                        prefHeight="40"/>
+                        <VBox.margin>
+                            <Insets top="6"
+                                    bottom="28"/>
+                        </VBox.margin>
 
-                <Label fx:id="profileMessageLabel"
-                       visible="false"
-                       managed="false"
-                       wrapText="true"/>
+                    </Label>
 
-                <Region prefHeight="10"/>
 
-                <Separator/>
+                    <Label text="Email"
+                           styleClass="field-label"/>
 
-                <Region prefHeight="5"/>
+                    <TextField fx:id="emailField"
+                               promptText="you@example.com"
+                               maxWidth="Infinity"/>
 
-                <!-- Password section -->
-                <Label text="Password &amp; Security"
-                       styleClass="item-header"/>
+                    <Region prefHeight="18"/>
 
-                <Label text="Change your password by confirming your current password first."
-                       wrapText="true"/>
 
-                <Label text="Current Password"/>
+                    <Label text="Postcode"
+                           styleClass="field-label"/>
 
-                <PasswordField fx:id="currentPasswordField"
-                               promptText="Current password"
-                               maxWidth="600"/>
+                    <TextField fx:id="postcodeField"
+                               promptText="4000"
+                               maxWidth="Infinity"/>
 
-                <Label text="New Password"/>
 
-                <PasswordField fx:id="newPasswordField"
-                               promptText="New password"
-                               maxWidth="600"/>
+                    <Label fx:id="profileMessageLabel"
+                           visible="false"
+                           managed="false"
+                           wrapText="true"
+                           maxWidth="Infinity">
 
-                <Label text="Confirm New Password"/>
+                        <VBox.margin>
+                            <Insets top="14"/>
+                        </VBox.margin>
 
-                <PasswordField fx:id="confirmPasswordField"
-                               promptText="Confirm new password"
-                               maxWidth="600"/>
+                    </Label>
 
-                <Button text="Change Password"
-                        onAction="#onChangePasswordClick"
-                        prefWidth="180"
-                        prefHeight="40"/>
 
-                <Label fx:id="passwordMessageLabel"
-                       visible="false"
-                       managed="false"
-                       wrapText="true"/>
+                    <HBox alignment="CENTER_RIGHT">
 
-                <Region prefHeight="30"/>
+                        <VBox.margin>
+                            <Insets top="24"/>
+                        </VBox.margin>
+
+                        <Button fx:id="saveProfileButton"
+                                text="Save Changes"
+                                onAction="#onSaveProfileClick"
+                                prefWidth="160"
+                                styleClass="primary-button"/>
+
+                    </HBox>
+
+                </VBox>
+
+
+                <!-- PASSWORD SECURITY -->
+
+                <VBox spacing="0"
+                      maxWidth="650"
+                      styleClass="card">
+
+                    <Label text="Password &amp; security"
+                           styleClass="section-title"/>
+
+                    <Label text="Change your password by confirming your current password first."
+                           styleClass="section-description"
+                           wrapText="true">
+
+                        <VBox.margin>
+                            <Insets top="6"
+                                    bottom="28"/>
+                        </VBox.margin>
+
+                    </Label>
+
+
+                    <Label text="Current password"
+                           styleClass="field-label"/>
+
+                    <PasswordField fx:id="currentPasswordField"
+                                   promptText="Enter your current password"
+                                   maxWidth="Infinity"/>
+
+                    <Region prefHeight="18"/>
+
+
+                    <Label text="New password"
+                           styleClass="field-label"/>
+
+                    <PasswordField fx:id="newPasswordField"
+                                   promptText="Enter a new password"
+                                   maxWidth="Infinity"/>
+
+                    <Region prefHeight="18"/>
+
+
+                    <Label text="Confirm new password"
+                           styleClass="field-label"/>
+
+                    <PasswordField fx:id="confirmPasswordField"
+                                   promptText="Enter your new password again"
+                                   maxWidth="Infinity"/>
+
+
+                    <Label fx:id="passwordMessageLabel"
+                           visible="false"
+                           managed="false"
+                           wrapText="true"
+                           maxWidth="Infinity">
+
+                        <VBox.margin>
+                            <Insets top="14"/>
+                        </VBox.margin>
+
+                    </Label>
+
+
+                    <HBox alignment="CENTER_RIGHT">
+
+                        <VBox.margin>
+                            <Insets top="24"/>
+                        </VBox.margin>
+
+                        <Button fx:id="changePasswordButton"
+                                text="Change Password"
+                                onAction="#onChangePasswordClick"
+                                prefWidth="180"
+                                styleClass="primary-button"/>
+
+                    </HBox>
+
+                </VBox>
 
             </VBox>
 
