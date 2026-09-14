@@ -15,6 +15,8 @@ public interface IHabitDAO {
     public Habit getHabitById(int id); // Read
     public List<Habit> getAllHabits(); // Read
    public int getHabitCompletionStreak(Habit habit);
+   public Activity getCurrentAssociatedTask(Habit habit);
+   public List<Activity> getAllAssociatedTasks(Habit habit);
    public boolean createHabit (Goal goal, User user, String title, Category category,
                                TaskType taskType, int completionThreshold, int baseXpReward,
                                int repeatFrequency, RepeatFrequencyType repeatFrequencyType,

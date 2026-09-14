@@ -1,6 +1,7 @@
 import com.example.cab302project.model.Habit;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
+import com.example.cab302project.model.enums.TaskType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class HabitTest {
     @BeforeEach
     public void setUp() {
         habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                CompletionType.BINARY, 1, LocalDate.now(),
+                TaskType.BINARY, 1, LocalDate.now(),
                 LocalDate.now().plusDays(30), 21, 31, 41,
                 21, false);
     }
@@ -90,7 +91,7 @@ public class HabitTest {
     @Test
     void testCreateHabitWithNoDueDateShouldSucceed() {
         Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                CompletionType.BINARY, 1, LocalDate.now(),
+                TaskType.BINARY, 1, LocalDate.now(),
                 null, 0, 31, 41,
                 21, false);
 
@@ -100,7 +101,7 @@ public class HabitTest {
     @Test
     void newHabitShouldNotBeComplete() {
         Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                CompletionType.BINARY, 1, LocalDate.now(),
+                TaskType.BINARY, 1, LocalDate.now(),
                 LocalDate.now().plusDays(30), 0, 31, 41,
                 21, false);
         assertTrue(habit.getProgress() < habit.getCompletionThreshold());
@@ -110,7 +111,7 @@ public class HabitTest {
     void createHabitWithBlankTitleShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
                 () -> new Habit(1, 1, "", Category.MIND,
-                        CompletionType.BINARY, 1, LocalDate.now(),
+                        TaskType.BINARY, 1, LocalDate.now(),
                         LocalDate.now().plusDays(30), 21, 31, 41,
                         21, false),
                 "A habit with a blank title should throw an exception.");
@@ -120,7 +121,7 @@ public class HabitTest {
     void createHabitWithZeroThresholdShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
                 () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                        CompletionType.BINARY, 1, LocalDate.now(),
+                        TaskType.BINARY, 1, LocalDate.now(),
                         LocalDate.now().plusDays(30), 0, 0, 41,
                         21, false),
                 "A goal with a completion threshold of zero should throw an exception.");
@@ -130,7 +131,7 @@ public class HabitTest {
     void createHabitWithPastDueDateShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
                 () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                        CompletionType.BINARY, 1, LocalDate.now().minusDays(60),
+                        TaskType.BINARY, 1, LocalDate.now().minusDays(60),
                         LocalDate.now().minusDays(30), 21, 31, 41,
                         21, false),
                 "A habit with a due date in the past should throw an exception.");
@@ -140,7 +141,7 @@ public class HabitTest {
     void createHabitWithDueDateBeforeStartShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
                 () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                        CompletionType.BINARY, 1, LocalDate.now(),
+                        TaskType.BINARY, 1, LocalDate.now(),
                         LocalDate.now().minusDays(30), 21, 31, 41,
                         21, false),
                 "A habit that is due before it starts should throw an exception.");

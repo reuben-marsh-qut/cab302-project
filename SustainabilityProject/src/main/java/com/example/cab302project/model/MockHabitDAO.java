@@ -1,8 +1,12 @@
 package com.example.cab302project.model;
 
+import com.example.cab302project.model.enums.Category;
+import com.example.cab302project.model.enums.RepeatFrequencyType;
+import com.example.cab302project.model.enums.TaskType;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 
 import java.awt.color.ICC_ColorSpace;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,5 +54,10 @@ public class MockHabitDAO implements IHabitDAO {
     @Override
     public int getHabitCompletionStreak(Habit habit) {
         return -1; // TODO: fix me
+    }
+
+    @Override
+    public boolean createHabit(Goal goal, User user, String title, Category category, TaskType taskType, int completionThreshold, int baseXpReward, int repeatFrequency, RepeatFrequencyType repeatFrequencyType, LocalDate startDate, LocalDate endDate, boolean doesContributeDirectlyToGoal) {
+        return false;
     }
 }

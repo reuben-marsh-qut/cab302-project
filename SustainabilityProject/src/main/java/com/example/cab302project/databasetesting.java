@@ -20,7 +20,11 @@ public class databasetesting {
 //            dao.createUser("anne@anne.com", "chickens",4000);
 //            dao.createUser("bob@anne.com", "squares",4200);
 //            dao.createUser("jerryob@anne.com", "circles",4200);
+
 //            User anne = dao.loginUser("anne@anne.com", "chickens");
+//            System.out.println(anne.getUserId());
+//            System.out.println(dao.getUserByEmail("bob@anne.com").toString());
+//            System.out.println(dao.getUserById(anne.getUserId()).toString());
 //            System.out.println(dao.getAllUsers());
 //            dao.deleteUser(anne);
 //            System.out.println(dao.getAllUsers());
