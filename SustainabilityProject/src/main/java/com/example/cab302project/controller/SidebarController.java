@@ -22,7 +22,19 @@ public class SidebarController {
     private Button homeButton;
 
     @FXML
-    private Button profileButton;
+    private Button goalsButton;
+
+    @FXML
+    private Button habitsButton;
+
+    @FXML
+    private Button activitiesButton;
+
+    @FXML
+    private Button socialButton;
+
+    @FXML
+    private Button statsButton;
 
     @FXML
     private HBox accountMenuButton;
@@ -55,7 +67,6 @@ public class SidebarController {
 
             userNameLabel.setText("Not signed in");
             userEmailLabel.setText("");
-
             avatarInitialLabel.setText("?");
 
             return;
@@ -184,7 +195,6 @@ public class SidebarController {
         if (accountMenu.isShowing()) {
 
             accountMenu.hide();
-
             return;
         }
 
@@ -200,8 +210,80 @@ public class SidebarController {
     protected void onHomeButtonClick()
             throws IOException {
 
+        openPage(
+                homeButton,
+                "goal-view.fxml"
+        );
+    }
+
+    @FXML
+    protected void onGoalsButtonClick()
+            throws IOException {
+
+        openPage(
+                goalsButton,
+                "goal-view.fxml"
+        );
+    }
+
+    @FXML
+    protected void onHabitsButtonClick()
+            throws IOException {
+
+        /*
+         * There is no dedicated habits page yet.
+         * This preserves the behaviour from the old
+         * NavBarController.
+         */
+        openPage(
+                habitsButton,
+                "goal-view.fxml"
+        );
+    }
+
+    @FXML
+    protected void onActivitiesButtonClick()
+            throws IOException {
+
+        openPage(
+                activitiesButton,
+                "activity-view.fxml"
+        );
+    }
+
+    @FXML
+    protected void onSocialButtonClick()
+            throws IOException {
+
+        /*
+         * There is no dedicated social page yet.
+         */
+        openPage(
+                socialButton,
+                "goal-view.fxml"
+        );
+    }
+
+    @FXML
+    protected void onStatsButtonClick()
+            throws IOException {
+
+        /*
+         * There is no dedicated stats page yet.
+         */
+        openPage(
+                statsButton,
+                "goal-view.fxml"
+        );
+    }
+
+    private void openPage(
+            Button sourceButton,
+            String resource
+    ) throws IOException {
+
         Stage stage =
-                (Stage) homeButton
+                (Stage) sourceButton
                         .getScene()
                         .getWindow();
 
@@ -209,7 +291,7 @@ public class SidebarController {
                 new FXMLLoader(
                         HelloApplication.class
                                 .getResource(
-                                        "goal-view.fxml"
+                                        resource
                                 )
                 );
 
@@ -221,13 +303,6 @@ public class SidebarController {
                 );
 
         stage.setScene(scene);
-    }
-
-    @FXML
-    protected void onProfileButtonClick()
-            throws IOException {
-
-        openProfilePage();
     }
 
     private void openProfilePage()

@@ -45,6 +45,7 @@
 
     <Region prefHeight="22"/>
 
+    <!-- Main navigation -->
     <Label text="MAIN"
            styleClass="sidebar-section-label"/>
 
@@ -54,12 +55,37 @@
             onAction="#onHomeButtonClick"
             styleClass="sidebar-button"/>
 
-    <Button fx:id="profileButton"
-            text="Your Profile"
+    <Button fx:id="goalsButton"
+            text="Goals"
             maxWidth="Infinity"
-            onAction="#onProfileButtonClick"
+            onAction="#onGoalsButtonClick"
             styleClass="sidebar-button"/>
 
+    <Button fx:id="habitsButton"
+            text="Habits"
+            maxWidth="Infinity"
+            onAction="#onHabitsButtonClick"
+            styleClass="sidebar-button"/>
+
+    <Button fx:id="activitiesButton"
+            text="Activities"
+            maxWidth="Infinity"
+            onAction="#onActivitiesButtonClick"
+            styleClass="sidebar-button"/>
+
+    <Button fx:id="socialButton"
+            text="Social"
+            maxWidth="Infinity"
+            onAction="#onSocialButtonClick"
+            styleClass="sidebar-button"/>
+
+    <Button fx:id="statsButton"
+            text="Stats"
+            maxWidth="Infinity"
+            onAction="#onStatsButtonClick"
+            styleClass="sidebar-button"/>
+
+    <!-- Account navigation -->
     <Label text="ACCOUNT"
            styleClass="sidebar-section-label"/>
 
@@ -69,7 +95,7 @@
 
     <Region VBox.vgrow="ALWAYS"/>
 
-    <!-- Account menu -->
+    <!-- Logged-in user -->
     <HBox fx:id="accountMenuButton"
           alignment="CENTER_LEFT"
           spacing="12"
@@ -77,7 +103,6 @@
           onMouseClicked="#onAccountMenuClick"
           styleClass="sidebar-account">
 
-        <!-- Placeholder avatar -->
         <StackPane minWidth="40"
                    minHeight="40"
                    prefWidth="40"
@@ -92,7 +117,6 @@
 
         </StackPane>
 
-        <!-- User details -->
         <VBox spacing="2"
               HBox.hgrow="ALWAYS">
 
