@@ -46,13 +46,14 @@ public class RegisterController {
             return;
         }
 
-        int postcode;
-        try {
-            postcode = Integer.parseInt(postcodeField.getText());
-        } catch (NumberFormatException e) {
-            showError("Enter a valid postcode.");
+        String postcodeText = postcodeField.getText().trim();
+
+        if (!postcodeText.matches("\\d{4}")) {
+            showError("Enter a valid 4-digit postcode.");
             return;
         }
+
+        int postcode = Integer.parseInt(postcodeText);
 
         String error = userManager.register(emailField.getText(), password, postcode);
         if (error != null) {

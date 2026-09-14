@@ -34,7 +34,7 @@ public class UserManager {
             return "Password must be at least 8 characters.";
         }
 
-        if (postcode < 1000 || postcode > 9999) {
+        if (postcode < 0 || postcode > 9999) {
             return "Enter a valid postcode.";
         }
 
@@ -88,7 +88,7 @@ public class UserManager {
             return "Enter a valid email.";
         }
 
-        if (postcode < 1000 || postcode > 9999) {
+        if (postcode < 0 || postcode > 9999) {
             return "Enter a valid postcode.";
         }
 
