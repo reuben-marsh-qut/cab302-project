@@ -21,7 +21,7 @@ public class Activity {
     private Integer baseXpReward;
     private Integer awardedXpReward;
     // if true this progress in this activity directly adds contribution to the associated goal
-    private boolean doesContributeDirectlyToGoal;
+    private boolean doesContributeDirectlyToGoal; // TODO: handle this in updateGoalDAO
     public Activity(Integer goalId, Integer habitId, Integer userId, String title, Category category,
                     CompletionType activityType, LocalDateTime startDateTime, LocalDateTime dueDateTime,
                     Integer progress, Integer completionThreshold, Integer baseXpReward, Integer awardedXpReward,

@@ -169,11 +169,44 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User getUserById(int userId) {
+        Connection conn = DatabaseConnection.getInstance();
+
+        try {
+            PreparedStatement getUser = conn.prepareStatement("SELECT * FROM users WHERE userId=?");
+            getUser.setInt(1,userId);
+            ResultSet userSet = getUser.executeQuery();
+            while (userSet.next()){
+                return (new User(userSet.getInt("userId"),
+                        userSet.getString("email"),
+                        userSet.getString("passwordHash"),
+                        userSet.getInt("userExperience"),
+                        userSet.getInt("postcode")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     @Override
     public User getUserByEmail(String email) {
+
+        Connection conn = DatabaseConnection.getInstance();
+
+        try {
+            PreparedStatement getUser = conn.prepareStatement("SELECT * FROM users WHERE email=?");
+            getUser.setString(1,email);
+            ResultSet userSet = getUser.executeQuery();
+            while (userSet.next()){
+                return (new User(userSet.getInt("userId"),
+                        userSet.getString("email"),
+                        userSet.getString("passwordHash"),
+                        userSet.getInt("userExperience"),
+                        userSet.getInt("postcode")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
