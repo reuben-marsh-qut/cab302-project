@@ -1,6 +1,6 @@
 package com.example.cab302project.model.enums;
 
-public enum repeatFrequencyType {
+public enum RepeatFrequencyType {
     DAILY,
     WEEKLY,
     MONTHLY,

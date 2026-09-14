@@ -2,6 +2,7 @@ package com.example.cab302project.model;
 
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
+import com.example.cab302project.model.enums.RepeatFrequencyType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,19 +14,20 @@ public class Habit {
     private String title;
     private Category category;
     private CompletionType habitType;
-    private Integer repeatFrequencyDays;
+    private Integer repeatFrequency;
+    private RepeatFrequencyType repeatFrequencyType;
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer progress;
     private Integer completionThreshold;
     private Integer baseXpReward;
-    private Integer awardedXpReward;
+    private Integer awardedXpReward; // TODO: this belongs on activities
     // if true this progress in this activity directly adds contribution to the associated goal
     private boolean doesContributeDirectlyToGoal;
 
 
     public Habit(Integer goalId, Integer userId, String title, Category category,
-                 CompletionType habitType, Integer repeatFrequencyDays, LocalDate startDate,
+                 CompletionType habitType, Integer repeatFrequency, LocalDate startDate,
                  LocalDate endDate, Integer progress, Integer completionThreshold, Integer baseXpReward,
                  Integer awardedXpReward, boolean doesContributeDirectlyToGoal) {
         validateTitle(title);
@@ -37,7 +39,31 @@ public class Habit {
         this.title = title;
         this.category = category;
         this.habitType = habitType;
-        this.repeatFrequencyDays = repeatFrequencyDays;
+        this.repeatFrequency = repeatFrequency;
+        this.repeatFrequencyType = RepeatFrequencyType.DAILY;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.progress = progress;
+        this.completionThreshold = completionThreshold;
+        this.baseXpReward = baseXpReward;
+        this.awardedXpReward = awardedXpReward;
+        this.doesContributeDirectlyToGoal = doesContributeDirectlyToGoal;
+    }
+    public Habit(Integer goalId, Integer userId, String title, Category category,
+                 CompletionType habitType, Integer repeatFrequency, RepeatFrequencyType repeatFrequencyType, LocalDate startDate,
+                 LocalDate endDate, Integer progress, Integer completionThreshold, Integer baseXpReward,
+                 Integer awardedXpReward, boolean doesContributeDirectlyToGoal) {
+        validateTitle(title);
+        validateCompletionThreshold(completionThreshold);
+        validateDates(startDate, endDate);
+
+        this.goalId = goalId;
+        this.userId = userId;
+        this.title = title;
+        this.category = category;
+        this.habitType = habitType;
+        this.repeatFrequency = repeatFrequency;
+        this.repeatFrequencyType = repeatFrequencyType;
         this.startDate = startDate;
         this.endDate = endDate;
         this.progress = progress;
@@ -105,8 +131,12 @@ public class Habit {
         return habitType;
     }
 
+    // TODO:fix depreciated
     public Integer getRepeatFrequencyDays() {
-        return repeatFrequencyDays;
+        return repeatFrequency;
+    }
+    public Integer getRepeatFrequency() {
+        return repeatFrequency;
     }
 
     public LocalDate getStartDateTime() {

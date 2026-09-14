@@ -1,5 +1,11 @@
 package com.example.cab302project.model;
 
+import com.example.cab302project.model.enums.Category;
+import com.example.cab302project.model.enums.CompletionType;
+import com.example.cab302project.model.enums.RepeatFrequencyType;
+import com.example.cab302project.model.enums.TaskType;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IHabitDAO {
@@ -8,4 +14,14 @@ public interface IHabitDAO {
     public void deleteHabit(Habit habit); // Delete
     public Habit getHabitById(int id); // Read
     public List<Habit> getAllHabits(); // Read
+   public int getHabitCompletionStreak(Habit habit);
+   public boolean createHabit (Goal goal, User user, String title, Category category,
+                               TaskType taskType, int completionThreshold, int baseXpReward,
+                               int repeatFrequency, RepeatFrequencyType repeatFrequencyType,
+                               LocalDate startDate, LocalDate endDate, boolean doesContributeDirectlyToGoal);
+//   public boolean createHabit (User user, String title,
+//                               Category category, CompletionType completionType, int completionThreshold,
+//                               int baseXpReward, int repeatFrequency, RepeatFrequencyType repeatFrequencyType,
+//                               LocalDate endDate);
+
 }

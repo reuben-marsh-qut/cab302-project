@@ -1,5 +1,7 @@
 package com.example.cab302project.model;
 
+import org.apache.maven.wagon.ResourceDoesNotExistException;
+
 import java.awt.color.ICC_ColorSpace;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,5 +45,10 @@ public class MockHabitDAO implements IHabitDAO {
     @Override
     public List<Habit> getAllHabits() {
         return new ArrayList<>(habits);
+    }
+
+    @Override
+    public int getHabitCompletionStreak(Habit habit) {
+        return -1; // TODO: fix me
     }
 }
