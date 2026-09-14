@@ -29,39 +29,6 @@ import com.example.cab302project.model.enums.CompletionType;
 ///     awardedXpReward INTEGER NOT NULL,
 ///     doesContributeDirectlyToGoal INTEGER NOT NULL CHECK (doesContributeDirectlyToGoal IN (0, 1))
 
-
-/// PreparedStatement getGoal = getGoalconnection.prepareStatement("SELECT * FROM goals WHERE goalId = ?");
-///             getGoal.setInt(1, id);
-///             ResultSet goalGetResults = getGoal.executeQuery();
-///             int goalId = goalGetResults.getInt("goalId");
-///             int userId = goalGetResults.getInt("userId");
-///             String goalTitle = goalGetResults.getString("goalTitle");
-///             int category = goalGetResults.getInt("catagory");
-///             Category enumCat = Category.values()[category];
-///             int startTime = goalGetResults.getInt("startsAtUnixTime");
-///             LocalDate localStartDate = Instant.ofEpochSecond(startTime).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
-///             String dueDate = goalGetResults.getString("dueUnixTime");
-///             int dueDateInt;
-///             LocalDate localDueDate;
-///             if (dueDate == null)
-///             {
-///                 localDueDate = null;
-///             }
-///             else
-///             {
-///
-///                 dueDateInt = Integer.parseInt(dueDate);
-///                 localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
-///             }
-///             int progress = goalGetResults.getInt("progress");
-///             int completionThreshold = goalGetResults.getInt("completionThreshold");
-///             int completionType = goalGetResults.getInt("completionType");
-///             CompletionType enumComp = CompletionType.values()[completionType];
-///             int isComplete = goalGetResults.getInt("isComplete");
-///             boolean boolComplete = (isComplete != 0);
-
-
-
 public class ActivityDAO
 {
     private Activity activityFromDatabaseRequest(ResultSet results)
