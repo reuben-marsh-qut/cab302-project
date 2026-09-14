@@ -280,4 +280,16 @@ public class UserManagerTest {
         assertEquals("updated@example.com", updatedUser.getEmail());
         assertEquals(4051, updatedUser.getPostcode());
     }
+
+    @Test
+    void updateProfileWithoutLoggedInUserShouldFail() {
+
+        String result = userManager.updateProfile(
+                null,
+                "updated@example.com",
+                4051
+        );
+
+        assertEquals("No user is logged in.", result);
+    }
 }
