@@ -16,7 +16,11 @@ public class MockUserDAO implements IUserDAO {
 
     @Override
     public boolean createUser(String email, String password, int postcode) {
-        return false;
+        if (getUserByEmail(email) != null) {
+            return false;
+        }
+        users.add(new User(users.size() + 1, email, password, 0, postcode));
+        return true;
     }
 
     @Override
