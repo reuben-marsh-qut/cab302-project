@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cab302project.controller.ProfileController"
+            prefHeight="800.0"
+            prefWidth="1400.0"
+            stylesheets="@../../../stylesheets/home.css">
+
+    <padding>
+        <Insets bottom="20.0"
+                left="20.0"
+                right="20.0"
+                top="20.0"/>
+    </padding>
+
+    <left>
+
+        <fx:include source="sidebar-view.fxml"/>
+
+    </left>
+
+    <center>
+
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED">
+
+            <VBox spacing="18"
+                  maxWidth="700">
+
+                <padding>
+                    <Insets bottom="40.0"
+                            left="30.0"
+                            right="30.0"
+                            top="20.0"/>
+                </padding>
+
+                <!-- Top navigation -->
+                <fx:include source="nav-bar-view.fxml"/>
+
+                <Region prefHeight="5"/>
+
+                <!-- Page heading -->
+                <Label text="Your Profile"
+                       styleClass="page-header"/>
+
+                <Label text="View and manage your account details."
+                       styleClass="page-subheader"/>
+
+                <Separator/>
+
+                <!-- Account details -->
+                <Label text="Account Details"
+                       styleClass="item-header"/>
+
+                <Label text="Email"/>
+
+                <TextField fx:id="emailField"
+                           promptText="Email"
+                           maxWidth="600"/>
+
+                <Label text="Postcode"/>
+
+                <TextField fx:id="postcodeField"
+                           promptText="Postcode"
+                           maxWidth="600"/>
+
+                <Button text="Save Changes"
+                        onAction="#onSaveProfileClick"
+                        prefWidth="180"
+                        prefHeight="40"/>
+
+                <Label fx:id="profileMessageLabel"
+                       visible="false"
+                       managed="false"
+                       wrapText="true"/>
+
+                <Region prefHeight="10"/>
+
+                <Separator/>
+
+                <Region prefHeight="5"/>
+
+                <!-- Password section -->
+                <Label text="Password &amp; Security"
+                       styleClass="item-header"/>
+
+                <Label text="Change your password by confirming your current password first."
+                       wrapText="true"/>
+
+                <Label text="Current Password"/>
+
+                <PasswordField fx:id="currentPasswordField"
+                               promptText="Current password"
+                               maxWidth="600"/>
+
+                <Label text="New Password"/>
+
+                <PasswordField fx:id="newPasswordField"
+                               promptText="New password"
+                               maxWidth="600"/>
+
+                <Label text="Confirm New Password"/>
+
+                <PasswordField fx:id="confirmPasswordField"
+                               promptText="Confirm new password"
+                               maxWidth="600"/>
+
+                <Button text="Change Password"
+                        onAction="#onChangePasswordClick"
+                        prefWidth="180"
+                        prefHeight="40"/>
+
+                <Label fx:id="passwordMessageLabel"
+                       visible="false"
+                       managed="false"
+                       wrapText="true"/>
+
+                <Region prefHeight="30"/>
+
+            </VBox>
+
+        </ScrollPane>
+
+    </center>
+
+</BorderPane>

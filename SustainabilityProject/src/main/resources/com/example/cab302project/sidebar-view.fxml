@@ -1,35 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cab302project.controller.SidebarController"
       stylesheets="@../../../stylesheets/home.css"
-      prefWidth="250" alignment="TOP_CENTER">
+      prefWidth="250"
+      alignment="TOP_CENTER">
 
-        <ImageView fitHeight="70" fitWidth="70" preserveRatio="true">
-            <Image url="@../../../assets/logo.png"/>
-        </ImageView>
+    <ImageView fitHeight="70"
+               fitWidth="70"
+               preserveRatio="true">
 
-        <Separator prefHeight="50"/>
+        <Image url="@../../../assets/logo.png"/>
 
-        <VBox spacing="20">
-            <!--                TODO: Create handlers for page navigation-->
-            <Button text="Home" maxWidth="Infinity" prefHeight="50" onAction="#onHomeButtonClick" fx:id="homeButton"/>
-            <Button text="Your Page" maxWidth="Infinity" prefHeight="50"/>
-            <Button text="Settings" maxWidth="Infinity" prefHeight="50"/>
-        </VBox>
+    </ImageView>
 
-        <Separator prefHeight="50"/>
+    <Separator prefHeight="50"/>
 
-        <Region VBox.vgrow="ALWAYS"/>
-        <!--            TODO: Create a handler for sign out-->
-        <Button text="Sign Out" maxWidth="Infinity" prefHeight="50"/>
+    <VBox spacing="20">
+
+        <Button fx:id="homeButton"
+                text="Home"
+                maxWidth="Infinity"
+                prefHeight="50"
+                onAction="#onHomeButtonClick"/>
+
+        <Button fx:id="profileButton"
+                text="Your Page"
+                maxWidth="Infinity"
+                prefHeight="50"
+                onAction="#onProfileButtonClick"/>
+
+        <Button text="Settings"
+                maxWidth="Infinity"
+                prefHeight="50"/>
+
+    </VBox>
+
+    <Separator prefHeight="50"/>
+
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <Button fx:id="signOutButton"
+            text="Sign Out"
+            maxWidth="Infinity"
+            prefHeight="50"
+            onAction="#onSignOutButtonClick"/>
+
 </VBox>
