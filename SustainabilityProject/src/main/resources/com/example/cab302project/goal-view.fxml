@@ -1,76 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cab302project.controller.GoalController"
-            prefHeight="412.0" prefWidth="732.0"
+            fx:id="rootPane"
             stylesheets="@../../../stylesheets/home.css"
-            fx:id="rootPane">
-<padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-</padding>
+            styleClass="page-body">
 
-<left>
-    <fx:include source="sidebar-view.fxml"/>
-</left>
+    <padding>
+        <Insets top="28" right="28" bottom="28" left="28"/>
+    </padding>
 
-<center>
-    <BorderPane fx:id="contentPane">
-        <center>
-            <ScrollPane fitToHeight="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" fitToWidth="true">
+    <left>
+        <fx:include source="sidebar-view.fxml"/>
+    </left>
 
-            <VBox spacing="15">
+    <center>
 
-                <padding>
-                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                </padding>
-                
-                <fx:include source="nav-bar-view.fxml"/>
+        <!--
+            GoalController uses this pane to swap between:
+            - the normal goals page
+            - goal creation
+            - goal details
+        -->
+        <BorderPane fx:id="contentPane">
 
-                <Label styleClass="page-header">Goals</Label>
-                <Label styleClass="page-subheader">Contribute to your own Goal!</Label>
+            <center>
 
-                <!-- Opens the goal creation dialog (US-06)-->
-                <Button text="New Goal" prefHeight="40" prefWidth="120" onAction="#onNewGoal"/>
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED">
 
-                <Separator/>
+                    <VBox spacing="26">
 
-                <!--            Goals container-->
-                <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
-                            minHeight="270" prefHeight="270" maxHeight="270">
-                    <content>
-                        <HBox fx:id="incompleteGoalsContainer" spacing="20"/>
-                    </content>
+                        <padding>
+                            <Insets top="18"
+                                    right="20"
+                                    bottom="50"
+                                    left="48"/>
+                        </padding>
+
+                        <HBox alignment="CENTER_LEFT">
+
+                            <VBox spacing="6"
+                                  HBox.hgrow="ALWAYS">
+
+                                <Label text="Goals"
+                                       styleClass="page-header"/>
+
+                                <Label text="Build meaningful goals and keep moving forward."
+                                       styleClass="page-subheader"/>
+
+                            </VBox>
+
+                            <Button text="New Goal"
+                                    prefWidth="130"
+                                    onAction="#onNewGoal"
+                                    styleClass="primary-button"/>
+
+                        </HBox>
+
+                        <VBox spacing="18"
+                              styleClass="card">
+
+                            <Label text="Current goals"
+                                   styleClass="section-title"/>
+
+                            <Label text="The goals you're actively working towards."
+                                   styleClass="section-description"/>
+
+                            <ScrollPane fitToHeight="true"
+                                        hbarPolicy="AS_NEEDED"
+                                        vbarPolicy="NEVER"
+                                        minHeight="270"
+                                        prefHeight="270"
+                                        maxHeight="270">
+
+                                <content>
+                                    <HBox fx:id="incompleteGoalsContainer"
+                                          spacing="20"/>
+                                </content>
+
+                            </ScrollPane>
+
+                        </VBox>
+
+                        <VBox spacing="18"
+                              styleClass="card">
+
+                            <Label text="Completed goals"
+                                   styleClass="section-title"/>
+
+                            <Label text="Reflect on the goals you've already completed."
+                                   styleClass="section-description"/>
+
+                            <ScrollPane fitToHeight="true"
+                                        hbarPolicy="AS_NEEDED"
+                                        vbarPolicy="NEVER"
+                                        minHeight="270"
+                                        prefHeight="270"
+                                        maxHeight="270">
+
+                                <content>
+                                    <HBox fx:id="completeGoalsContainer"
+                                          spacing="20"/>
+                                </content>
+
+                            </ScrollPane>
+
+                        </VBox>
+
+                    </VBox>
+
                 </ScrollPane>
 
-                <Label styleClass="page-header">Completed Goals</Label>
-                <Label styleClass="page-subheader">Reflect on your past goals</Label>
+            </center>
 
-                <Separator/>
+        </BorderPane>
 
-                <!--                Completed goals container-->
-                <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
-                            minHeight="270" prefHeight="270" maxHeight="270">
-                    <content>
-                        <HBox fx:id="completeGoalsContainer" spacing="20"/>
-                    </content>
-                </ScrollPane>
-
-
-            </VBox>
-            </ScrollPane>
-        </center>
-
-    </BorderPane>
-</center>
-
+    </center>
 
 </BorderPane>

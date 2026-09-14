@@ -1,35 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cab302project.controller.SidebarController"
       stylesheets="@../../../stylesheets/home.css"
-      prefWidth="250" alignment="TOP_CENTER">
+      prefWidth="240"
+      minWidth="240"
+      maxWidth="240"
+      spacing="5"
+      styleClass="sidebar">
 
-        <ImageView fitHeight="70" fitWidth="70" preserveRatio="true">
+    <!-- Rooted branding -->
+    <HBox alignment="CENTER_LEFT"
+          spacing="10">
+
+        <ImageView fitWidth="52"
+                   fitHeight="52"
+                   preserveRatio="true">
+
             <Image url="@../../../assets/logo.png"/>
+
         </ImageView>
 
-        <Separator prefHeight="50"/>
+        <VBox spacing="-2">
 
-        <VBox spacing="20">
-            <!--                TODO: Create handlers for page navigation-->
-            <Button text="Home" maxWidth="Infinity" prefHeight="50" onAction="#onHomeButtonClick" fx:id="homeButton"/>
-            <Button text="Your Page" maxWidth="Infinity" prefHeight="50"/>
-            <Button text="Settings" maxWidth="Infinity" prefHeight="50"/>
+            <Label text="Rooted"
+                   styleClass="sidebar-brand-title"/>
+
+            <Label text="Water your mind"
+                   styleClass="sidebar-brand-tagline"/>
+
         </VBox>
 
-        <Separator prefHeight="50"/>
+    </HBox>
 
-        <Region VBox.vgrow="ALWAYS"/>
-        <!--            TODO: Create a handler for sign out-->
-        <Button text="Sign Out" maxWidth="Infinity" prefHeight="50"/>
+    <Region prefHeight="22"/>
+
+    <!-- Main navigation -->
+    <Label text="MAIN"
+           styleClass="sidebar-section-label"/>
+
+    <Button fx:id="homeButton"
+            text="Home"
+            maxWidth="Infinity"
+            onAction="#onHomeButtonClick"
+            styleClass="sidebar-button"/>
+
+    <Button fx:id="goalsButton"
+            text="Goals"
+            maxWidth="Infinity"
+            onAction="#onGoalsButtonClick"
+            styleClass="sidebar-button"/>
+
+    <Button fx:id="habitsButton"
+            text="Habits"
+            maxWidth="Infinity"
+            onAction="#onHabitsButtonClick"
+            styleClass="sidebar-button"/>
+
+    <Button fx:id="activitiesButton"
+            text="Activities"
+            maxWidth="Infinity"
+            onAction="#onActivitiesButtonClick"
+            styleClass="sidebar-button"/>
+
+    <Button fx:id="socialButton"
+            text="Social"
+            maxWidth="Infinity"
+            onAction="#onSocialButtonClick"
+            styleClass="sidebar-button"/>
+
+    <Button fx:id="statsButton"
+            text="Stats"
+            maxWidth="Infinity"
+            onAction="#onStatsButtonClick"
+            styleClass="sidebar-button"/>
+
+    <!-- Account navigation -->
+    <Label text="ACCOUNT"
+           styleClass="sidebar-section-label"/>
+
+    <Button text="Settings"
+            maxWidth="Infinity"
+            styleClass="sidebar-button"/>
+
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <!-- Logged-in user -->
+    <HBox fx:id="accountMenuButton"
+          alignment="CENTER_LEFT"
+          spacing="12"
+          maxWidth="Infinity"
+          onMouseClicked="#onAccountMenuClick"
+          styleClass="sidebar-account">
+
+        <StackPane minWidth="40"
+                   minHeight="40"
+                   prefWidth="40"
+                   prefHeight="40"
+                   maxWidth="40"
+                   maxHeight="40"
+                   styleClass="sidebar-avatar">
+
+            <Label fx:id="avatarInitialLabel"
+                   text="U"
+                   styleClass="sidebar-avatar-text"/>
+
+        </StackPane>
+
+        <VBox spacing="2"
+              HBox.hgrow="ALWAYS">
+
+            <Label fx:id="userNameLabel"
+                   text="Rooted User"
+                   maxWidth="145"
+                   styleClass="sidebar-user-name"/>
+
+            <Label fx:id="userEmailLabel"
+                   text="user@example.com"
+                   maxWidth="145"
+                   styleClass="sidebar-user-email"/>
+
+        </VBox>
+
+        <Label text="⋮"
+               styleClass="sidebar-menu-icon"/>
+
+    </HBox>
+
 </VBox>
