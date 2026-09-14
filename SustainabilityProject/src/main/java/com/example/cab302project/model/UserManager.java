@@ -27,7 +27,9 @@ public class UserManager {
             return "Enter a valid postcode.";
         }
 
-        return userDAO.createUser(email, password, postcode) ? null : "Email already registered.";
+        return userDAO.createUser(email, password, postcode)
+                ? null
+                : "Email already registered.";
     }
 
     public User login(String email, String password) {
@@ -40,13 +42,30 @@ public class UserManager {
             return null;
         }
 
-        User user = userDAO.loginUser(email,password);
+        User user = userDAO.loginUser(email, password);
 
         if (user == null) {
             return null;
         }
 
-
         return user;
+    }
+
+    public String updateProfile(User user, String email, int postcode) {
+
+        if (user == null) {
+            return "No user is logged in.";
+        }
+
+        user.setEmail(email);
+        user.setPostcode(postcode);
+
+        boolean updated = userDAO.updateUser(user);
+
+        if (!updated) {
+            return "Unable to update profile.";
+        }
+
+        return null;
     }
 }

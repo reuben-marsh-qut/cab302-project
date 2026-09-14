@@ -181,27 +181,62 @@ public class UserManagerTest {
 
     @Test
     void duplicateEmailShouldFailRegistration() {
-        assertEquals("Email already registered.", userManager.register("test@example.com", "password123", 4000));
+        assertEquals(
+                "Email already registered.",
+                userManager.register(
+                        "test@example.com",
+                        "password123",
+                        4000
+                )
+        );
     }
 
     @Test
     void blankEmailShouldFailRegistration() {
-        assertEquals("Enter an email and password.", userManager.register(" ", "password123", 4000));
+        assertEquals(
+                "Enter an email and password.",
+                userManager.register(
+                        " ",
+                        "password123",
+                        4000
+                )
+        );
     }
 
     @Test
     void invalidEmailShouldFailRegistration() {
-        assertEquals("Enter a valid email.", userManager.register("not-an-email", "password123", 4000));
+        assertEquals(
+                "Enter a valid email.",
+                userManager.register(
+                        "not-an-email",
+                        "password123",
+                        4000
+                )
+        );
     }
 
     @Test
     void shortPasswordShouldFailRegistration() {
-        assertEquals("Password must be at least 8 characters.", userManager.register("new@example.com", "short", 4000));
+        assertEquals(
+                "Password must be at least 8 characters.",
+                userManager.register(
+                        "new@example.com",
+                        "short",
+                        4000
+                )
+        );
     }
 
     @Test
     void invalidPostcodeShouldFailRegistration() {
-        assertEquals("Enter a valid postcode.", userManager.register("new@example.com", "password123", 999));
+        assertEquals(
+                "Enter a valid postcode.",
+                userManager.register(
+                        "new@example.com",
+                        "password123",
+                        999
+                )
+        );
     }
 
     @Test
@@ -225,5 +260,24 @@ public class UserManagerTest {
 
         assertNotNull(result);
         assertEquals(1, result.getUserId());
+    }
+
+    @Test
+    void updateProfileWithValidDetailsShouldUpdateUser() {
+
+        User user = userDAO.getUserById(1);
+
+        String result = userManager.updateProfile(
+                user,
+                "updated@example.com",
+                4051
+        );
+
+        assertNull(result);
+
+        User updatedUser = userDAO.getUserById(1);
+
+        assertEquals("updated@example.com", updatedUser.getEmail());
+        assertEquals(4051, updatedUser.getPostcode());
     }
 }
