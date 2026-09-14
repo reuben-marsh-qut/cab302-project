@@ -75,7 +75,8 @@ public class ProfileController {
         );
 
         postcodeField.setText(
-                String.valueOf(
+                String.format(
+                        "%04d",
                         currentUser.getPostcode()
                 )
         );
@@ -141,7 +142,8 @@ public class ProfileController {
                         .trim();
 
         String currentPostcode =
-                String.valueOf(
+                String.format(
+                        "%04d",
                         currentUser.getPostcode()
                 );
 
@@ -232,23 +234,14 @@ public class ProfileController {
                         .getText()
                         .trim();
 
-        int postcode;
-
-        try {
-
-            postcode =
-                    Integer.parseInt(
-                            postcodeText
-                    );
-
-        } catch (NumberFormatException e) {
-
+        if (!postcodeText.matches("\\d{4}")) {
             showProfileError(
-                    "Enter a valid postcode."
+                    "Enter a valid 4-digit postcode."
             );
-
             return;
         }
+
+        int postcode = Integer.parseInt(postcodeText);
 
         String result =
                 userManager.updateProfile(

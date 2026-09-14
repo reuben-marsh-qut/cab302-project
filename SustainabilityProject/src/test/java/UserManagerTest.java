@@ -224,7 +224,7 @@ public class UserManagerTest {
                 userManager.register(
                         "new@example.com",
                         "password123",
-                        999
+                        10000
                 )
         );
     }
@@ -304,7 +304,7 @@ public class UserManagerTest {
         String result = userManager.updateProfile(
                 user,
                 "updated@example.com",
-                999
+                10000
         );
 
         assertEquals("Enter a valid postcode.", result);
