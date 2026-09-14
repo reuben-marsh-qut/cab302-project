@@ -8,9 +8,12 @@ import com.example.cab302project.model.enums.TaskType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HabitDAO implements IHabitDAO{
@@ -26,22 +29,82 @@ public class HabitDAO implements IHabitDAO{
 
     @Override
     public void deleteHabit(Habit habit) {
-
+        Connection conn = DatabaseConnection.getInstance();
+        try {
+            PreparedStatement deleteUser = conn.prepareStatement("DELETE FROM habits WHERE habitId=?");
+            deleteUser.setInt(1,habit.getId());
+            deleteUser.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Habit getHabitById(int id) {
+        Connection conn = DatabaseConnection.getInstance();
+
+        try {
+            PreparedStatement getHabit = conn.prepareStatement("SELECT * FROM habits WHERE habitId=?");
+            getHabit.setInt(1,id);
+            ResultSet habitSet = getHabit.executeQuery();
+            while (habitSet.next()){
+                return habitFromResultSet(habitSet);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     @Override
     public List<Habit> getAllHabits() {
-        return List.of();
+        Connection conn = DatabaseConnection.getInstance();
+        List<Habit> habits = new ArrayList<Habit>();
+
+        try {
+            PreparedStatement getHabits = conn.prepareStatement("SELECT * FROM habits");
+            ResultSet habitSet = getHabits.executeQuery();
+            while (habitSet.next()){
+                habits.add(habitFromResultSet(habitSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return habits;
     }
 
     @Override
     public int getHabitCompletionStreak(Habit habit) {
         return 0;
+    }
+
+    @Override
+    public Activity getCurrentAssociatedTask(Habit habit) {
+        return null;
+    }
+
+    @Override
+    public List<Activity> getAllAssociatedTasks(Habit habit) {
+        return List.of();
+    }
+
+    private Habit habitFromResultSet(ResultSet res) throws SQLException {
+        ZoneId timezone = ZoneId.systemDefault();
+        return new Habit(
+                res.getInt("habitId"),
+                res.getInt("goalId"),
+                res.getInt("userId"),
+                res.getString("habitTitle"),
+                Category.values()[res.getInt("catagory")],
+                TaskType.values()[res.getInt("taskType")],
+                res.getInt("repeatFrequency"),
+                RepeatFrequencyType.values()[res.getInt("repeatFrequencyType")],
+                Instant.ofEpochSecond(res.getInt("startsAtUnixTime")).atZone(timezone).toLocalDate(),
+                Instant.ofEpochSecond(res.getInt("endsAtUnixTime")).atZone(timezone).toLocalDate(),
+                res.getInt("completionThreshold"),
+                res.getInt("baseXpReward"),
+                res.getBoolean("doesContributeDirectlyToGoal")
+            );
     }
 
     @Override
