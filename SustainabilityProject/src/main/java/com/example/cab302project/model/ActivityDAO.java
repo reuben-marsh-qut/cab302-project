@@ -29,10 +29,13 @@ import com.example.cab302project.model.enums.CompletionType;
 ///     awardedXpReward INTEGER NOT NULL,
 ///     doesContributeDirectlyToGoal INTEGER NOT NULL CHECK (doesContributeDirectlyToGoal IN (0, 1))
 
-public class ActivityDAO {
-    private Activity activityFromDatabaseRequest(ResultSet results) {
+public class ActivityDAO
+{
+    private Activity activityFromDatabaseRequest(ResultSet results)
+    {
 
-        try {
+        try
+        {
             int taskId = results.getInt("taskId");
             int goalId = results.getInt("goalId");
             int habitId = results.getInt("habitId");
@@ -47,9 +50,12 @@ public class ActivityDAO {
             String dueDate = results.getString("dueUnixTime");
             int dueDateInt;
             LocalDateTime localDueDate;
-            if (dueDate == null) {
+            if (dueDate == null)
+            {
                 localDueDate = null;
-            } else {
+            }
+            else
+            {
                 dueDateInt = Integer.parseInt(dueDate);
                 localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDateTime();
             }
@@ -64,16 +70,20 @@ public class ActivityDAO {
             activity.setId(taskId);
 
             return activity;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
 
 
     }
 
-    private PreparedStatement queryFromActivity(Activity activity, String query, Connection connection) {
+    private PreparedStatement queryFromActivity(Activity activity, String query, Connection connection)
+    {
 
-        try {
+        try
+        {
             int taskId = activity.getId();
             int goalId = activity.getGoalId();
             int habitId = activity.getHabitId();
@@ -83,9 +93,12 @@ public class ActivityDAO {
             int taskType = activity.getActivityType().ordinal();
             long activityStartTime = activity.getStartDateTime().atZone(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             long activityEndTime;
-            if (activity.getDueDateTime() == null) {
+            if (activity.getDueDateTime() == null)
+            {
                 activityEndTime = 0;
-            } else {
+            }
+            else
+            {
                 activityEndTime = activity.getDueDateTime().atZone(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             }
             int progress = activity.getProgress();
@@ -103,9 +116,12 @@ public class ActivityDAO {
             statement.setInt(5, category);
             statement.setInt(6, taskType);
             statement.setLong(7, activityStartTime);
-            if (activityEndTime == 0) {
+            if (activityEndTime == 0)
+            {
                 statement.setNull(8, Types.INTEGER);
-            } else {
+            }
+            else
+            {
                 statement.setLong(8, activityEndTime);
             }
             statement.setInt(9, progress);
@@ -113,41 +129,52 @@ public class ActivityDAO {
             statement.setInt(11, xpReward);
             statement.setInt(12, awardedXpReward);
             statement.setInt(13, contributeToGoal);
-            if (query.contains("UPDATE")) {
+            if (query.contains("UPDATE"))
+            {
                 statement.setInt(14, taskId);
             }
 
             return statement;
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
 
     }
 
-    public Activity getActivityById(int id) {
-        try {
+    public Activity getActivityById(int id)
+    {
+        try
+        {
 
             Connection connection = DatabaseConnection.getInstance();
 
             String query = "SELECT * FROM tasks WHERE taskId = ?";
             PreparedStatement request = connection.prepareStatement(query);
             request.setInt(1, id);
-            try (ResultSet results = request.executeQuery()) {
-                if (!results.next()) {
+            try (ResultSet results = request.executeQuery())
+            {
+                if (!results.next())
+                {
                     return null;
                 }
 
                 return activityFromDatabaseRequest(results);
             }
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    public List<Activity> getAllActivities() {
-        try {
+    public List<Activity> getAllActivities()
+    {
+        try
+        {
             Connection connection = DatabaseConnection.getInstance();
 
             String query = "SELECT * FROM tasks";
@@ -155,21 +182,26 @@ public class ActivityDAO {
             ResultSet results = request.executeQuery();
             List<Activity> activityList = new ArrayList<>();
 
-            while (results.next()) {
+            while (results.next())
+            {
                 Activity tempAct = activityFromDatabaseRequest(results);
                 activityList.add(tempAct);
             }
 
             return activityList;
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    public void deleteActivity(Activity activity) {
+    public void deleteActivity(Activity activity)
+    {
 
-        try {
+        try
+        {
             Connection connection = DatabaseConnection.getInstance();
 
             String command = "DELETE FROM tasks WHERE taskId = ?";
@@ -178,12 +210,15 @@ public class ActivityDAO {
             deleteTask.setInt(1, activityId);
             int results = deleteTask.executeUpdate();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    public void addActivity(Activity activity) {
+    public void addActivity(Activity activity)
+    {
         try {
 
             Connection connection = DatabaseConnection.getInstance();
@@ -192,28 +227,36 @@ public class ActivityDAO {
             PreparedStatement statement = queryFromActivity(activity, query, connection);
             int results = statement.executeUpdate();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateActivity(Activity activity) {
+    public void updateActivity(Activity activity)
+    {
 
-        try {
+        try
+        {
             Connection connection = DatabaseConnection.getInstance();
             String query = "UPDATE tasks SET goalId = ?, habitId = ?, userId = ?, taskTitle = ?, catagory = ?, taskType = ?, startsAtUnixTime = ?, dueUnixTime = ?, progress = ?, completionThreshold = ?, baseXpReward = ?, awardedXpReward = ?, doesContributeDirectlyToGoal = ?  WHERE taskId = ?";
             PreparedStatement statement = queryFromActivity(activity, query, connection);
             int result = statement.executeUpdate();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
 
     }
 
-    public List<Activity> getCompletedActivitiesForUser(int userId) {
+    public List<Activity> getCompletedActivitiesForUser(int userId)
+    {
 
-        try {
+        try
+        {
             Connection connection = DatabaseConnection.getInstance();
             String query = "SELECT * FROM tasks WHERE userId = ? AND progress >= completionThreshold";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -222,7 +265,8 @@ public class ActivityDAO {
 
             List<Activity> completedActivityList = new ArrayList<>();
 
-            while (results.next()) {
+            while (results.next())
+            {
 
                 completedActivityList.add(activityFromDatabaseRequest(results));
 
@@ -230,15 +274,19 @@ public class ActivityDAO {
 
             return completedActivityList;
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
 
     }
 
-    public List<Activity> getIncompletedActivitiesForUser(int userId) {
+    public List<Activity> getIncompletedActivitiesForUser(int userId)
+    {
 
-        try {
+        try
+        {
             Connection connection = DatabaseConnection.getInstance();
             String query = "SELECT * FROM tasks WHERE userId = ? AND progress < completionThreshold";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -247,7 +295,8 @@ public class ActivityDAO {
 
             List<Activity> incompleteActivityList = new ArrayList<>();
 
-            while (results.next()) {
+            while (results.next())
+            {
 
                 incompleteActivityList.add(activityFromDatabaseRequest(results));
 
@@ -255,7 +304,9 @@ public class ActivityDAO {
 
             return incompleteActivityList;
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
