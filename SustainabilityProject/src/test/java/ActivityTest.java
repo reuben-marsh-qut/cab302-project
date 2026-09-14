@@ -4,7 +4,10 @@ import com.example.cab302project.model.enums.CompletionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,8 +18,8 @@ public class ActivityTest {
     @BeforeEach
     public void setUp() {
         activity = new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
-                CompletionType.BINARY, LocalDateTime.of(2026, 9, 4, 12, 0),
-                LocalDateTime.of(2026, 9, 11, 12, 0),
+                CompletionType.BINARY, LocalDateTime.now(),
+                LocalDateTime.now().plusDays(7),
                 0, 1, 10, 0, false);
     }
 
@@ -53,12 +56,12 @@ public class ActivityTest {
 
     @Test
     public void testGetStartDate() {
-        assertEquals(LocalDateTime.of(2026, 9, 4, 12, 0), activity.getStartDateTime());
+        assertEquals(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), activity.getStartDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), 500);
     }
 
     @Test
     public void testGetDueDate() {
-        assertEquals(LocalDateTime.of(2026, 9, 11, 12, 0), activity.getDueDateTime());
+        assertEquals(LocalDateTime.now().plusDays(7).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), activity.getDueDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), 500);
     }
 
     @Test
@@ -99,7 +102,7 @@ public class ActivityTest {
     void newActivityShouldNotBeComplete() {
         Activity activity = new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
                 CompletionType.BINARY, LocalDateTime.now(),
-                LocalDateTime.of(2026, 9, 11, 12, 0),
+                LocalDateTime.now().plusDays(7),
                 0, 1, 10, 0, false);
         assertTrue(activity.getProgress() < activity.getCompletionThreshold());
     }
