@@ -29,7 +29,7 @@ import com.example.cab302project.model.enums.CompletionType;
 ///     awardedXpReward INTEGER NOT NULL,
 ///     doesContributeDirectlyToGoal INTEGER NOT NULL CHECK (doesContributeDirectlyToGoal IN (0, 1))
 
-public class ActivityDAO
+public class ActivityDAO implements IActivityDAO
 {
     private Activity activityFromDatabaseRequest(ResultSet results)
     {
