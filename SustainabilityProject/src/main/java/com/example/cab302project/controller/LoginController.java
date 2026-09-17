@@ -85,6 +85,22 @@ public class LoginController {
         stage.show();
     }
 
+    @FXML
+    private void handleCreateAccount() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("register-view.fxml")
+            );
+            Scene scene = new Scene(loader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            showError("Unable to open registration.");
+            e.printStackTrace();
+        }
+    }
+
     private void showError(String message) {
         errorLabel.setText(message);
         errorLabel.setVisible(true);

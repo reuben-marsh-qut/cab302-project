@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cab302project.controller.ProfileController"
+            prefHeight="800"
+            prefWidth="1400"
+            stylesheets="@../../../stylesheets/home.css"
+            styleClass="page-body">
+
+    <padding>
+        <Insets top="28"
+                right="28"
+                bottom="28"
+                left="28"/>
+    </padding>
+
+    <left>
+        <fx:include source="sidebar-view.fxml"/>
+    </left>
+
+    <center>
+
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED">
+
+            <VBox spacing="26"
+                  maxWidth="760">
+
+                <padding>
+                    <Insets top="18"
+                            right="20"
+                            bottom="50"
+                            left="48"/>
+                </padding>
+
+                <VBox spacing="6">
+
+                    <Label text="Your Profile"
+                           styleClass="page-header"/>
+
+                    <Label text="Manage your account information and security."
+                           styleClass="page-subheader"/>
+
+                </VBox>
+
+                <!-- Account details -->
+                <VBox spacing="0"
+                      prefWidth="620"
+                      maxWidth="620"
+                      styleClass="card">
+
+                    <Label text="Account details"
+                           styleClass="section-title"/>
+
+                    <Label text="Update the information associated with your Rooted account."
+                           styleClass="section-description"
+                           wrapText="true">
+
+                        <VBox.margin>
+                            <Insets top="6"
+                                    bottom="28"/>
+                        </VBox.margin>
+
+                    </Label>
+
+                    <Label text="Email"
+                           styleClass="field-label"/>
+
+                    <TextField fx:id="emailField"
+                               promptText="you@example.com"
+                               maxWidth="Infinity"/>
+
+                    <Region prefHeight="18"/>
+
+                    <Label text="Postcode"
+                           styleClass="field-label"/>
+
+                    <TextField fx:id="postcodeField"
+                               promptText="4000"
+                               maxWidth="Infinity"/>
+
+                    <Label fx:id="profileMessageLabel"
+                           visible="false"
+                           managed="false"
+                           wrapText="true"
+                           maxWidth="Infinity">
+
+                        <VBox.margin>
+                            <Insets top="14"/>
+                        </VBox.margin>
+
+                    </Label>
+
+                    <HBox alignment="CENTER_RIGHT">
+
+                        <VBox.margin>
+                            <Insets top="24"/>
+                        </VBox.margin>
+
+                        <Button fx:id="saveProfileButton"
+                                text="Save Changes"
+                                onAction="#onSaveProfileClick"
+                                prefWidth="160"
+                                styleClass="primary-button"/>
+
+                    </HBox>
+
+                </VBox>
+
+                <!-- Password -->
+                <VBox spacing="0"
+                      prefWidth="620"
+                      maxWidth="620"
+                      styleClass="card">
+
+                    <Label text="Password &amp; security"
+                           styleClass="section-title"/>
+
+                    <Label text="Change your password by confirming your current password first."
+                           styleClass="section-description"
+                           wrapText="true">
+
+                        <VBox.margin>
+                            <Insets top="6"
+                                    bottom="28"/>
+                        </VBox.margin>
+
+                    </Label>
+
+                    <Label text="Current password"
+                           styleClass="field-label"/>
+
+                    <PasswordField fx:id="currentPasswordField"
+                                   promptText="Enter your current password"
+                                   maxWidth="Infinity"/>
+
+                    <Region prefHeight="18"/>
+
+                    <Label text="New password"
+                           styleClass="field-label"/>
+
+                    <PasswordField fx:id="newPasswordField"
+                                   promptText="Enter a new password"
+                                   maxWidth="Infinity"/>
+
+                    <Region prefHeight="18"/>
+
+                    <Label text="Confirm new password"
+                           styleClass="field-label"/>
+
+                    <PasswordField fx:id="confirmPasswordField"
+                                   promptText="Enter your new password again"
+                                   maxWidth="Infinity"/>
+
+                    <Label fx:id="passwordMessageLabel"
+                           visible="false"
+                           managed="false"
+                           wrapText="true"
+                           maxWidth="Infinity">
+
+                        <VBox.margin>
+                            <Insets top="14"/>
+                        </VBox.margin>
+
+                    </Label>
+
+                    <HBox alignment="CENTER_RIGHT">
+
+                        <VBox.margin>
+                            <Insets top="24"/>
+                        </VBox.margin>
+
+                        <Button fx:id="changePasswordButton"
+                                text="Change Password"
+                                onAction="#onChangePasswordClick"
+                                prefWidth="180"
+                                styleClass="primary-button"/>
+
+                    </HBox>
+
+                </VBox>
+
+            </VBox>
+
+        </ScrollPane>
+
+    </center>
+
+</BorderPane>
