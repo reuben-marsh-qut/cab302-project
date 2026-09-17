@@ -77,7 +77,7 @@ public class ActivityTest {
 
     @Test
     public void testGetCompletionType() {
-        assertEquals(CompletionType.BINARY, activity.getActivityType());
+        assertEquals(TaskType.BINARY, activity.getActivityType());
     }
 
     @Test

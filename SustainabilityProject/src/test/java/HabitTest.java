@@ -49,8 +49,8 @@ public class HabitTest {
     }
 
     @Test
-    public void testGetCompletionType() {
-        assertEquals(CompletionType.BINARY, habit.gethabitType());
+    public void testGetTaskType() {
+        assertEquals(TaskType.BINARY, habit.getHabitType());
     }
 
     @Test

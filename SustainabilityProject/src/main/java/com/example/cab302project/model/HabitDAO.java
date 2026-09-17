@@ -4,14 +4,13 @@ import com.example.cab302project.DatabaseConnection;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
+import javafx.concurrent.Task;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class HabitDAO implements IHabitDAO{
             insertInto.setInt(12, habit.getDoesContributeDirectlyToGoal() ? 1:0);
 
             int rowsAffected = insertInto.executeUpdate();
-            System.out.println(rowsAffected);
+//            System.out.println(rowsAffected);
             if (rowsAffected!=1){
                 return false;
             }
@@ -108,15 +107,36 @@ public class HabitDAO implements IHabitDAO{
 
         try {
             PreparedStatement getHabit = conn.prepareStatement("SELECT * FROM habits WHERE habitId=?");
+
             getHabit.setInt(1,id);
+
             ResultSet habitSet = getHabit.executeQuery();
+            if (!habitSet.next()) {
+                return null;
+            }
+            return habitFromResultSet(habitSet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Habit> getHabitsByUserId(int id) {
+        Connection conn = DatabaseConnection.getInstance();
+        List<Habit> habits = new ArrayList<Habit>();
+
+        try {
+            PreparedStatement getHabits = conn.prepareStatement("SELECT * FROM habits WHERE userId=?");
+            getHabits.setInt(1,id);
+            ResultSet habitSet = getHabits.executeQuery();
+
             while (habitSet.next()){
-                return habitFromResultSet(habitSet);
+                habits.add(habitFromResultSet(habitSet));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return habits;
     }
 
     @Override
@@ -136,20 +156,76 @@ public class HabitDAO implements IHabitDAO{
         return habits;
     }
 
-    
+
     @Override
     public int getHabitCompletionStreak(Habit habit) {
-        return -1;
+        List<Activity> tasks = getAllAssociatedTasks(habit);
+        // get all tasks
+        // what is the interval?
+        // do all complete tasks align with the repeat interval
+        // if stretch broken return zero else
+        int streak = 0;
+        for (int i = 0; i < tasks.size(); i++) {
+            Activity task = tasks.get(i);
+            if (task.isComplete() && LocalDateTime.now().isAfter(task.getStartDateTime())){
+                streak++;
+            } else {
+                streak = 0;
+            }
+        }
+        return streak;
     }
 
     @Override
     public Activity getCurrentAssociatedTask(Habit habit) {
-        return null;
+        Connection conn = DatabaseConnection.getInstance();
+        List<Activity> tasks = new ArrayList<Activity>();
+        Activity task = null;
+        ActivityDAO dao = new ActivityDAO();
+        ZoneId timezone = ZoneId.systemDefault();
+        try {
+            // DESC grabs the latest task
+            PreparedStatement getTasks = conn.prepareStatement("SELECT * FROM tasks WHERE habitId=? AND startsAtUnixTime <= ? AND dueUnixTime >= ? ORDER BY habitId DESC");
+            getTasks.setInt(1,habit.getId());
+            long now = Instant.now().getEpochSecond();
+            getTasks.setLong(2,now);
+            getTasks.setLong(3,now);
+//            getTasks.setLong(2,habit.getStartDateTime().atStartOfDay(timezone).toEpochSecond());
+//            getTasks.setLong(3,habit.getDueDateTime().atStartOfDay(timezone).toEpochSecond());
+            ResultSet taskSet = getTasks.executeQuery();
+            while (taskSet.next()){
+                tasks.add(dao.activityFromDatabaseRequest(taskSet));
+
+            }
+//            System.out.println("sz"+ tasks.size());
+            task = tasks.getFirst();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+//        LocalDate dateOfTask = LocalDate.now();
+//        List<Activity> tasks = getAllAssociatedTasks(habit);
+        return task;
     }
 
+    // TODO: document that this returns tasks oldest to youngest in docstring
     @Override
     public List<Activity> getAllAssociatedTasks(Habit habit) {
-        return List.of();
+        Connection conn = DatabaseConnection.getInstance();
+        List<Activity> tasks = new ArrayList<Activity>();
+        ActivityDAO dao = new ActivityDAO();
+        try {
+            PreparedStatement getTasks = conn.prepareStatement("SELECT * FROM tasks WHERE habitId=? ORDER BY startsAtUnixTime ASC");
+            getTasks.setInt(1,habit.getId());
+//
+            ResultSet taskSet = getTasks.executeQuery();
+            while (taskSet.next()){
+                tasks.add(dao.activityFromDatabaseRequest(taskSet));
+//                System.out.println(tasks.getFirst().getTitle() + " eee");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return tasks;
     }
 
     private Habit habitFromResultSet(ResultSet res) throws SQLException {
@@ -164,7 +240,7 @@ public class HabitDAO implements IHabitDAO{
                 res.getInt("repeatFrequency"),
                 RepeatFrequencyType.values()[res.getInt("repeatFrequencyType")],
                 Instant.ofEpochSecond(res.getInt("startsAtUnixTime")).atZone(timezone).toLocalDate(),
-                Instant.ofEpochSecond(res.getInt("endsAtUnixTime")).atZone(timezone).toLocalDate(),
+                Instant.ofEpochSecond(res.getInt("dueUnixTime")).atZone(timezone).toLocalDate(),
                 res.getInt("completionThreshold"),
                 res.getInt("baseXpReward"),
                 res.getBoolean("doesContributeDirectlyToGoal")
@@ -175,7 +251,7 @@ public class HabitDAO implements IHabitDAO{
     public boolean createHabit(Goal goal, User user, String title, Category category, TaskType taskType, int completionThreshold, int baseXpReward, int repeatFrequency, RepeatFrequencyType repeatFrequencyType,LocalDate startDate, LocalDate endDate, boolean doesContributeDirectlyToGoal) {
         Connection conn = DatabaseConnection.getInstance();
         try {
-            PreparedStatement insertInto = conn.prepareStatement("INSERT INTO habits (goalId , userId , baseXpReward , habitTitle, taskType, catagory, repeatFrequencyType, repeatFrequency, startsAtUnixTime, dueUnixTime, completionThreshold, doesContributeDirectlyToGoal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement insertInto = conn.prepareStatement("INSERT INTO habits (goalId , userId , baseXpReward , habitTitle, taskType, catagory, repeatFrequencyType, repeatFrequency, startsAtUnixTime, dueUnixTime, completionThreshold, doesContributeDirectlyToGoal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) RETURNING habitId");
             insertInto.setInt(1,goal.getId());
             insertInto.setInt(2,user.getUserId());
             insertInto.setInt(3,baseXpReward);
@@ -185,16 +261,41 @@ public class HabitDAO implements IHabitDAO{
             insertInto.setInt(7, repeatFrequencyType.ordinal());
             insertInto.setInt(8, repeatFrequency);
             ZoneId timezone = ZoneId.systemDefault();
-            insertInto.setInt(9, startDate.atStartOfDay(timezone).getSecond());
-            insertInto.setInt(10, endDate.atStartOfDay(timezone).getSecond());
+            long startUnix = startDate.atStartOfDay(timezone).toEpochSecond();
+            long endHabitUnix = endDate.atStartOfDay(timezone).toEpochSecond();
+            LocalDate endUnix;
+            switch (repeatFrequencyType){
+                case DAILY -> {
+                    endUnix = startDate.plusDays(repeatFrequency);
+                }
+                case WEEKLY -> {
+                    endUnix = startDate.plusDays(repeatFrequency*7);
+                }
+                case MONTHLY -> {
+                    endUnix = startDate.plusMonths(repeatFrequency);
+                }
+                case YEARLY -> {
+                    endUnix = startDate.plusYears(repeatFrequency);
+                }
+                default -> {
+                    endUnix = startDate.plusDays(repeatFrequency);
+                }
+            }
+//            System.out.println(startUnix+" " +endUnix);
+            insertInto.setLong(9,startUnix);
+            insertInto.setLong(10, endHabitUnix);
             insertInto.setInt(11, completionThreshold);
             insertInto.setInt(12, doesContributeDirectlyToGoal ? 1:0);
 
-            int rowsAffected = insertInto.executeUpdate();
-            System.out.println(rowsAffected);
-            if (rowsAffected!=1){
-                return false;
+            ResultSet rs = insertInto.executeQuery();
+//            System.out.println(rowsAffected);
+            int habitId = -1;
+            while (rs.next()){
+                habitId = rs.getInt("habitId");
             }
+
+            ActivityDAO dao = new ActivityDAO();
+            dao.addActivity(new Activity(goal.getId(), habitId,user.getUserId(), title,category, taskType, startDate.atStartOfDay(), endUnix.atStartOfDay().minusSeconds(1),0,completionThreshold,baseXpReward,0,doesContributeDirectlyToGoal));
 
             return true;
         } catch (SQLException e) {
@@ -204,6 +305,16 @@ public class HabitDAO implements IHabitDAO{
             }
             throw new RuntimeException(e);
         }
+    }
+
+    public void debugCreateAssociatedTasks(Habit habit, int completionProgress, LocalDate startTime, LocalDate endTime){
+        ActivityDAO dao = new ActivityDAO();
+        int awardedXPReward = 0;
+        if (completionProgress >= habit.getCompletionThreshold()){
+            awardedXPReward = habit.getBaseXpReward();
+        }
+        dao.addActivity(new Activity(habit.getGoalId(), habit.getId(),habit.getUserId(), habit.getTitle(),habit.getCategory(), habit.getHabitType(), startTime.atStartOfDay(), endTime.atStartOfDay().minusSeconds(1),completionProgress,habit.getCompletionThreshold(),habit.getBaseXpReward(),awardedXPReward,habit.getDoesContributeDirectlyToGoal()));
+
     }
 
 //    @Override

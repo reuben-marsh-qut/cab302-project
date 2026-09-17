@@ -47,6 +47,11 @@ public class MockHabitDAO implements IHabitDAO {
     }
 
     @Override
+    public List<Habit> getHabitsByUserId(int id) {
+        return List.of();
+    }
+
+    @Override
     public List<Habit> getAllHabits() {
         return new ArrayList<>(habits);
     }

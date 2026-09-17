@@ -12,6 +12,7 @@ public interface IHabitDAO {
     public boolean updateHabit(Habit habit); // Update
     public void deleteHabit(Habit habit); // Delete
     public Habit getHabitById(int id); // Read
+    public List<Habit> getHabitsByUserId(int id);
     public List<Habit> getAllHabits(); // Read
    public int getHabitCompletionStreak(Habit habit);
    public Activity getCurrentAssociatedTask(Habit habit);

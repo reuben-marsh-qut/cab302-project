@@ -68,9 +68,9 @@ public class Activity {
         if (dueDate == null) {
             return; // An activity with no due date never expires.
         }
-        if (dueDate.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Activity due date must not be in the past.");
-        }
+//        if (dueDate.isBefore(LocalDateTime.now())) {
+//            throw new IllegalArgumentException("Activity due date must not be in the past.");
+//        }
         if (dueDate.isBefore(startsAt)) {
             throw new IllegalArgumentException(
                     "Activity due date must not be before its start date.");
@@ -79,6 +79,9 @@ public class Activity {
 
     public Integer getGoalId() {
         return goalId;
+    }
+    public boolean isComplete() {
+        return progress>=completionThreshold;
     }
 
     public Integer getHabitId() {
@@ -97,7 +100,7 @@ public class Activity {
         return category;
     }
 
-    public CompletionType getActivityType() {
+    public TaskType getActivityType() {
         return activityType;
     }
 
