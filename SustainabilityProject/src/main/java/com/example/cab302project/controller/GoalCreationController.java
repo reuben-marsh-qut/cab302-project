@@ -6,10 +6,7 @@ import com.example.cab302project.model.IGoalDAO;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 
 import java.time.LocalDate;
@@ -38,6 +35,8 @@ public class GoalCreationController {
     private HBox templatesContainer;
     @FXML
     private Label errorLabel;
+    @FXML
+    private DatePicker dueDatePicker;
 
 
     private IGoalDAO goalDAO;
@@ -127,6 +126,11 @@ public class GoalCreationController {
         String title = titleArea.getText();
         int target = 1;
 
+        if (dueDatePicker.getValue() == null) {
+            showError("Please choose a deadline.");
+            return;
+        }
+
         if (selectedCompletionType == CompletionType.PROGRESSIVE) {
             Integer enteredTarget = parseTarget(targetField.getText());
 
@@ -142,7 +146,7 @@ public class GoalCreationController {
             // Goals start at zero progress, and this screen has no dates,
             // so the goal starts today and never expires.
             Goal goal = new Goal(userId, title, selectedCategory,
-                    LocalDate.now(), null,
+                    LocalDate.now(), dueDatePicker.getValue(),
                     0, target, selectedCompletionType, false);
 
             goalDAO.addGoal(goal);
@@ -150,6 +154,7 @@ public class GoalCreationController {
         } catch (IllegalArgumentException exception) {
             showError(exception.getMessage());
         }
+
     }
 
     @FXML
@@ -254,4 +259,5 @@ public class GoalCreationController {
         }
         showTemplates();
     }
+
 }
