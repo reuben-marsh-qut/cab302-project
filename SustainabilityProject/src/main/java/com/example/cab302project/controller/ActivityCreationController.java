@@ -5,6 +5,7 @@ import com.example.cab302project.model.ActivityTemplate;
 import com.example.cab302project.model.IActivityDAO;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
+import com.example.cab302project.model.enums.TaskType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +13,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class ActivityCreationController {
     private static final String SELECTED_STYLE_CLASS = "option-selected";
 
     private Category selectedCategory;
-    private CompletionType selectedCompletionType;
+    private TaskType selectedTaskType;
 
     public void setActivityDAO(IActivityDAO activityDAO) {
         this.activityDAO = activityDAO;
@@ -75,7 +75,7 @@ public class ActivityCreationController {
     public void initialize() {
         hideError();
         selectCategory(Category.MIND);
-        selectCompletionType(CompletionType.PROGRESSIVE);
+        selectTaskType(TaskType.PROGRESSIVE);
     }
 
     @FXML
@@ -95,12 +95,12 @@ public class ActivityCreationController {
 
     @FXML
     private void onWorkOverTime() {
-        selectCompletionType(CompletionType.PROGRESSIVE);
+        selectTaskType(TaskType.PROGRESSIVE);
     }
 
     @FXML
     private void onOneAndDone() {
-        selectCompletionType(CompletionType.BINARY);
+        selectTaskType(TaskType.BINARY);
     }
     @FXML
     private Button template1Button;
@@ -134,7 +134,7 @@ public class ActivityCreationController {
         String title = titleArea.getText();
         int target = 1;
 
-        if (selectedCompletionType == CompletionType.PROGRESSIVE) {
+        if (selectedTaskType == TaskType.PROGRESSIVE) {
             Integer enteredTarget = parseTarget(targetField.getText());
 
             if (enteredTarget == null) {
@@ -150,7 +150,7 @@ public class ActivityCreationController {
             // Activities start at zero progress, and this screen has no dates,
             // so the activity starts today and never expires.
             // not sure what the different XP rewards are but both set to 100
-            Activity activity = new Activity(goalId, habitId, userId, title, selectedCategory, selectedCompletionType, LocalDateTime.now(), null, 0, target, 100, 100, false);
+            Activity activity = new Activity(goalId, habitId, userId, title, selectedCategory, selectedTaskType, LocalDateTime.now(), null, 0, target, 100, 100, false);
 
             activityDAO.addActivity(activity);
             close();
@@ -217,11 +217,11 @@ public class ActivityCreationController {
      * completion type on the three template buttons.
      */
     private void showTemplates() {
-        if (selectedCategory == null || selectedCompletionType == null) {
+        if (selectedCategory == null || selectedTaskType == null) {
             return;
         }
 
-        shownTemplates = ActivityTemplate.getTemplatesFor(selectedCategory, selectedCompletionType);
+        shownTemplates = ActivityTemplate.getTemplatesFor(selectedCategory, selectedTaskType);
 
         template1Button.setText(shownTemplates.get(0).getTitle());
         template2Button.setText(shownTemplates.get(1).getTitle());
@@ -236,7 +236,7 @@ public class ActivityCreationController {
 
         titleArea.setText(template.getTitle());
 
-        if (template.getCompletionType() == CompletionType.PROGRESSIVE) {
+        if (template.getTaskType() == TaskType.PROGRESSIVE) {
             targetField.setText(String.valueOf(template.getTarget()));
         }
     }
@@ -248,13 +248,13 @@ public class ActivityCreationController {
             button.getStyleClass().add(SELECTED_STYLE_CLASS);
         }
     }
-    private void selectCompletionType(CompletionType completionType) {
-        selectedCompletionType = completionType;
+    private void selectTaskType(TaskType taskType) {
+        selectedTaskType = taskType;
 
-        highlight(workOverTimeButton, completionType == CompletionType.PROGRESSIVE);
-        highlight(oneAndDoneButton, completionType == CompletionType.BINARY);
+        highlight(workOverTimeButton, taskType == TaskType.PROGRESSIVE);
+        highlight(oneAndDoneButton, taskType == TaskType.BINARY);
 
-        boolean needsTarget = completionType == CompletionType.PROGRESSIVE;
+        boolean needsTarget = taskType == TaskType.PROGRESSIVE;
 
         targetField.setDisable(!needsTarget);
 

@@ -2,6 +2,7 @@ package com.example.cab302project.model;
 
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
+import com.example.cab302project.model.enums.TaskType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,25 +14,25 @@ import java.util.List;
 public class ActivityTemplate {
     private String title;
     private Category category;
-    private CompletionType completionType;
+    private TaskType taskType;
     private int target;
 
     /**
      * Creates an activity template.
      * @param title What the activity suggests doing.
      * @param category The wellbeing area this template belongs to.
-     * @param completionType Whether it is worked towards or one and done.
+     * @param taskType Whether it is worked towards or one and done.
      * @param target The value that must be reached to complete it.
      * @throws IllegalArgumentException if any of the details are invalid.
      */
     public ActivityTemplate(String title, Category category,
-                        CompletionType completionType, int target) {
+                            TaskType taskType, int target) {
         validateTitle(title);
         validateTarget(target);
 
         this.title = title;
         this.category = category;
-        this.completionType = completionType;
+        this.taskType = taskType;
         this.target = target;
     }
 
@@ -56,12 +57,12 @@ public class ActivityTemplate {
      * @return The matching templates, or an empty list if there are none.
      */
     public static List<ActivityTemplate> getTemplatesFor(Category category,
-                                                     CompletionType completionType) {
+                                                     TaskType completionType) {
         List<ActivityTemplate> matching = new ArrayList<>();
 
         for (ActivityTemplate template : allTemplates()) {
             if (template.getCategory() == category
-                    && template.getCompletionType() == completionType) {
+                    && template.getTaskType() == completionType) {
                 matching.add(template);
             }
         }
@@ -77,51 +78,51 @@ public class ActivityTemplate {
 
         // Mind - worked towards over time
         templates.add(new ActivityTemplate("Meditate for 30 minutes",
-                Category.MIND, CompletionType.PROGRESSIVE, 30));
+                Category.MIND, TaskType.PROGRESSIVE, 30));
         templates.add(new ActivityTemplate("Read 1 book",
-                Category.MIND, CompletionType.PROGRESSIVE, 12));
+                Category.MIND, TaskType.PROGRESSIVE, 12));
         templates.add(new ActivityTemplate("Write in your journal 3 times this week",
-                Category.MIND, CompletionType.PROGRESSIVE, 100));
+                Category.MIND, TaskType.PROGRESSIVE, 100));
 
         // Mind - one and done
         templates.add(new ActivityTemplate("Write in your journal today",
-                Category.MIND, CompletionType.BINARY, 1));
+                Category.MIND, TaskType.BINARY, 1));
         templates.add(new ActivityTemplate("Spend today without technology",
-                Category.MIND, CompletionType.BINARY, 1));
+                Category.MIND, TaskType.BINARY, 1));
         templates.add(new ActivityTemplate("Practice your instrument today",
-                Category.MIND, CompletionType.BINARY, 1));
+                Category.MIND, TaskType.BINARY, 1));
 
         // Body - worked towards over time
         templates.add(new ActivityTemplate("Walk 8,000 steps",
-                Category.BODY, CompletionType.PROGRESSIVE, 8000));
+                Category.BODY, TaskType.PROGRESSIVE, 8000));
         templates.add(new ActivityTemplate("Cook for yourself 5 times this week",
-                Category.BODY, CompletionType.PROGRESSIVE, 5));
+                Category.BODY, TaskType.PROGRESSIVE, 5));
         templates.add(new ActivityTemplate("Run a total of 30k",
-                Category.BODY, CompletionType.PROGRESSIVE, 30));
+                Category.BODY, TaskType.PROGRESSIVE, 30));
 
         // Body - one and done
         templates.add(new ActivityTemplate("Try a new exercise",
-                Category.BODY, CompletionType.BINARY, 1));
+                Category.BODY, TaskType.BINARY, 1));
         templates.add(new ActivityTemplate("Go on a bush walk",
-                Category.BODY, CompletionType.BINARY, 1));
+                Category.BODY, TaskType.BINARY, 1));
         templates.add(new ActivityTemplate("Pick up a sport you used to play",
-                Category.BODY, CompletionType.BINARY, 1));
+                Category.BODY, TaskType.BINARY, 1));
 
         // World - worked towards over time
         templates.add(new ActivityTemplate("Commute using a bike for 3 days",
-                Category.WORLD, CompletionType.PROGRESSIVE, 3));
+                Category.WORLD, TaskType.PROGRESSIVE, 3));
         templates.add(new ActivityTemplate("PLACEHOLDER",
-                Category.WORLD, CompletionType.PROGRESSIVE, 100));
+                Category.WORLD, TaskType.PROGRESSIVE, 100));
         templates.add(new ActivityTemplate("PLACEHOLDER",
-                Category.WORLD, CompletionType.PROGRESSIVE, 50));
+                Category.WORLD, TaskType.PROGRESSIVE, 50));
 
         // World - one and done
         templates.add(new ActivityTemplate("Plant a tree",
-                Category.WORLD, CompletionType.BINARY, 1));
+                Category.WORLD, TaskType.BINARY, 1));
         templates.add(new ActivityTemplate("Mow your lawn",
-                Category.WORLD, CompletionType.BINARY, 1));
+                Category.WORLD, TaskType.BINARY, 1));
         templates.add(new ActivityTemplate("Water your plants",
-                Category.WORLD, CompletionType.BINARY, 1));
+                Category.WORLD, TaskType.BINARY, 1));
 
         return templates;
     }
@@ -134,8 +135,8 @@ public class ActivityTemplate {
         return category;
     }
 
-    public CompletionType getCompletionType() {
-        return completionType;
+    public TaskType getTaskType() {
+        return taskType;
     }
 
     public int getTarget() {
