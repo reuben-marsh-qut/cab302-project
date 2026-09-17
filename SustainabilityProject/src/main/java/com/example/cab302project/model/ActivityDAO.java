@@ -85,7 +85,7 @@ public class ActivityDAO implements IActivityDAO
 
         try
         {
-            int taskId = activity.getId();
+
             int goalId = activity.getGoalId();
             int habitId = activity.getHabitId();
             int userId = activity.getUserId();
@@ -110,8 +110,24 @@ public class ActivityDAO implements IActivityDAO
 
             PreparedStatement statement = connection.prepareStatement(query);
             //statement.setInt(1, taskId);
-            statement.setInt(1, goalId);
-            statement.setInt(2, habitId);
+            if (goalId == 0)
+            {
+                statement.setNull(1, Types.INTEGER);
+            }
+            else
+            {
+                statement.setInt(1, goalId);
+            }
+
+            if (habitId == 0)
+            {
+                statement.setNull(2, Types.INTEGER);
+            }
+            else
+            {
+                statement.setInt(2, habitId);
+            }
+
             statement.setInt(3, userId);
             statement.setString(4, taskTitle);
             statement.setInt(5, category);
@@ -132,6 +148,7 @@ public class ActivityDAO implements IActivityDAO
             statement.setInt(13, contributeToGoal);
             if (query.contains("UPDATE"))
             {
+                int taskId = activity.getId();
                 statement.setInt(14, taskId);
             }
 
