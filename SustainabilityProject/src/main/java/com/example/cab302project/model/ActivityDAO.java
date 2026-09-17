@@ -29,13 +29,14 @@ import com.example.cab302project.model.enums.CompletionType;
 ///     awardedXpReward INTEGER NOT NULL,
 ///     doesContributeDirectlyToGoal INTEGER NOT NULL CHECK (doesContributeDirectlyToGoal IN (0, 1))
 
-public class ActivityDAO
+public class ActivityDAO implements IActivityDAO
 {
     private Activity activityFromDatabaseRequest(ResultSet results)
     {
 
         try
         {
+
             int taskId = results.getInt("taskId");
             int goalId = results.getInt("goalId");
             int habitId = results.getInt("habitId");
@@ -84,7 +85,7 @@ public class ActivityDAO
 
         try
         {
-            int taskId = activity.getId();
+
             int goalId = activity.getGoalId();
             int habitId = activity.getHabitId();
             int userId = activity.getUserId();
@@ -93,14 +94,15 @@ public class ActivityDAO
             int taskType = activity.getActivityType().ordinal();
             long activityStartTime = activity.getStartDateTime().atZone(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             long activityEndTime;
-            if (activity.getDueDateTime() == null) {
+            if (activity.getDueDateTime() == null)
+            {
                 activityEndTime = 0;
             }
             else
             {
                 activityEndTime = activity.getDueDateTime().atZone(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             }
-            int progress= activity.getProgress();
+            int progress = activity.getProgress();
             int completionThreshold = activity.getCompletionThreshold();
             int xpReward = activity.getBaseXpReward();
             int awardedXpReward = activity.getAwardedXpReward();
@@ -108,8 +110,24 @@ public class ActivityDAO
 
             PreparedStatement statement = connection.prepareStatement(query);
             //statement.setInt(1, taskId);
-            statement.setInt(1, goalId);
-            statement.setInt(2, habitId);
+            if (goalId == 0)
+            {
+                statement.setNull(1, Types.INTEGER);
+            }
+            else
+            {
+                statement.setInt(1, goalId);
+            }
+
+            if (habitId == 0)
+            {
+                statement.setNull(2, Types.INTEGER);
+            }
+            else
+            {
+                statement.setInt(2, habitId);
+            }
+
             statement.setInt(3, userId);
             statement.setString(4, taskTitle);
             statement.setInt(5, category);
@@ -130,6 +148,7 @@ public class ActivityDAO
             statement.setInt(13, contributeToGoal);
             if (query.contains("UPDATE"))
             {
+                int taskId = activity.getId();
                 statement.setInt(14, taskId);
             }
 
@@ -155,7 +174,7 @@ public class ActivityDAO
             request.setInt(1, id);
             try (ResultSet results = request.executeQuery())
             {
-                if (!results.next() )
+                if (!results.next())
                 {
                     return null;
                 }
@@ -218,8 +237,7 @@ public class ActivityDAO
 
     public void addActivity(Activity activity)
     {
-        try
-        {
+        try {
 
             Connection connection = DatabaseConnection.getInstance();
 
@@ -252,6 +270,63 @@ public class ActivityDAO
 
     }
 
+    public List<Activity> getCompletedActivitiesForUser(int userId)
+    {
 
+        try
+        {
+            Connection connection = DatabaseConnection.getInstance();
+            String query = "SELECT * FROM tasks WHERE userId = ? AND progress >= completionThreshold";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet results = statement.executeQuery();
+
+            List<Activity> completedActivityList = new ArrayList<>();
+
+            while (results.next())
+            {
+
+                completedActivityList.add(activityFromDatabaseRequest(results));
+
+            }
+
+            return completedActivityList;
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public List<Activity> getIncompletedActivitiesForUser(int userId)
+    {
+
+        try
+        {
+            Connection connection = DatabaseConnection.getInstance();
+            String query = "SELECT * FROM tasks WHERE userId = ? AND progress < completionThreshold";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet results = statement.executeQuery();
+
+            List<Activity> incompleteActivityList = new ArrayList<>();
+
+            while (results.next())
+            {
+
+                incompleteActivityList.add(activityFromDatabaseRequest(results));
+
+            }
+
+            return incompleteActivityList;
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
