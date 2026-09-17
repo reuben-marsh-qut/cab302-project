@@ -126,8 +126,15 @@ public class GoalCreationController {
         String title = titleArea.getText();
         int target = 1;
 
-        if (dueDatePicker.getValue() == null) {
+        LocalDate deadline = dueDatePicker.getValue();
+
+        if (deadline == null) {
             showError("Please choose a deadline.");
+            return;
+        }
+
+        if (deadline.isBefore(LocalDate.now())) {
+            showError("Deadline must not be in the past.");
             return;
         }
 
@@ -143,10 +150,9 @@ public class GoalCreationController {
         }
 
         try {
-            // Goals start at zero progress, and this screen has no dates,
-            // so the goal starts today and never expires.
+            // Goals start today at zero progress and run until the deadline.
             Goal goal = new Goal(userId, title, selectedCategory,
-                    LocalDate.now(), dueDatePicker.getValue(),
+                    LocalDate.now(), deadline,
                     0, target, selectedCompletionType, false);
 
             goalDAO.addGoal(goal);
