@@ -181,6 +181,15 @@ public class GoalController {
                 .getStyleClass()
                 .add("item-details");
 
+        Label statusLabel = new Label("Not achieved");
+
+        statusLabel
+                .getStyleClass()
+                .add("goal-missed");
+
+        statusLabel.setVisible(goal.isNotAchieved());
+        statusLabel.setManaged(goal.isNotAchieved());
+
         Region spacer = new Region();
 
         VBox.setVgrow(
@@ -221,6 +230,8 @@ public class GoalController {
 
         Region Hspacer = new Region();
 
+
+
         HBox.setHgrow(
                 Hspacer,
                 Priority.ALWAYS
@@ -234,8 +245,9 @@ public class GoalController {
                 titleLabel,
                 progressLabel,
                 endDateLabel,
+                statusLabel,
                 spacer,
-                imageButtonContainer
+                imageView
         );
 
         return goalCard;
