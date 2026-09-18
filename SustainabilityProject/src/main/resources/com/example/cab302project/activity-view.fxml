@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cab302project.controller.ActivityController"
+            fx:id="rootPane"
             stylesheets="@../../../stylesheets/home.css"
             styleClass="page-body">
 
     <padding>
-        <Insets top="28"
-                right="28"
-                bottom="28"
-                left="28"/>
+        <Insets top="28" right="28" bottom="28" left="28"/>
     </padding>
 
     <left>
@@ -29,122 +25,103 @@
 
     <center>
 
-        <ScrollPane fitToWidth="true"
-                    hbarPolicy="NEVER"
-                    vbarPolicy="AS_NEEDED">
+        <!--
+            Changing Activity View to Match Goal View
+        -->
+        <BorderPane fx:id="contentPane">
 
-            <VBox spacing="26">
+            <center>
 
-                <padding>
-                    <Insets top="18"
-                            right="20"
-                            bottom="50"
-                            left="48"/>
-                </padding>
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED">
 
-                <VBox spacing="6">
+                    <VBox spacing="26">
 
-                    <Label text="Activities"
-                           styleClass="page-header"/>
+                        <padding>
+                            <Insets top="18"
+                                    right="20"
+                                    bottom="50"
+                                    left="48"/>
+                        </padding>
 
-                    <Label text="Your activities to complete."
-                           styleClass="page-subheader"/>
+                        <HBox alignment="CENTER_LEFT">
 
-                </VBox>
+                            <VBox spacing="6"
+                                  HBox.hgrow="ALWAYS">
 
-                <VBox spacing="18"
-                      styleClass="card">
+                                <Label text="Activities"
+                                       styleClass="page-header"/>
 
-                    <Label text="Current activities"
-                           styleClass="section-title"/>
+                                <Label text="Allocate useful activities to grow yourself."
+                                       styleClass="page-subheader"/>
 
-                    <Label text="Activities you're currently working on."
-                           styleClass="section-description"/>
+                            </VBox>
 
-                    <HBox spacing="20">
+                            <Button text="New Activity"
+                                    prefWidth="130"
+                                    onAction="#onNewActivity"
+                                    styleClass="primary-button"/>
 
-                        <VBox styleClass="item-card"
-                              spacing="10"
-                              prefHeight="250"
-                              prefWidth="250">
+                        </HBox>
 
-                            <Label text="Mind"
-                                   styleClass="item-category"/>
+                        <VBox spacing="18"
+                              styleClass="card">
 
-                            <Label text="Water the garden"
-                                   styleClass="item-header"
-                                   wrapText="true"/>
+                            <Label text="Current activities"
+                                   styleClass="section-title"/>
 
-                            <Label text="Progress: 0/1"
-                                   styleClass="item-details"/>
+                            <Label text="The standalone activities you're actively working towards."
+                                   styleClass="section-description"/>
 
-                            <Label text="End Date: 06/09/2026"
-                                   styleClass="item-details"/>
+                            <ScrollPane fitToHeight="true"
+                                        hbarPolicy="AS_NEEDED"
+                                        vbarPolicy="NEVER"
+                                        minHeight="270"
+                                        prefHeight="270"
+                                        maxHeight="270">
 
-                            <Region VBox.vgrow="ALWAYS"/>
+                                <content>
+                                    <HBox fx:id="incompleteActivitiesContainer"
+                                          spacing="20"/>
+                                </content>
 
-                            <ImageView fitHeight="70"
-                                       fitWidth="70"
-                                       preserveRatio="true">
-
-                                <Image url="@../../../assets/plantPot.png"/>
-
-                            </ImageView>
-
-                        </VBox>
-
-                    </HBox>
-
-                </VBox>
-
-                <VBox spacing="18"
-                      styleClass="card">
-
-                    <Label text="Completed activities"
-                           styleClass="section-title"/>
-
-                    <Label text="View activities you've already completed."
-                           styleClass="section-description"/>
-
-                    <HBox spacing="20">
-
-                        <VBox styleClass="item-card"
-                              spacing="10"
-                              prefHeight="250"
-                              prefWidth="250">
-
-                            <Label text="Mind"
-                                   styleClass="item-category"/>
-
-                            <Label text="Mow the lawn"
-                                   styleClass="item-header"
-                                   wrapText="true"/>
-
-                            <Label text="Progress: 1/1"
-                                   styleClass="item-details"/>
-
-                            <Label text="End Date: 02/09/2026"
-                                   styleClass="item-details"/>
-
-                            <Region VBox.vgrow="ALWAYS"/>
-
-                            <ImageView fitHeight="70"
-                                       fitWidth="70"
-                                       preserveRatio="true">
-
-                                <Image url="@../../../assets/plantPot.png"/>
-
-                            </ImageView>
+                            </ScrollPane>
 
                         </VBox>
 
-                    </HBox>
+                        <VBox spacing="18"
+                              styleClass="card">
 
-                </VBox>
+                            <Label text="Completed activities"
+                                   styleClass="section-title"/>
 
-            </VBox>
+                            <Label text="Be proud of past completions."
+                                   styleClass="section-description"/>
 
-        </ScrollPane>
+                            <ScrollPane fitToHeight="true"
+                                        hbarPolicy="AS_NEEDED"
+                                        vbarPolicy="NEVER"
+                                        minHeight="270"
+                                        prefHeight="270"
+                                        maxHeight="270">
+
+                                <content>
+                                    <HBox fx:id="completeActivitiesContainer"
+                                          spacing="20"/>
+                                </content>
+
+                            </ScrollPane>
+
+                        </VBox>
+
+                    </VBox>
+
+                </ScrollPane>
+
+            </center>
+
+        </BorderPane>
 
     </center>
 

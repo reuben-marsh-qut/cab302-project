@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 public class Activity {
     private Integer id;
     private Integer goalId; // inherently nullable
-    private Goal goal; // inherently nullable
     private Integer habitId; // nullable
-    private Habit habit; // nullable
     private Integer userId;
     private String title;
     private Category category;
@@ -140,5 +138,19 @@ public class Activity {
     public boolean isDoesContributeDirectlyToGoal() {
         return doesContributeDirectlyToGoal;
     }
+
+    public boolean getIsComplete()
+    {
+        if (this.progress >= this.completionThreshold)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 }
 
