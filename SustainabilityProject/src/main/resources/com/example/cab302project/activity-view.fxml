@@ -1,33 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cab302project.controller.ActivityController"
-            prefHeight="412.0" prefWidth="732.0"
+            fx:id="rootPane"
             stylesheets="@../../../stylesheets/home.css"
-            fx:id="rootPane">
+            styleClass="page-body">
+
     <padding>
-        <Insets top="28"
-                right="28"
-                bottom="28"
-                left="28"/>
+        <Insets top="28" right="28" bottom="28" left="28"/>
     </padding>
 
     <left>
@@ -35,54 +24,105 @@
     </left>
 
     <center>
-        <BorderPane fx:id="contentPane">
-            <center>
-                <ScrollPane fitToHeight="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" fitToWidth="true">
 
-                    <VBox spacing="15">
+        <!--
+            Changing Activity View to Match Goal View
+        -->
+        <BorderPane fx:id="contentPane">
+
+            <center>
+
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED">
+
+                    <VBox spacing="26">
 
                         <padding>
-                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                            <Insets top="18"
+                                    right="20"
+                                    bottom="50"
+                                    left="48"/>
                         </padding>
 
-                        <fx:include source="nav-bar-view.fxml"/>
+                        <HBox alignment="CENTER_LEFT">
 
-                        <Label styleClass="page-header">Activities</Label>
-                        <Label styleClass="page-subheader">Contribute to your own Activity!</Label>
+                            <VBox spacing="6"
+                                  HBox.hgrow="ALWAYS">
 
-                        <!-- Opens the activity creation dialog (US-06)-->
-                        <Button text="New Activity" prefHeight="40" prefWidth="120" onAction="#onNewActivity"/>
+                                <Label text="Activities"
+                                       styleClass="page-header"/>
 
-                        <Separator/>
+                                <Label text="Allocate useful activities to grow yourself."
+                                       styleClass="page-subheader"/>
 
-                        <!--            Activities container-->
-                        <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
-                                    minHeight="270" prefHeight="270" maxHeight="270">
-                            <content>
-                                <HBox fx:id="incompleteActivitiesContainer" spacing="20"/>
-                            </content>
-                        </ScrollPane>
+                            </VBox>
 
-                        <Label styleClass="page-header">Completed Activities</Label>
-                        <Label styleClass="page-subheader">Reflect on your past activities</Label>
+                            <Button text="New Activity"
+                                    prefWidth="130"
+                                    onAction="#onNewActivity"
+                                    styleClass="primary-button"/>
 
-                        <Separator/>
+                        </HBox>
 
-                        <!--                Completed activities container-->
-                        <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
-                                    minHeight="270" prefHeight="270" maxHeight="270">
-                            <content>
-                                <HBox fx:id="completeActivitiesContainer" spacing="20"/>
-                            </content>
-                        </ScrollPane>
+                        <VBox spacing="18"
+                              styleClass="card">
 
+                            <Label text="Current activities"
+                                   styleClass="section-title"/>
+
+                            <Label text="The standalone activities you're actively working towards."
+                                   styleClass="section-description"/>
+
+                            <ScrollPane fitToHeight="true"
+                                        hbarPolicy="AS_NEEDED"
+                                        vbarPolicy="NEVER"
+                                        minHeight="270"
+                                        prefHeight="270"
+                                        maxHeight="270">
+
+                                <content>
+                                    <HBox fx:id="incompleteActivitiesContainer"
+                                          spacing="20"/>
+                                </content>
+
+                            </ScrollPane>
+
+                        </VBox>
+
+                        <VBox spacing="18"
+                              styleClass="card">
+
+                            <Label text="Completed activities"
+                                   styleClass="section-title"/>
+
+                            <Label text="Be proud of past completions."
+                                   styleClass="section-description"/>
+
+                            <ScrollPane fitToHeight="true"
+                                        hbarPolicy="AS_NEEDED"
+                                        vbarPolicy="NEVER"
+                                        minHeight="270"
+                                        prefHeight="270"
+                                        maxHeight="270">
+
+                                <content>
+                                    <HBox fx:id="completeActivitiesContainer"
+                                          spacing="20"/>
+                                </content>
+
+                            </ScrollPane>
+
+                        </VBox>
 
                     </VBox>
+
                 </ScrollPane>
+
             </center>
 
         </BorderPane>
-    </center>
 
+    </center>
 
 </BorderPane>
