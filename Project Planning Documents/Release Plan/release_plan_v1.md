@@ -1,4 +1,4 @@
-# Rooted — Basic Release Plan
+ # Rooted — Basic Release Plan
 
 ## Release Goal
 The goal of the first release is to produce a desktop application that gives users the ability to help build positive wellbeing behaviors thorough goals, habits and activities.

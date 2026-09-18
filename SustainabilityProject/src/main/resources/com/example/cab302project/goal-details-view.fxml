@@ -21,7 +21,7 @@
     <Text fx:id="endDateText"/>
     <Text fx:id="progressText"/>
     
-    <HBox spacing="100" fx:id="completeGoalButtons">
+    <HBox spacing="30" fx:id="completeGoalButtons">
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Update your progress!"/>
             <TextField fx:id="progressUpdate" promptText="Add to progress"/>
@@ -33,6 +33,12 @@
             <Label styleClass="page-subheader" text="Mark you goal as complete!"/>
             <Button mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="120.0"
                     text="Mark as Complete"/>
+        </VBox>
+
+        <VBox spacing="20">
+            <Label styleClass="page-subheader" text="Change your goal details!"/>
+            <Button mnemonicParsing="false" onAction="#onEditGoal" prefHeight="40.0" prefWidth="120.0"
+                    text="Edit Goal"/>
         </VBox>
     </HBox>
 

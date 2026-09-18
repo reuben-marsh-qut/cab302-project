@@ -520,3 +520,7 @@
     -fx-border-color: #e1e5e0;
     -fx-border-width: 1 0 0 0;
 }
+.goal-missed {
+    -fx-text-fill: #b00020;
+    -fx-font-weight: bold;
+}

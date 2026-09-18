@@ -79,13 +79,21 @@ public class Goal {
         if (dueDate == null) {
             return; // A goal with no due date never expires.
         }
-        if (dueDate.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Goal due date must not be in the past.");
-        }
         if (dueDate.isBefore(startsAt)) {
             throw new IllegalArgumentException(
                     "Goal due date must not be before its start date.");
         }
+    }
+    /**
+     * Whether this goal reached its deadline without meeting its target.
+     * A goal with no deadline can never be not achieved.
+     * @return true if the deadline has passed and the target was not reached.
+     */
+    public boolean isNotAchieved() {
+        if (dueDate == null) {
+            return false;
+        }
+        return dueDate.isBefore(LocalDate.now()) && progress < threshold;
     }
 
     public Integer getId() {
@@ -104,8 +112,17 @@ public class Goal {
         return title;
     }
 
+    public void setTitle(String title) {
+        validateTitle(title);
+        this.title = title;
+    }
+
     public Category getCategory() {
         return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public LocalDate getStartDate() {
@@ -114,6 +131,11 @@ public class Goal {
 
     public LocalDate getDueDate() {
         return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        validateDates(this.startDate, dueDate);
+        this.dueDate = dueDate;
     }
 
     public Integer getProgress() {
@@ -128,8 +150,17 @@ public class Goal {
         return threshold;
     }
 
+    public void setThreshold(Integer threshold) {
+        validateCompletionThreshold(threshold);
+        this.threshold = threshold;
+    }
+
     public CompletionType getCompletionType() {
         return completionType;
+    }
+
+    public void setCompletionType(CompletionType completionType) {
+        this.completionType = completionType;
     }
 
     public boolean getIsComplete() {
