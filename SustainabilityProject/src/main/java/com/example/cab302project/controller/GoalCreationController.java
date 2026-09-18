@@ -37,10 +37,15 @@ public class GoalCreationController {
     private Label errorLabel;
     @FXML
     private DatePicker dueDatePicker;
+    @FXML
+    private Label pageHeaderLabel;
+    @FXML
+    private Button createButton;
 
 
     private IGoalDAO goalDAO;
     private int userId;
+    private Goal goalToEdit;
     private Runnable onFinished;
     private static final String SELECTED_STYLE_CLASS = "option-selected";
 
@@ -53,6 +58,27 @@ public class GoalCreationController {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+    /**
+     * Puts the page into edit mode for an existing goal, filling the form
+     * with its current details.
+     * @param goal The goal being edited.
+     */
+    public void setGoalToEdit(Goal goal) {
+        this.goalToEdit = goal;
+
+        pageHeaderLabel.setText("Edit Your Goal");
+        createButton.setText("Save Changes");
+
+        templatesContainer.setVisible(false);
+        templatesContainer.setManaged(false);
+
+        selectCategory(goal.getCategory());
+        selectCompletionType(goal.getCompletionType());
+
+        titleArea.setText(goal.getTitle());
+        targetField.setText(String.valueOf(goal.getThreshold()));
+        dueDatePicker.setValue(goal.getDueDate());
     }
 
     /**
@@ -150,12 +176,24 @@ public class GoalCreationController {
         }
 
         try {
-            // Goals start today at zero progress and run until the deadline.
-            Goal goal = new Goal(userId, title, selectedCategory,
-                    LocalDate.now(), deadline,
-                    0, target, selectedCompletionType, false);
+            if (goalToEdit == null) {
+                // Creating: goals start today at zero progress and run until the deadline.
+                Goal goal = new Goal(userId, title, selectedCategory,
+                        LocalDate.now(), deadline,
+                        0, target, selectedCompletionType, false);
 
-            goalDAO.addGoal(goal);
+                goalDAO.addGoal(goal);
+            } else {
+                // Editing: progress, start date and id are all left as they were.
+                goalToEdit.setTitle(title);
+                goalToEdit.setCategory(selectedCategory);
+                goalToEdit.setCompletionType(selectedCompletionType);
+                goalToEdit.setThreshold(target);
+                goalToEdit.setDueDate(deadline);
+
+                goalDAO.updateGoal(goalToEdit);
+            }
+
             close();
         } catch (IllegalArgumentException exception) {
             showError(exception.getMessage());

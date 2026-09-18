@@ -15,7 +15,7 @@
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
    <children>
-      <Label styleClass="page-header" text="Create Your Goal" />
+      <Label fx:id="pageHeaderLabel" styleClass="page-header" text="Create Your Goal" />
       <Label styleClass="page-subheader" text="What do you want done?" />
       <Separator />
       <Label maxWidth="1.7976931348623157E308" styleClass="item-details" text="Goals should be a long term task that you work towards over time. Think about something such as saving X amount of money, or walking X distance. You don't need to do these in one go, just chip away as you can." wrapText="true" />
@@ -73,7 +73,8 @@
       <HBox alignment="CENTER" prefHeight="60.0" spacing="10.0" styleClass="item-card">
          <children>
             <Button mnemonicParsing="false" onAction="#onCancel" prefHeight="40.0" prefWidth="120.0" text="Cancel" />
-            <Button mnemonicParsing="false" onAction="#onCreateGoal" prefHeight="40.0" prefWidth="140.0" styleClass="primary-button" text="Create Goal" />         </children>
+            <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateGoal" prefHeight="40.0" prefWidth="120.0" text="Create" />
+         </children>
       </HBox>
    </children>
 </VBox>

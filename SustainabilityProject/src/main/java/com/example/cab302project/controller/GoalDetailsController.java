@@ -12,12 +12,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
 public class GoalDetailsController {
     private int goalId;
     private Runnable onFinished;
     private final IGoalDAO goalDAO;
+    private GoalController goalController;
 
     public GoalDetailsController() {
         goalDAO = new GoalDAO();
@@ -144,6 +146,17 @@ public class GoalDetailsController {
     }
 
     /**
+     * Handles the edit button click by asking the goals screen to open
+     * this goal for editing.
+     */
+    @FXML
+    private void onEditGoal() {
+        if (goalController != null) {
+            goalController.openGoalForEditing(goalDAO.getGoalById(goalId));
+        }
+    }
+
+    /**
      * Loads the goal details into the form
      */
     private void LoadGoalDetails() {
@@ -161,5 +174,9 @@ public class GoalDetailsController {
      */
     public void setOnFinished(Runnable onFinished) {
         this.onFinished = onFinished;
+    }
+
+    public void setGoalController(GoalController goalController) {
+        this.goalController = goalController;
     }
 }

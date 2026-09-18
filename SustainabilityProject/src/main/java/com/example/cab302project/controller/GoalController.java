@@ -247,7 +247,7 @@ public class GoalController {
                 endDateLabel,
                 statusLabel,
                 spacer,
-                imageView
+                imageButtonContainer
         );
 
         return goalCard;
@@ -271,6 +271,7 @@ public class GoalController {
         GoalDetailsController controller = loader.getController();
         controller.setGoalId(goalId);
         controller.setOnFinished(this::showGoalsPanel);
+        controller.setGoalController(this);
 
         contentPane.setCenter(goalDetailsView);
     }
@@ -295,6 +296,28 @@ public class GoalController {
         controller.setOnFinished(this::showGoalsPanel);
 
         contentPane.setCenter(goalCreationPanel);    }
+
+    /**
+     * Opens the goal creation page in edit mode for an existing goal.
+     * @param goal The goal to edit.
+     */
+    public void openGoalForEditing(Goal goal) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("goal-creation-view.fxml"));
+            Node goalCreationPanel = loader.load();
+
+            GoalCreationController controller = loader.getController();
+            controller.setGoalDAO(goalDAO);
+            controller.setUserId(currentUser.getUserId());
+            controller.setGoalToEdit(goal);
+            controller.setOnFinished(this::showGoalsPanel);
+
+            contentPane.setCenter(goalCreationPanel);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
     /**
      * Returns to the goals panel and refreshes the list.
