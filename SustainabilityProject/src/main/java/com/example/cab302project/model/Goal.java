@@ -112,8 +112,17 @@ public class Goal {
         return title;
     }
 
+    public void setTitle(String title) {
+        validateTitle(title);
+        this.title = title;
+    }
+
     public Category getCategory() {
         return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public LocalDate getStartDate() {
@@ -122,6 +131,11 @@ public class Goal {
 
     public LocalDate getDueDate() {
         return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        validateDates(this.startDate, dueDate);
+        this.dueDate = dueDate;
     }
 
     public Integer getProgress() {
@@ -136,8 +150,17 @@ public class Goal {
         return threshold;
     }
 
+    public void setThreshold(Integer threshold) {
+        validateCompletionThreshold(threshold);
+        this.threshold = threshold;
+    }
+
     public CompletionType getCompletionType() {
         return completionType;
+    }
+
+    public void setCompletionType(CompletionType completionType) {
+        this.completionType = completionType;
     }
 
     public boolean getIsComplete() {

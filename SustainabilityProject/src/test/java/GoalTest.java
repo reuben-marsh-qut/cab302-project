@@ -152,4 +152,42 @@ public class GoalTest {
 
         assertFalse(openGoal.isNotAchieved());
     }
+    @Test
+    public void testSetTitleUpdatesTheTitle() {
+        goal.setTitle("Updated goal");
+
+        assertEquals("Updated goal", goal.getTitle());
+    }
+
+    @Test
+    public void testSetBlankTitleThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> goal.setTitle("  "));
+    }
+
+    @Test
+    public void testSetThresholdUpdatesTheThreshold() {
+        goal.setThreshold(25);
+
+        assertEquals(25, goal.getThreshold());
+    }
+
+    @Test
+    public void testSetThresholdBelowOneThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> goal.setThreshold(0));
+    }
+
+    @Test
+    public void testSetDueDateUpdatesTheDueDate() {
+        LocalDate newDueDate = LocalDate.now().plusDays(200);
+
+        goal.setDueDate(newDueDate);
+
+        assertEquals(newDueDate, goal.getDueDate());
+    }
+
+    @Test
+    public void testSetDueDateBeforeStartDateThrowsException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> goal.setDueDate(LocalDate.now().minusDays(10)));
+    }
 }
