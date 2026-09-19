@@ -213,7 +213,7 @@ public class SidebarController {
 
         openPage(
                 homeButton,
-                "goal-view.fxml"
+                "home-view.fxml"
         );
     }
 
