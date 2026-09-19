@@ -9,14 +9,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class HelloApplication extends Application {
-    public static final int WIDTH = 732*2;
-    public static final int HEIGHT = 412*2;
-
     @Override
     public void start(Stage stage) throws IOException {
         DatabaseConnection.initialise();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setFullScreen(true);
         stage.setTitle("Rooted: Water your mind");
         stage.setScene(scene);
         databasetesting.run();
