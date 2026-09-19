@@ -136,6 +136,8 @@ public class ActivityDetailsController {
         alert.setHeaderText("Are you sure you want to delete this activity?");
         alert.setContentText("This action cannot be undone.");
 
+        alert.initOwner(completeActivityButtons.getScene().getWindow());
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             activityDAO.deleteActivity(activity);

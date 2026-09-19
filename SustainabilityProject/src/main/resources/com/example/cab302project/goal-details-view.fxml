@@ -8,7 +8,8 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cab302project.controller.GoalDetailsController"
-      prefHeight="400.0" prefWidth="600.0" spacing="20">
+      prefHeight="400.0" prefWidth="600.0" spacing="20"
+      stylesheets="@../../../stylesheets/home.css">
 
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
@@ -25,27 +26,28 @@
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Update your progress!"/>
             <TextField fx:id="progressUpdate" promptText="Add to progress"/>
-            <Button mnemonicParsing="false" onAction="#onUpdateProgress" prefHeight="40.0" prefWidth="120.0"
-                    text="Update progress"/>
+            <Button mnemonicParsing="false" onAction="#onUpdateProgress" prefHeight="40.0" prefWidth="200.0"
+                    text="Update progress" styleClass="primary-button"/>
         </VBox>
 
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Mark you goal as complete!"/>
-            <Button mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="120.0"
-                    text="Mark as Complete"/>
+            <Button mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="200.0"
+                    text="Mark as Complete" styleClass="primary-button"/>
         </VBox>
 
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Change your goal details!"/>
             <Button mnemonicParsing="false" onAction="#onEditGoal" prefHeight="40.0" prefWidth="120.0"
-                    text="Edit Goal"/>
+                    text="Edit Goal" styleClass="primary-button"/>
         </VBox>
     </HBox>
 
     <Separator/>
 
     <Label styleClass="page-subheader" text="Delete your goal"/>
-    <Button mnemonicParsing="false" onAction="#onDelete" prefHeight="40.0" prefWidth="120.0" text="Delete this Goal"/>
+    <Button mnemonicParsing="false" onAction="#onDelete" prefHeight="40.0" prefWidth="200.0"
+            text="Delete this Goal" styleClass="delete-button"/>
 
     <Separator/>
 
