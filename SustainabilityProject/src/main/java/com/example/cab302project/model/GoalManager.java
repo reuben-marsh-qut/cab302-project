@@ -74,6 +74,32 @@ public class GoalManager {
     }
 
     /**
+     * Searches for completed goals with a matching user id
+     * @param query user id to find goals of
+     * @return goals with matching user id
+     */
+    public List<Goal> searchCompletedGoalsByUserId(Integer query) {
+        return goalDAO.getAllGoals()
+                .stream()
+                .filter(goal -> isGoalUserIdMatched(goal, query))
+                .filter(goal -> isGoalComplete(goal))
+                .toList();
+    }
+
+    /**
+     * Searches for incomplete goals with a matching user id
+     * @param query user id to find goals of
+     * @return goals with matching user id
+     */
+    public List<Goal> searchIncompleteGoalsByUserId(Integer query) {
+        return goalDAO.getAllGoals()
+                .stream()
+                .filter(goal -> isGoalUserIdMatched(goal, query))
+                .filter(goal -> !isGoalComplete(goal))
+                .toList();
+    }
+
+    /**
      * Checks if the goal user id matches the query
      * @param goal goal to compare user id for
      * @param query user id to compare against
@@ -83,6 +109,10 @@ public class GoalManager {
         if (query == null) return true;
         Integer searchUserId = goal.getUserId();
         return (searchUserId.equals(query));
+    }
+
+    private boolean isGoalComplete(Goal goal) {
+        return (goal.getIsComplete());
     }
 
     /**

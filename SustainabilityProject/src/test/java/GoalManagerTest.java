@@ -33,7 +33,7 @@ public class GoalManagerTest {
                     CompletionType.PROGRESSIVE, false),
             new Goal(5, "Seb's Second Goal", Category.MIND, LocalDate.now(),
                     LocalDate.now().plusMonths(2), 1, 10,
-                    CompletionType.PROGRESSIVE, false)
+                    CompletionType.PROGRESSIVE, true)
     };
 
     @BeforeEach
@@ -168,5 +168,31 @@ public class GoalManagerTest {
         List <Goal> goals = goalManager.getGoalsBeforeDate(LocalDate.now().plusDays(50));
         assertEquals(1, goals.size());
         assertEquals("Sujhav's Goal", goals.get(0).getTitle());
+    }
+
+    @Test
+    public void testSearchCompletedGoalsById() {
+        goalManager.deleteAllGoals();
+
+        for (Goal goal : goals) { // add all goals
+            goalManager.addGoal(goal);
+        }
+
+        List<Goal> goals = goalManager.searchCompletedGoalsByUserId(5);
+        assertEquals(1, goals.size());
+        assertEquals("Seb's Second Goal", goals.get(0).getTitle());
+    }
+
+    @Test
+    public void testSearchIncompleteGoalsById() {
+        goalManager.deleteAllGoals();
+
+        for (Goal goal : goals) { // add all goals
+            goalManager.addGoal(goal);
+        }
+
+        List<Goal> goals = goalManager.searchIncompleteGoalsByUserId(5);
+        assertEquals(1, goals.size());
+        assertEquals("Seb's Goal", goals.get(0).getTitle());
     }
 }

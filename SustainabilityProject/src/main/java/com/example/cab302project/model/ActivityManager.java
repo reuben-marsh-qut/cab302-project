@@ -40,6 +40,22 @@ public class ActivityManager {
         return (searchCategory == query);
     }
 
+    public List<Activity> searchCompletedActivitiesByUserId(Integer query) {
+        return activityDAO.getAllActivities()
+                .stream()
+                .filter(activity -> isActivityUserIdMatched(activity, query))
+                .filter(activity -> isActivityComplete(activity))
+                .toList();
+    }
+
+    public List<Activity> searchIncompleteActivitiesByUserId(Integer query) {
+        return activityDAO.getAllActivities()
+                .stream()
+                .filter(activity -> isActivityUserIdMatched(activity, query))
+                .filter(activity -> !isActivityComplete(activity))
+                .toList();
+    }
+
     public List<Activity> searchActivitiesByUserId(Integer query) {
         return activityDAO.getAllActivities()
                 .stream()
@@ -51,6 +67,10 @@ public class ActivityManager {
         if (query == null) return true;
         Integer searchUserId = activity.getUserId();
         return (searchUserId.equals(query));
+    }
+
+    private boolean isActivityComplete(Activity activity) {
+        return (activity.getIsComplete());
     }
 
     public List<Activity> getActivitiesBeforeDate(LocalDateTime dateTime) {

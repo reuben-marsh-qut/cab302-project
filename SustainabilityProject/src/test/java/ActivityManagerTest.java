@@ -33,7 +33,7 @@ public class ActivityManagerTest {
             new Activity(4, 5, 3, "Talk to five people", Category.SOCIAL,
                     CompletionType.PROGRESSIVE, LocalDateTime.of(2029, 8, 4, 12, 0),
                     LocalDateTime.of(2029, 8, 11, 12, 0),
-                    0, 1, 10, 0, false)
+                    5, 5, 10, 0, false)
     };
 
     @BeforeEach
@@ -154,6 +154,26 @@ public class ActivityManagerTest {
             activityManager.addActivity(activity);
         }
         List <Activity> activities = activityManager.getActivitiesBeforeDate(LocalDateTime.of(2026, 12, 31, 0, 0));
+        assertEquals(1, activities.size());
+        assertEquals("Mow the lawn", activities.get(0).getTitle());
+    }
+
+    @Test
+    public void testSearchCompletedActivitiesById() {
+        for (Activity activity : activities) { // add all activities
+            activityManager.addActivity(activity);
+        }
+        List<Activity> activities = activityManager.searchCompletedActivitiesByUserId(3);
+        assertEquals(1, activities.size());
+        assertEquals("Talk to five people", activities.get(0).getTitle());
+    }
+
+    @Test
+    public void testSearchIncompleteActivitiesById() {
+        for (Activity activity : activities) { // add all activities
+            activityManager.addActivity(activity);
+        }
+        List<Activity> activities = activityManager.searchIncompleteActivitiesByUserId(3);
         assertEquals(1, activities.size());
         assertEquals("Mow the lawn", activities.get(0).getTitle());
     }
