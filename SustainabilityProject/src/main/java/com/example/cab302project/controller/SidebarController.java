@@ -25,8 +25,8 @@ public class SidebarController {
     @FXML
     private Button goalsButton;
 
-//    @FXML
-//    private Button habitsButton;
+    @FXML
+    private Button habitsButton;
 
     @FXML
     private Button activitiesButton;
@@ -227,20 +227,15 @@ public class SidebarController {
         );
     }
 
-//    @FXML
-//    protected void onHabitsButtonClick()
-//            throws IOException {
-//
-//        /*
-//         * There is no dedicated habits page yet.
-//         * This preserves the behaviour from the old
-//         * NavBarController.
-//         */
-//        openPage(
-//                habitsButton,
-//                "goal-view.fxml"
-//        );
-//    }
+    @FXML
+    protected void onHabitsButtonClick()
+            throws IOException {
+
+        openPage(
+                habitsButton,
+                "habit-view.fxml"
+        );
+    }
 
     @FXML
     protected void onActivitiesButtonClick()

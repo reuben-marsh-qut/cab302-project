@@ -2,6 +2,8 @@ package com.example.cab302project.model;
 
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
+import com.example.cab302project.model.enums.TaskType;
+import javafx.concurrent.Task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +15,7 @@ public class Activity {
     private Integer userId;
     private String title;
     private Category category;
-    private CompletionType activityType;
+    private TaskType activityType;
     private LocalDateTime startDateTime;
     private LocalDateTime dueDateTime;
     private Integer progress;
@@ -21,9 +23,9 @@ public class Activity {
     private Integer baseXpReward;
     private Integer awardedXpReward;
     // if true this progress in this activity directly adds contribution to the associated goal
-    private boolean doesContributeDirectlyToGoal;
+    private boolean doesContributeDirectlyToGoal; // TODO: handle this in updateGoalDAO
     public Activity(Integer goalId, Integer habitId, Integer userId, String title, Category category,
-                    CompletionType activityType, LocalDateTime startDateTime, LocalDateTime dueDateTime,
+                    TaskType activityType, LocalDateTime startDateTime, LocalDateTime dueDateTime,
                     Integer progress, Integer completionThreshold, Integer baseXpReward, Integer awardedXpReward,
                     boolean doesContributeDirectlyToGoal) {
         validateTitle(title);
@@ -66,9 +68,9 @@ public class Activity {
         if (dueDate == null) {
             return; // An activity with no due date never expires.
         }
-        if (dueDate.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Activity due date must not be in the past.");
-        }
+//        if (dueDate.isBefore(LocalDateTime.now())) {
+//            throw new IllegalArgumentException("Activity due date must not be in the past.");
+//        }
         if (dueDate.isBefore(startsAt)) {
             throw new IllegalArgumentException(
                     "Activity due date must not be before its start date.");
@@ -77,6 +79,9 @@ public class Activity {
 
     public Integer getGoalId() {
         return goalId;
+    }
+    public boolean isComplete() {
+        return progress>=completionThreshold;
     }
 
     public Integer getHabitId() {
@@ -95,7 +100,7 @@ public class Activity {
         return category;
     }
 
-    public CompletionType getActivityType() {
+    public TaskType getActivityType() {
         return activityType;
     }
 

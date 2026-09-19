@@ -2,6 +2,8 @@ package com.example.cab302project.model;
 
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
+import com.example.cab302project.model.enums.RepeatFrequencyType;
+import com.example.cab302project.model.enums.TaskType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,20 +14,21 @@ public class Habit {
     private Integer userId;
     private String title;
     private Category category;
-    private CompletionType habitType;
-    private Integer repeatFrequencyDays;
+    private TaskType habitType;
+    private Integer repeatFrequency;
+    private RepeatFrequencyType repeatFrequencyType;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Integer progress;
+//    private Integer progress; // habits can't have progress but their children can TODO: this belongs on activities
     private Integer completionThreshold;
     private Integer baseXpReward;
-    private Integer awardedXpReward;
+//    private Integer awardedXpReward; // TODO: this belongs on activities
     // if true this progress in this activity directly adds contribution to the associated goal
     private boolean doesContributeDirectlyToGoal;
 
 
     public Habit(Integer goalId, Integer userId, String title, Category category,
-                 CompletionType habitType, Integer repeatFrequencyDays, LocalDate startDate,
+                 TaskType habitType, Integer repeatFrequency, LocalDate startDate,
                  LocalDate endDate, Integer progress, Integer completionThreshold, Integer baseXpReward,
                  Integer awardedXpReward, boolean doesContributeDirectlyToGoal) {
         validateTitle(title);
@@ -37,13 +40,37 @@ public class Habit {
         this.title = title;
         this.category = category;
         this.habitType = habitType;
-        this.repeatFrequencyDays = repeatFrequencyDays;
+        this.repeatFrequency = repeatFrequency;
+        this.repeatFrequencyType = RepeatFrequencyType.DAILY;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.progress = progress;
+//        this.progress = progress;
         this.completionThreshold = completionThreshold;
         this.baseXpReward = baseXpReward;
-        this.awardedXpReward = awardedXpReward;
+//        this.awardedXpReward = awardedXpReward;
+        this.doesContributeDirectlyToGoal = doesContributeDirectlyToGoal;
+    }
+    public Habit(Integer habitId, Integer goalId, Integer userId, String title, Category category,
+                 TaskType taskType, Integer repeatFrequency, RepeatFrequencyType repeatFrequencyType, LocalDate startDate,
+                 LocalDate endDate, Integer completionThreshold, Integer baseXpReward,
+                 boolean doesContributeDirectlyToGoal) {
+        validateTitle(title);
+        validateCompletionThreshold(completionThreshold);
+        validateDates(startDate, endDate);
+        this.id = habitId;
+        this.goalId = goalId;
+        this.userId = userId;
+        this.title = title;
+        this.category = category;
+        this.habitType = taskType;
+        this.repeatFrequency = repeatFrequency;
+        this.repeatFrequencyType = repeatFrequencyType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+//        this.progress = progress;
+        this.completionThreshold = completionThreshold;
+        this.baseXpReward = baseXpReward;
+//        this.awardedXpReward = awardedXpReward;
         this.doesContributeDirectlyToGoal = doesContributeDirectlyToGoal;
     }
 
@@ -67,9 +94,9 @@ public class Habit {
         if (dueDate == null) {
             return; // An habit with no due date never expires.
         }
-        if (dueDate.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Habit due date must not be in the past.");
-        }
+//        if (dueDate.isBefore(LocalDate.now())) {
+//            throw new IllegalArgumentException("Habit due date must not be in the past.");
+//        }
         if (dueDate.isBefore(startsAt)) {
             throw new IllegalArgumentException(
                     "Habit due date must not be before its start date.");
@@ -102,11 +129,18 @@ public class Habit {
     }
     
     public CompletionType gethabitType() {
-        return habitType;
+        return null; // TODO: fix
     }
 
+    // TODO:fix depreciated
     public Integer getRepeatFrequencyDays() {
-        return repeatFrequencyDays;
+        return repeatFrequency;
+    }
+    public Integer getRepeatFrequency() {
+        return repeatFrequency;
+    }
+    public RepeatFrequencyType getRepeatFrequencyType() {
+        return repeatFrequencyType;
     }
 
     public LocalDate getStartDateTime() {
@@ -118,10 +152,11 @@ public class Habit {
     }
 
     public Integer getProgress() {
-        return progress;
+//        return progress;
+        return null;// TODO:Fix
     }
 
-    public void setProgress(Integer progress) { this.progress = progress;}
+    public void setProgress(Integer progress) { } // TODO:Fix
 
     public Integer getCompletionThreshold() {
         return completionThreshold;
@@ -132,12 +167,16 @@ public class Habit {
     }
 
     public Integer getAwardedXpReward() {
-        return awardedXpReward;
+        return null; // TODO:Fix
     }
 
-    public void setAwardedXpReward(Integer awardedXpReward) { this.awardedXpReward = awardedXpReward;}
+    public void setAwardedXpReward(Integer awardedXpReward) { }// TODO:Fix
 
-    public boolean isDoesContributeDirectlyToGoal() {
+    public boolean getDoesContributeDirectlyToGoal() {
         return doesContributeDirectlyToGoal;
+    }
+
+    public TaskType getHabitType() {
+        return habitType;
     }
 }

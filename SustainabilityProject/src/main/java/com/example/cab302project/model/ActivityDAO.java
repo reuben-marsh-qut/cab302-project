@@ -31,7 +31,7 @@ import com.example.cab302project.model.enums.CompletionType;
 
 public class ActivityDAO implements IActivityDAO
 {
-    private Activity activityFromDatabaseRequest(ResultSet results)
+    protected Activity activityFromDatabaseRequest(ResultSet results)
     {
 
         try
@@ -45,9 +45,10 @@ public class ActivityDAO implements IActivityDAO
             int category = results.getInt("catagory");
             Category enumCategory = Category.values()[category];
             int type = results.getInt("taskType");
-            CompletionType enumTaskType = CompletionType.values()[type];
+            TaskType enumTaskType = TaskType.values()[type];
             int startTime = results.getInt("startsAtUnixTime");
-            LocalDateTime localStartDate = Instant.ofEpochSecond(startTime).atZone(ZoneId.of("Australia/Brisbane")).toLocalDateTime();
+            ZoneId timezone = ZoneId.systemDefault();
+            LocalDateTime localStartDate = Instant.ofEpochSecond(startTime).atZone(timezone).toLocalDateTime();
             String dueDate = results.getString("dueUnixTime");
             int dueDateInt;
             LocalDateTime localDueDate;
@@ -58,7 +59,7 @@ public class ActivityDAO implements IActivityDAO
             else
             {
                 dueDateInt = Integer.parseInt(dueDate);
-                localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDateTime();
+                localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(timezone).toLocalDateTime();
             }
             int progress = results.getInt("progress");
             int completionThreshold = results.getInt("completionThreshold");
@@ -92,7 +93,8 @@ public class ActivityDAO implements IActivityDAO
             String taskTitle = activity.getTitle();
             int category = activity.getCategory().ordinal();
             int taskType = activity.getActivityType().ordinal();
-            long activityStartTime = activity.getStartDateTime().atZone(ZoneId.of("Australia/Brisbane")).toEpochSecond();
+            ZoneId timezone = ZoneId.systemDefault();
+            long activityStartTime = activity.getStartDateTime().atZone(timezone).toEpochSecond();
             long activityEndTime;
             if (activity.getDueDateTime() == null)
             {
@@ -100,7 +102,7 @@ public class ActivityDAO implements IActivityDAO
             }
             else
             {
-                activityEndTime = activity.getDueDateTime().atZone(ZoneId.of("Australia/Brisbane")).toEpochSecond();
+                activityEndTime = activity.getDueDateTime().atZone(timezone).toEpochSecond();
             }
             int progress = activity.getProgress();
             int completionThreshold = activity.getCompletionThreshold();
@@ -237,8 +239,8 @@ public class ActivityDAO implements IActivityDAO
 
     public void addActivity(Activity activity)
     {
-        try {
-
+        try
+        {
             Connection connection = DatabaseConnection.getInstance();
 
             String query = "INSERT INTO tasks (goalId, habitId, userId, taskTitle, catagory, taskType, startsAtUnixTime, dueUnixTime, progress, completionThreshold, baseXpReward, awardedXpReward, doesContributeDirectlyToGoal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

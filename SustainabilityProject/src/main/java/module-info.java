@@ -7,6 +7,7 @@ module com.example.cab302project {
     requires java.sql;
     requires password4j;
     requires jdk.jshell;
+    requires wagon.provider.api;
 
     opens com.example.cab302project to javafx.fxml;
     exports com.example.cab302project;

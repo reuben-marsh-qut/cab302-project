@@ -91,6 +91,14 @@
     -fx-font-weight: 700;
     -fx-text-fill: #176b36;
 }
+.item-streak-text {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+}
+.item-streak-circle {
+    -fx-fill: #176b36;
+}
 
 .item-details {
     -fx-font-size: 13px;

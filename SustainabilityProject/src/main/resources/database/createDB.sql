@@ -1,5 +1,4 @@
 PRAGMA foreign_keys = ON;
-
 CREATE TABLE IF NOT EXISTS users (
                                      userId INTEGER PRIMARY KEY,
                                      email TEXT UNIQUE NOT NULL,
