@@ -68,10 +68,13 @@ public class HabitTest {
         assertEquals(LocalDate.now().plusDays(30), habit.getDueDateTime());
     }
 
-    @Test
-    public void testGetProgress() {
-        assertEquals(21, habit.getProgress());
-    }
+    /**
+     * Note: the below test was removed since its functionality is associated with activities and goals, not the habit itself
+     */
+//    @Test
+//    public void testGetProgress() {
+//        assertEquals(21, habit.getProgress());
+//    }
 
     @Test
     public void testGetCompletionThreshold() {
@@ -83,10 +86,13 @@ public class HabitTest {
         assertEquals(41, habit.getBaseXpReward());
     }
 
-    @Test
-    public void testGetAwardedXp() {
-        assertEquals(21, habit.getAwardedXpReward());
-    }
+    /**
+     * Note: the below test was removed since its functionality is associated with activities and goals, not the habit itself
+     */
+//    @Test
+//    public void testGetAwardedXp() {
+//        assertEquals(21, habit.getAwardedXpReward());
+//    }
 
     @Test
     void testCreateHabitWithNoDueDateShouldSucceed() {
@@ -98,14 +104,18 @@ public class HabitTest {
         assertNull(habit.getDueDateTime(), "A goal with no due date should never expire.");
     }
 
-    @Test
-    void newHabitShouldNotBeComplete() {
-        Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                TaskType.BINARY, 1, LocalDate.now(),
-                LocalDate.now().plusDays(30), 0, 31, 41,
-                21, false);
-        assertTrue(habit.getProgress() < habit.getCompletionThreshold());
-    }
+    /**
+     * Note: the below test was removed since its functionality is associated with activities and goals, not the habit itself
+     * A habit itself cannot be complete, it is built
+     */
+//    @Test
+//    void newHabitShouldNotBeComplete() {
+//        Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
+//                TaskType.BINARY, 1, LocalDate.now(),
+//                LocalDate.now().plusDays(30), 0, 31, 41,
+//                21, false);
+//        assertTrue(habit.getProgress() < habit.getCompletionThreshold());
+//    }
 
     @Test
     void createHabitWithBlankTitleShouldThrowException() {

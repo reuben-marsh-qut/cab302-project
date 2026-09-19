@@ -94,9 +94,9 @@ public class Habit {
         if (dueDate == null) {
             return; // An habit with no due date never expires.
         }
-//        if (dueDate.isBefore(LocalDate.now())) {
-//            throw new IllegalArgumentException("Habit due date must not be in the past.");
-//        }
+        if (dueDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Habit due date must not be in the past.");
+        }
         if (dueDate.isBefore(startsAt)) {
             throw new IllegalArgumentException(
                     "Habit due date must not be before its start date.");

@@ -132,7 +132,7 @@ public class ActivityTest {
     void createActivityWithPastDueDateShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
                 () -> new Activity(1, 1, 1, "Mow the lawn", Category.BODY,
-                        TaskType.BINARY, LocalDateTime.of(2025, 9, 4, 12, 0),
+                        TaskType.BINARY, LocalDateTime.of(2025, 10, 4, 12, 0),
                         LocalDateTime.of(2025, 9, 11, 12, 0),
                         0, 1, 10, 0, false),
                 "A habit with a due date in the past should throw an exception.");
