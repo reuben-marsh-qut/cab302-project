@@ -230,14 +230,9 @@ public class SidebarController {
     protected void onHabitsButtonClick()
             throws IOException {
 
-        /*
-         * There is no dedicated habits page yet.
-         * This preserves the behaviour from the old
-         * NavBarController.
-         */
         openPage(
                 habitsButton,
-                "goal-view.fxml"
+                "habit-view.fxml"
         );
     }
 

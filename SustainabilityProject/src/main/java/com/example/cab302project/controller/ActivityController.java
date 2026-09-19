@@ -66,11 +66,11 @@ public class ActivityController {
 
         incompleteUserActivities = activityDAO.getIncompletedActivitiesForUser(
                 currentUser.getUserId()
-        );
-
+        ).stream().filter(activity -> activity.getHabitId()==0).toList();
+        // TODO: why does null resolve to habitId == 0;
         completedUserActivities = activityDAO.getCompletedActivitiesForUser(
                 currentUser.getUserId()
-        );
+        ).stream().filter(activity -> activity.getHabitId()==0).toList();
 
         boolean hasIncompleteActivities = !incompleteUserActivities.isEmpty();
         boolean hasCompletedActivities = !completedUserActivities.isEmpty();
@@ -79,6 +79,8 @@ public class ActivityController {
         {
             for (Activity activity : incompleteUserActivities)
             {
+                System.out.println(activity.getHabitId());
+
                 incompleteActivitiesContainer.getChildren().add(activityCard(activity));
             }
         }
@@ -91,6 +93,8 @@ public class ActivityController {
         {
             for (Activity activity : completedUserActivities)
             {
+                System.out.println(activity.getHabitId());
+
                 completeActivitiesContainer.getChildren().add(activityCard(activity));
             }
         }

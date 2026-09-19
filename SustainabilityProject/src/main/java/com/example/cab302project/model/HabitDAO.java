@@ -6,13 +6,11 @@ import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
 import javafx.concurrent.Task;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class HabitDAO implements IHabitDAO{
     @Override
@@ -126,7 +124,8 @@ public class HabitDAO implements IHabitDAO{
         List<Habit> habits = new ArrayList<Habit>();
 
         try {
-            PreparedStatement getHabits = conn.prepareStatement("SELECT * FROM habits WHERE userId=?");
+            // TODO: document that this returns tasks oldest to youngest in docstring
+            PreparedStatement getHabits = conn.prepareStatement("SELECT * FROM habits WHERE userId=? ORDER BY habitId ASC");
             getHabits.setInt(1,id);
             ResultSet habitSet = getHabits.executeQuery();
 
@@ -145,7 +144,8 @@ public class HabitDAO implements IHabitDAO{
         List<Habit> habits = new ArrayList<Habit>();
 
         try {
-            PreparedStatement getHabits = conn.prepareStatement("SELECT * FROM habits");
+            // TODO: document that this returns tasks oldest to youngest in docstring kinda
+            PreparedStatement getHabits = conn.prepareStatement("SELECT * FROM habits ORDER BY habitId ASC");
             ResultSet habitSet = getHabits.executeQuery();
             while (habitSet.next()){
                 habits.add(habitFromResultSet(habitSet));
@@ -162,13 +162,15 @@ public class HabitDAO implements IHabitDAO{
         List<Activity> tasks = getAllAssociatedTasks(habit);
         // get all tasks
         // what is the interval?
-        // do all complete tasks align with the repeat interval
+        // assume complete tasks align with the repeat interval
         // if stretch broken return zero else
         int streak = 0;
         for (int i = 0; i < tasks.size(); i++) {
             Activity task = tasks.get(i);
-            if (task.isComplete() && LocalDateTime.now().isAfter(task.getStartDateTime())){
+            if (task.isComplete() && LocalDateTime.now().isAfter(task.getStartDateTime())) {
                 streak++;
+            } else if(task.isComplete() && !LocalDateTime.now().isAfter(task.getStartDateTime())){
+              // do nothing if task is in future
             } else {
                 streak = 0;
             }
@@ -184,7 +186,7 @@ public class HabitDAO implements IHabitDAO{
         ActivityDAO dao = new ActivityDAO();
         ZoneId timezone = ZoneId.systemDefault();
         try {
-            // DESC grabs the latest task
+            // DESC grabs the latest task first
             PreparedStatement getTasks = conn.prepareStatement("SELECT * FROM tasks WHERE habitId=? AND startsAtUnixTime <= ? AND dueUnixTime >= ? ORDER BY habitId DESC");
             getTasks.setInt(1,habit.getId());
             long now = Instant.now().getEpochSecond();
@@ -201,6 +203,8 @@ public class HabitDAO implements IHabitDAO{
             task = tasks.getFirst();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (NoSuchElementException e){
+            return null;
         }
 //        LocalDate dateOfTask = LocalDate.now();
 //        List<Activity> tasks = getAllAssociatedTasks(habit);
@@ -228,6 +232,7 @@ public class HabitDAO implements IHabitDAO{
         return tasks;
     }
 
+
     private Habit habitFromResultSet(ResultSet res) throws SQLException {
         ZoneId timezone = ZoneId.systemDefault();
         return new Habit(
@@ -252,7 +257,12 @@ public class HabitDAO implements IHabitDAO{
         Connection conn = DatabaseConnection.getInstance();
         try {
             PreparedStatement insertInto = conn.prepareStatement("INSERT INTO habits (goalId , userId , baseXpReward , habitTitle, taskType, catagory, repeatFrequencyType, repeatFrequency, startsAtUnixTime, dueUnixTime, completionThreshold, doesContributeDirectlyToGoal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) RETURNING habitId");
-            insertInto.setInt(1,goal.getId());
+            if (goal == null){
+                insertInto.setNull(1, Types.INTEGER);
+            } else {
+                insertInto.setInt(1,goal.getId());
+            }
+
             insertInto.setInt(2,user.getUserId());
             insertInto.setInt(3,baseXpReward);
             insertInto.setString(4,title);
@@ -263,7 +273,23 @@ public class HabitDAO implements IHabitDAO{
             ZoneId timezone = ZoneId.systemDefault();
             long startUnix = startDate.atStartOfDay(timezone).toEpochSecond();
             long endHabitUnix = endDate.atStartOfDay(timezone).toEpochSecond();
+
+//            System.out.println(startUnix+" " +endUnix);
+            insertInto.setLong(9,startUnix);
+            insertInto.setLong(10, endHabitUnix);
+            insertInto.setInt(11, completionThreshold);
+            insertInto.setInt(12, doesContributeDirectlyToGoal ? 1:0);
+
+            ResultSet rs = insertInto.executeQuery();
+//            System.out.println(rowsAffected);
+            int habitId = -1;
+            while (rs.next()){
+                habitId = rs.getInt("habitId");
+            }
+
+            ActivityDAO dao = new ActivityDAO();
             LocalDate endUnix;
+//            int numberOfHabits;
             switch (repeatFrequencyType){
                 case DAILY -> {
                     endUnix = startDate.plusDays(repeatFrequency);
@@ -281,21 +307,8 @@ public class HabitDAO implements IHabitDAO{
                     endUnix = startDate.plusDays(repeatFrequency);
                 }
             }
-//            System.out.println(startUnix+" " +endUnix);
-            insertInto.setLong(9,startUnix);
-            insertInto.setLong(10, endHabitUnix);
-            insertInto.setInt(11, completionThreshold);
-            insertInto.setInt(12, doesContributeDirectlyToGoal ? 1:0);
-
-            ResultSet rs = insertInto.executeQuery();
-//            System.out.println(rowsAffected);
-            int habitId = -1;
-            while (rs.next()){
-                habitId = rs.getInt("habitId");
-            }
-
-            ActivityDAO dao = new ActivityDAO();
-            dao.addActivity(new Activity(goal.getId(), habitId,user.getUserId(), title,category, taskType, startDate.atStartOfDay(), endUnix.atStartOfDay().minusSeconds(1),0,completionThreshold,baseXpReward,0,doesContributeDirectlyToGoal));
+//            for
+            dao.addActivity(new Activity((goal==null) ? 0 : goal.getId(), habitId,user.getUserId(), title,category, taskType, startDate.atStartOfDay(), endUnix.atStartOfDay().minusSeconds(1),0,completionThreshold,baseXpReward,0,doesContributeDirectlyToGoal));
 
             return true;
         } catch (SQLException e) {

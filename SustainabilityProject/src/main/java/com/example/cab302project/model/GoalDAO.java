@@ -271,7 +271,7 @@ public class GoalDAO implements IGoalDAO
             preparedStatement.setInt(1, userId);
             ResultSet goalGetResults = preparedStatement.executeQuery();
 
-            List<Goal> userGoalsList = new ArrayList<>();
+            List<Goal> userGoalsList = new ArrayList<Goal>();
 
             while (goalGetResults.next())
             {
@@ -302,9 +302,9 @@ public class GoalDAO implements IGoalDAO
 
                 Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
                 goal.setId(goalId);
-
                 userGoalsList.add(goal);
             }
+            System.out.println(userGoalsList.size());
 
             return userGoalsList;
 
