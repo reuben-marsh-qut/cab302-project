@@ -84,7 +84,7 @@ Complete the main Rooted gameplay loop by allowing users to complete activities 
 
 Users should be able to complete activities, see their progress update and earn XP and levels.
 
-
+# Release 1 - 18/09/2026, End of Sprint 3
 
 ## Sprint 4 — Streaks, Rewards and Reports
 
@@ -127,7 +127,7 @@ Improve the overall usability and completeness of the application.
 
 The main workflows of the application should be easier to use and more complete.
 
-
+# Release 2 - 16/10/2026, End of Sprint 5
 
 ## Later Sprints / Stretch Features
 
