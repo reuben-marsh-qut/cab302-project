@@ -71,7 +71,7 @@ public class LoginController {
     private void openHomePage(User user) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    HelloApplication.class.getResource("goal-view.fxml")
+                    HelloApplication.class.getResource("home-view.fxml")
             );
 
             UserSession.getInstance().setUser(user);
