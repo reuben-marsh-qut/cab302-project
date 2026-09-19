@@ -94,7 +94,7 @@ public class GoalTemplate {
         // Body - worked towards over time
         templates.add(new GoalTemplate("Walk 100,000 steps",
                 Category.BODY, CompletionType.PROGRESSIVE, 100000));
-        templates.add(new GoalTemplate("Cook 50 meals from scratch",
+         templates.add(new GoalTemplate("Cook 50 meals from scratch",
                 Category.BODY, CompletionType.PROGRESSIVE, 50));
         templates.add(new GoalTemplate("Swim 20 kilometres",
                 Category.BODY, CompletionType.PROGRESSIVE, 20));

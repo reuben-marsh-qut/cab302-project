@@ -2,40 +2,51 @@ package com.example.cab302project.controller;
 
 import com.example.cab302project.HelloApplication;
 import com.example.cab302project.model.*;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
-public class GoalController {
+public class HomeController {
 
     @FXML
     private HBox incompleteGoalsContainer;
 
     @FXML
-    private HBox completeGoalsContainer;
+    private HBox incompleteActivitiesContainer;
+
+    @FXML
+    private Button goalsButton;
+
+    @FXML
+    private Button activitiesButton;
 
     private final IGoalDAO goalDAO;
+    private final IActivityDAO activityDAO;
 
     private User currentUser;
 
     private List<Goal> incompleteUserGoals;
+    private List<Activity> incompleteUserActivities;
 
-    private List<Goal> completedUserGoals;
-
-    public GoalController() {
+    public HomeController() {
         goalDAO = new GoalDAO();
+        activityDAO = new ActivityDAO();
     }
+
+    @FXML
+    private Node activitiesPanel;
 
     @FXML
     private Node goalsPanel;
@@ -50,13 +61,13 @@ public class GoalController {
     private void syncGoals() {
 
         incompleteGoalsContainer.getChildren().clear();
-        completeGoalsContainer.getChildren().clear();
+        incompleteActivitiesContainer.getChildren().clear();
 
         if (currentUser == null) {
             incompleteGoalsContainer.setVisible(false);
             incompleteGoalsContainer.setManaged(false);
-            completeGoalsContainer.setVisible(false);
-            completeGoalsContainer.setManaged(false);
+            incompleteActivitiesContainer.setVisible(false);
+            incompleteActivitiesContainer.setManaged(false);
             return;
         }
 
@@ -64,12 +75,12 @@ public class GoalController {
                 currentUser.getUserId()
         );
 
-        completedUserGoals = goalDAO.getCompletedGoalsForUser(
+        incompleteUserActivities = activityDAO.getIncompletedActivitiesForUser(
                 currentUser.getUserId()
         );
 
         boolean hasIncompleteGoals = !incompleteUserGoals.isEmpty();
-        boolean hasCompletedGoals = !completedUserGoals.isEmpty();
+        boolean hasIncompleteActivities = !incompleteUserActivities.isEmpty();
 
         if (hasIncompleteGoals) {
             for (Goal goal : incompleteUserGoals) {
@@ -83,22 +94,31 @@ public class GoalController {
             );
         }
 
-        if (hasCompletedGoals) {
-            for (Goal goal : completedUserGoals) {
-                completeGoalsContainer.getChildren().add(
-                        goalCard(goal)
-                );
+        if (hasIncompleteActivities)
+        {
+            for (Activity activity : incompleteUserActivities)
+            {
+                incompleteActivitiesContainer.getChildren().add(activityCard(activity));
             }
-        } else {
-            completeGoalsContainer.getChildren().add(
-                    noCompleteGoalText()
-            );
+        }
+        else
+        {
+            incompleteActivitiesContainer.getChildren().add(noActivityText());
         }
 
         incompleteGoalsContainer.setVisible(true);
         incompleteGoalsContainer.setManaged(true);
-        completeGoalsContainer.setVisible(true);
-        completeGoalsContainer.setManaged(true);
+        incompleteActivitiesContainer.setVisible(true);
+        incompleteActivitiesContainer.setManaged(true);
+    }
+
+    /**
+     * If there are no current activities, this message is displayed
+     * @return no current activities label
+     */
+    private Label noActivityText()
+    {
+        return new Label("No activities yet. Set an activity to track your progress!");
     }
 
     /**
@@ -107,14 +127,6 @@ public class GoalController {
      */
     private Label noGoalText() {
         return new Label("No goals yet. Set a goal to track your progress!");
-    }
-
-    /**
-     * If there are no completed goals, this message is displayed
-     * @return no compelted goals label
-     */
-    private Label noCompleteGoalText() {
-        return new Label("No completed goals yet. Achieve your goals and they will appear here!");
     }
 
     /**
@@ -214,23 +226,7 @@ public class GoalController {
         imageView.setFitWidth(70);
         imageView.setPreserveRatio(true);
 
-        Button seeMoreButton = new Button("See More");
-
-        seeMoreButton
-                .getStyleClass()
-                .add("home-nav-buttons");
-
-        seeMoreButton.setOnAction(event -> {
-            try {
-                handleSeeMoreButton(goal.getId());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
         Region Hspacer = new Region();
-
-
 
         HBox.setHgrow(
                 Hspacer,
@@ -238,7 +234,7 @@ public class GoalController {
         );
 
         HBox imageButtonContainer = new HBox();
-        imageButtonContainer.getChildren().addAll(imageView, Hspacer, seeMoreButton);
+        imageButtonContainer.getChildren().addAll(imageView, Hspacer);
 
         goalCard.getChildren().addAll(
                 categoryLabel,
@@ -254,77 +250,103 @@ public class GoalController {
     }
 
     /**
-     * @param goalId the id of the goal to investigate
-     * @throws IOException exception thrown if the goal details view cannot be loaded
+     * Creates a visual activity card for the supplied activity.
      */
-    private void handleSeeMoreButton(Integer goalId) throws IOException {
-        if (currentUser == null) {
-            return;
+    private VBox activityCard(Activity activity)
+    {
+
+        VBox activityCard = new VBox();
+
+        activityCard.getStyleClass().add("item-card");
+        activityCard.setSpacing(10);
+        activityCard.setPrefHeight(250);
+        activityCard.setPrefWidth(250);
+        activityCard.setPadding(new Insets(10, 10, 0, 10));
+
+        Label categoryLabel = new Label(activity.getCategory().toString());
+
+        categoryLabel.getStyleClass().add("item-category");
+
+        Label titleLabel = new Label(activity.getTitle());
+
+        titleLabel.getStyleClass().add("item-header");
+
+        Label progressLabel = new Label(String.format("Progress: %d/%d", activity.getProgress(), activity.getCompletionThreshold()));
+
+        progressLabel.getStyleClass().add("item-details");
+
+        DateTimeFormatter endDateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        String endDateFormat;
+        if (activity.getDueDateTime() == null)
+        {
+            endDateFormat = "No end date";
+        }
+        else
+        {
+            endDateFormat = "End Date: " + activity.getDueDateTime().format(endDateFormatter);
         }
 
+        Label endDateLabel = new Label(endDateFormat);
 
+        endDateLabel.getStyleClass().add("item-details");
 
-        FXMLLoader loader = new FXMLLoader(
-                HelloApplication.class.getResource("goal-details-view.fxml"));
-        Node goalDetailsView = loader.load();
+        Region spacer = new Region();
 
-        GoalDetailsController controller = loader.getController();
-        controller.setGoalId(goalId);
-        controller.setOnFinished(this::showGoalsPanel);
-        controller.setGoalController(this);
+        VBox.setVgrow(spacer, Priority.ALWAYS );
 
-        contentPane.setCenter(goalDetailsView);
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/plantPot.png")));
+
+        ImageView imageView = new ImageView(image);
+
+        imageView.setFitHeight(70);
+        imageView.setFitWidth(70);
+        imageView.setPreserveRatio(true);
+
+        Region Hspacer = new Region();
+
+        HBox.setHgrow(Hspacer, Priority.ALWAYS);
+
+        HBox imageButtonContainer = new HBox();
+        imageButtonContainer.getChildren().addAll(imageView, Hspacer);
+
+        activityCard.getChildren().addAll( categoryLabel, titleLabel, progressLabel, endDateLabel, spacer, imageButtonContainer);
+        return activityCard;
     }
 
-    /**
-     * Opens the goal creation dialog, then refreshes the
-     * authenticated user's goals once it closes.
-     */
     @FXML
-    private void onNewGoal() throws IOException {
-        if (currentUser == null) {
-            return;
-        }
+    protected void onGoalsButtonClick()
+            throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(
-                HelloApplication.class.getResource("goal-creation-view.fxml"));
-        Node goalCreationPanel = loader.load();
-
-        GoalCreationController controller = loader.getController();
-        controller.setGoalDAO(goalDAO);
-        controller.setUserId(currentUser.getUserId()); // REFACTOR: could we replace this sort of thing just using the singleton instead
-        controller.setOnFinished(this::showGoalsPanel);
-
-        contentPane.setCenter(goalCreationPanel);    }
-
-    /**
-     * Opens the goal creation page in edit mode for an existing goal.
-     * @param goal The goal to edit.
-     */
-    public void openGoalForEditing(Goal goal) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    HelloApplication.class.getResource("goal-creation-view.fxml"));
-            Node goalCreationPanel = loader.load();
-
-            GoalCreationController controller = loader.getController();
-            controller.setGoalDAO(goalDAO);
-            controller.setUserId(currentUser.getUserId());
-            controller.setGoalToEdit(goal);
-            controller.setOnFinished(this::showGoalsPanel);
-
-            contentPane.setCenter(goalCreationPanel);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+        openPage(
+                goalsButton,
+                "goal-view.fxml"
+        );
     }
 
-    /**
-     * Returns to the goals panel and refreshes the list.
-     */
-    private void showGoalsPanel() {
-        contentPane.setCenter(goalsPanel);
-        syncGoals();
+//    @FXML
+//    protected void onHabitsButtonClick()
+//            throws IOException {
+//
+//        /*
+//         * There is no dedicated habits page yet.
+//         * This preserves the behaviour from the old
+//         * NavBarController.
+//         */
+//        openPage(
+//                habitsButton,
+//                "goal-view.fxml"
+//        );
+//    }
+
+    @FXML
+    protected void onActivitiesButtonClick()
+            throws IOException {
+
+        openPage(
+                activitiesButton,
+                "activity-view.fxml"
+        );
     }
 
     /**
@@ -334,6 +356,21 @@ public class GoalController {
     private void initialize() {
         currentUser = UserSession.getInstance().getUser();
         goalsPanel = contentPane.getCenter();
+        activitiesPanel = contentPane.getCenter();
         syncGoals();
+    }
+
+    private void openPage(
+            Button sourceButton,
+            String resource
+    ) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource(resource)
+        );
+
+        Parent root = loader.load();
+
+        sourceButton.getScene().setRoot(root);
     }
 }

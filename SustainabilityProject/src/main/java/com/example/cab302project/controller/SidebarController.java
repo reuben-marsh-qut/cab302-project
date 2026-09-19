@@ -6,6 +6,7 @@ import com.example.cab302project.model.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -24,17 +25,17 @@ public class SidebarController {
     @FXML
     private Button goalsButton;
 
-    @FXML
-    private Button habitsButton;
+//    @FXML
+//    private Button habitsButton;
 
     @FXML
     private Button activitiesButton;
 
-    @FXML
-    private Button socialButton;
+//    @FXML
+//    private Button socialButton;
 
-    @FXML
-    private Button statsButton;
+//    @FXML
+//    private Button statsButton;
 
     @FXML
     private HBox accountMenuButton;
@@ -212,7 +213,7 @@ public class SidebarController {
 
         openPage(
                 homeButton,
-                "goal-view.fxml"
+                "home-view.fxml"
         );
     }
 
@@ -246,84 +247,56 @@ public class SidebarController {
         );
     }
 
-    @FXML
-    protected void onSocialButtonClick()
-            throws IOException {
+//    @FXML
+//    protected void onSocialButtonClick()
+//            throws IOException {
+//
+//        /*
+//         * There is no dedicated social page yet.
+//         */
+//        openPage(
+//                socialButton,
+//                "goal-view.fxml"
+//        );
+//    }
 
-        /*
-         * There is no dedicated social page yet.
-         */
-        openPage(
-                socialButton,
-                "goal-view.fxml"
-        );
-    }
-
-    @FXML
-    protected void onStatsButtonClick()
-            throws IOException {
-
-        /*
-         * There is no dedicated stats page yet.
-         */
-        openPage(
-                statsButton,
-                "goal-view.fxml"
-        );
-    }
+//    @FXML
+//    protected void onStatsButtonClick()
+//            throws IOException {
+//
+//        /*
+//         * There is no dedicated stats page yet.
+//         */
+//        openPage(
+//                statsButton,
+//                "goal-view.fxml"
+//        );
+//    }
 
     private void openPage(
             Button sourceButton,
             String resource
     ) throws IOException {
 
-        Stage stage =
-                (Stage) sourceButton
-                        .getScene()
-                        .getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource(resource)
+        );
 
-        FXMLLoader loader =
-                new FXMLLoader(
-                        HelloApplication.class
-                                .getResource(
-                                        resource
-                                )
-                );
+        Parent root = loader.load();
 
-        Scene scene =
-                new Scene(
-                        loader.load(),
-                        HelloApplication.WIDTH,
-                        HelloApplication.HEIGHT
-                );
-
-        stage.setScene(scene);
+        sourceButton.getScene().setRoot(root);
     }
 
     private void openProfilePage()
             throws IOException {
 
-        Stage stage =
-                (Stage) accountMenuButton
-                        .getScene()
-                        .getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("profile-view.fxml")
+        );
 
-        FXMLLoader loader =
-                new FXMLLoader(
-                        HelloApplication.class
-                                .getResource(
-                                        "profile-view.fxml"
-                                )
-                );
+        Parent root = loader.load();
 
-        Scene scene =
-                new Scene(
-                        loader.load(),
-                        HelloApplication.WIDTH,
-                        HelloApplication.HEIGHT
-                );
-
-        stage.setScene(scene);
+        accountMenuButton.getScene().setRoot(root);
     }
 
     private void signOut()
@@ -333,26 +306,12 @@ public class SidebarController {
                 .getInstance()
                 .clearUserSession();
 
-        Stage stage =
-                (Stage) accountMenuButton
-                        .getScene()
-                        .getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("login-view.fxml")
+        );
 
-        FXMLLoader loader =
-                new FXMLLoader(
-                        HelloApplication.class
-                                .getResource(
-                                        "login-view.fxml"
-                                )
-                );
+        Parent root = loader.load();
 
-        Scene scene =
-                new Scene(
-                        loader.load(),
-                        HelloApplication.WIDTH,
-                        HelloApplication.HEIGHT
-                );
-
-        stage.setScene(scene);
+        accountMenuButton.getScene().setRoot(root);
     }
 }

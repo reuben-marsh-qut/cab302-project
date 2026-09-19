@@ -1,5 +1,6 @@
 package com.example.cab302project.controller;
 
+import com.example.cab302project.HelloApplication;
 import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.GoalDAO;
 import com.example.cab302project.model.IGoalDAO;
@@ -10,14 +11,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
 public class GoalDetailsController {
     private int goalId;
     private Runnable onFinished;
     private final IGoalDAO goalDAO;
+    private GoalController goalController;
 
     public GoalDetailsController() {
         goalDAO = new GoalDAO();
@@ -136,10 +140,23 @@ public class GoalDetailsController {
         alert.setHeaderText("Are you sure you want to delete this goal?");
         alert.setContentText("This action cannot be undone.");
 
+        alert.initOwner(completeGoalButtons.getScene().getWindow());
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             goalDAO.deleteGoal(goal);
             close();
+        }
+    }
+
+    /**
+     * Handles the edit button click by asking the goals screen to open
+     * this goal for editing.
+     */
+    @FXML
+    private void onEditGoal() {
+        if (goalController != null) {
+            goalController.openGoalForEditing(goalDAO.getGoalById(goalId));
         }
     }
 
@@ -161,5 +178,9 @@ public class GoalDetailsController {
      */
     public void setOnFinished(Runnable onFinished) {
         this.onFinished = onFinished;
+    }
+
+    public void setGoalController(GoalController goalController) {
+        this.goalController = goalController;
     }
 }

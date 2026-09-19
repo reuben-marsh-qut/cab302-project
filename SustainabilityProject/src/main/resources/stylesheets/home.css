@@ -209,6 +209,25 @@
     -fx-background-color: #f5f7f4;
 }
 
+.button.delete-button {
+    -fx-pref-height: 48;
+
+    -fx-background-color: #b00020;
+    -fx-background-radius: 9;
+
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+
+    -fx-padding: 0 20 0 20;
+
+    -fx-cursor: hand;
+}
+
 /* =========================================================
    FEEDBACK
    ========================================================= */
@@ -527,4 +546,8 @@
 .separator .line {
     -fx-border-color: #e1e5e0;
     -fx-border-width: 1 0 0 0;
+}
+.goal-missed {
+    -fx-text-fill: #b00020;
+    -fx-font-weight: bold;
 }

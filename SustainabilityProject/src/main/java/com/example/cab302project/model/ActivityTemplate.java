@@ -79,8 +79,8 @@ public class ActivityTemplate {
         // Mind - worked towards over time
         templates.add(new ActivityTemplate("Meditate for 30 minutes",
                 Category.MIND, TaskType.PROGRESSIVE, 30));
-        templates.add(new ActivityTemplate("Read 1 book",
-                Category.MIND, TaskType.PROGRESSIVE, 12));
+        templates.add(new ActivityTemplate("Read 2 books",
+                Category.MIND, TaskType.PROGRESSIVE, 2));
         templates.add(new ActivityTemplate("Write in your journal 3 times this week",
                 Category.MIND, TaskType.PROGRESSIVE, 100));
 
@@ -97,8 +97,8 @@ public class ActivityTemplate {
                 Category.BODY, TaskType.PROGRESSIVE, 8000));
         templates.add(new ActivityTemplate("Cook for yourself 5 times this week",
                 Category.BODY, TaskType.PROGRESSIVE, 5));
-        templates.add(new ActivityTemplate("Run a total of 30k",
-                Category.BODY, TaskType.PROGRESSIVE, 30));
+        templates.add(new ActivityTemplate("Run a total of 10km",
+                Category.BODY, TaskType.PROGRESSIVE, 10));
 
         // Body - one and done
         templates.add(new ActivityTemplate("Try a new exercise",
