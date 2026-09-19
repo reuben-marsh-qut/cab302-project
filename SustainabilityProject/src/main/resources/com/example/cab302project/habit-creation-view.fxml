@@ -101,7 +101,7 @@
       <HBox alignment="CENTER" prefHeight="60.0" spacing="10.0" styleClass="item-card">
          <children>
             <Button mnemonicParsing="false" onAction="#onCancel" prefHeight="40.0" prefWidth="120.0" text="Cancel" />
-            <Button mnemonicParsing="false" onAction="#onCreateHabit" prefHeight="40.0" prefWidth="140.0" styleClass="primary-button" text="Create Habit" />
+            <Button mnemonicParsing="false" onAction="#onCreateHabit" prefHeight="40.0" prefWidth="200.0" styleClass="primary-button" text="Create Habit" />
          </children>
       </HBox>
    </children>

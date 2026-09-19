@@ -117,7 +117,7 @@ public class HabitDetailsController {
         }
         goalText.setVisible(true);
         String goalName = "Goal: %s".formatted(goalDAO.getGoalById(goalId).getTitle());
-        habitStreakText.setText(goalName);
+        goalText.setText(goalName);
     }
     /**
      * Set the habit completion log text
