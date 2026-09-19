@@ -61,11 +61,11 @@
             onAction="#onGoalsButtonClick"
             styleClass="sidebar-button"/>
 
-<!--    <Button fx:id="habitsButton"-->
-<!--            text="Habits"-->
-<!--            maxWidth="Infinity"-->
-<!--            onAction="#onHabitsButtonClick"-->
-<!--            styleClass="sidebar-button"/>-->
+    <Button fx:id="habitsButton"
+            text="Habits"
+            maxWidth="Infinity"
+            onAction="#onHabitsButtonClick"
+            styleClass="sidebar-button"/>
 
     <Button fx:id="activitiesButton"
             text="Activities"

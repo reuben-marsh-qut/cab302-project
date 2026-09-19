@@ -27,13 +27,13 @@
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Update your progress!"/>
             <TextField fx:id="progressUpdate" promptText="Add to progress"/>
-            <Button mnemonicParsing="false" onAction="#onUpdateProgress" prefHeight="40.0" prefWidth="120.0"
+            <Button styleClass="primary-button" mnemonicParsing="false" onAction="#onUpdateProgress" prefHeight="40.0" prefWidth="120.0"
                     text="Update progress"/>
         </VBox>
 
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Mark your habit as complete!"/>
-            <Button mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="120.0"
+            <Button styleClass="primary-button" mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="120.0"
                     text="Mark as Complete"/>
         </VBox>
     </HBox>

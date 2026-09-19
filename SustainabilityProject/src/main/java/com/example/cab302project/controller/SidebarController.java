@@ -25,8 +25,8 @@ public class SidebarController {
     @FXML
     private Button goalsButton;
 
-//    @FXML
-//    private Button habitsButton;
+    @FXML
+    private Button habitsButton;
 
     @FXML
     private Button activitiesButton;

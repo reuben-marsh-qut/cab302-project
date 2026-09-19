@@ -32,7 +32,7 @@
     <Separator/>
 
     <Label styleClass="page-subheader" text="Delete your habit"/>
-    <Button mnemonicParsing="false" onAction="#onDelete" prefHeight="40.0" prefWidth="120.0" text="Delete this Habit"/>
+    <Button styleClass="delete-button" mnemonicParsing="false" onAction="#onDelete" prefHeight="40.0" prefWidth="120.0" text="Delete this Habit"/>
 
     <Separator/>
 
