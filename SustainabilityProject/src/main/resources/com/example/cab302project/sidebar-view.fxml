@@ -61,11 +61,11 @@
             onAction="#onGoalsButtonClick"
             styleClass="sidebar-button"/>
 
-    <Button fx:id="habitsButton"
-            text="Habits"
-            maxWidth="Infinity"
-            onAction="#onHabitsButtonClick"
-            styleClass="sidebar-button"/>
+<!--    <Button fx:id="habitsButton"-->
+<!--            text="Habits"-->
+<!--            maxWidth="Infinity"-->
+<!--            onAction="#onHabitsButtonClick"-->
+<!--            styleClass="sidebar-button"/>-->
 
     <Button fx:id="activitiesButton"
             text="Activities"
@@ -73,25 +73,25 @@
             onAction="#onActivitiesButtonClick"
             styleClass="sidebar-button"/>
 
-    <Button fx:id="socialButton"
-            text="Social"
-            maxWidth="Infinity"
-            onAction="#onSocialButtonClick"
-            styleClass="sidebar-button"/>
+<!--    <Button fx:id="socialButton"-->
+<!--            text="Social"-->
+<!--            maxWidth="Infinity"-->
+<!--            onAction="#onSocialButtonClick"-->
+<!--            styleClass="sidebar-button"/>-->
 
-    <Button fx:id="statsButton"
-            text="Stats"
-            maxWidth="Infinity"
-            onAction="#onStatsButtonClick"
-            styleClass="sidebar-button"/>
+<!--    <Button fx:id="statsButton"-->
+<!--            text="Stats"-->
+<!--            maxWidth="Infinity"-->
+<!--            onAction="#onStatsButtonClick"-->
+<!--            styleClass="sidebar-button"/>-->
 
     <!-- Account navigation -->
-    <Label text="ACCOUNT"
-           styleClass="sidebar-section-label"/>
+<!--    <Label text="ACCOUNT"-->
+<!--           styleClass="sidebar-section-label"/>-->
 
-    <Button text="Settings"
-            maxWidth="Infinity"
-            styleClass="sidebar-button"/>
+<!--    <Button text="Settings"-->
+<!--            maxWidth="Infinity"-->
+<!--            styleClass="sidebar-button"/>-->
 
     <Region VBox.vgrow="ALWAYS"/>
 
