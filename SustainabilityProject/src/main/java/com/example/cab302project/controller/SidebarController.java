@@ -25,17 +25,17 @@ public class SidebarController {
     @FXML
     private Button goalsButton;
 
-    @FXML
-    private Button habitsButton;
+//    @FXML
+//    private Button habitsButton;
 
     @FXML
     private Button activitiesButton;
 
-    @FXML
-    private Button socialButton;
+//    @FXML
+//    private Button socialButton;
 
-    @FXML
-    private Button statsButton;
+//    @FXML
+//    private Button statsButton;
 
     @FXML
     private HBox accountMenuButton;
@@ -227,20 +227,20 @@ public class SidebarController {
         );
     }
 
-    @FXML
-    protected void onHabitsButtonClick()
-            throws IOException {
-
-        /*
-         * There is no dedicated habits page yet.
-         * This preserves the behaviour from the old
-         * NavBarController.
-         */
-        openPage(
-                habitsButton,
-                "goal-view.fxml"
-        );
-    }
+//    @FXML
+//    protected void onHabitsButtonClick()
+//            throws IOException {
+//
+//        /*
+//         * There is no dedicated habits page yet.
+//         * This preserves the behaviour from the old
+//         * NavBarController.
+//         */
+//        openPage(
+//                habitsButton,
+//                "goal-view.fxml"
+//        );
+//    }
 
     @FXML
     protected void onActivitiesButtonClick()
@@ -252,31 +252,31 @@ public class SidebarController {
         );
     }
 
-    @FXML
-    protected void onSocialButtonClick()
-            throws IOException {
+//    @FXML
+//    protected void onSocialButtonClick()
+//            throws IOException {
+//
+//        /*
+//         * There is no dedicated social page yet.
+//         */
+//        openPage(
+//                socialButton,
+//                "goal-view.fxml"
+//        );
+//    }
 
-        /*
-         * There is no dedicated social page yet.
-         */
-        openPage(
-                socialButton,
-                "goal-view.fxml"
-        );
-    }
-
-    @FXML
-    protected void onStatsButtonClick()
-            throws IOException {
-
-        /*
-         * There is no dedicated stats page yet.
-         */
-        openPage(
-                statsButton,
-                "goal-view.fxml"
-        );
-    }
+//    @FXML
+//    protected void onStatsButtonClick()
+//            throws IOException {
+//
+//        /*
+//         * There is no dedicated stats page yet.
+//         */
+//        openPage(
+//                statsButton,
+//                "goal-view.fxml"
+//        );
+//    }
 
     private void openPage(
             Button sourceButton,
