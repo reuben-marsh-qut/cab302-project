@@ -6,6 +6,7 @@ import com.example.cab302project.model.UserDAO;
 import com.example.cab302project.model.UserManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -83,14 +84,10 @@ public class RegisterController {
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("login-view.fxml")
         );
-        Scene scene = new Scene(
-                loader.load(),
-                HelloApplication.WIDTH,
-                HelloApplication.HEIGHT
-        );
-        Stage stage = (Stage) emailField.getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+
+        Parent root = loader.load();
+
+        emailField.getScene().setRoot(root);
     }
 
     private void showError(String message) {
