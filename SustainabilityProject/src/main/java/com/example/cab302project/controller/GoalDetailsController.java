@@ -1,5 +1,6 @@
 package com.example.cab302project.controller;
 
+import com.example.cab302project.HelloApplication;
 import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.GoalDAO;
 import com.example.cab302project.model.IGoalDAO;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -137,6 +139,8 @@ public class GoalDetailsController {
         alert.setTitle("Delete Goal");
         alert.setHeaderText("Are you sure you want to delete this goal?");
         alert.setContentText("This action cannot be undone.");
+
+        alert.initOwner(completeGoalButtons.getScene().getWindow());
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
