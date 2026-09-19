@@ -201,6 +201,25 @@
     -fx-background-color: #f5f7f4;
 }
 
+.button.delete-button {
+    -fx-pref-height: 48;
+
+    -fx-background-color: #b00020;
+    -fx-background-radius: 9;
+
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+
+    -fx-padding: 0 20 0 20;
+
+    -fx-cursor: hand;
+}
+
 /* =========================================================
    FEEDBACK
    ========================================================= */
