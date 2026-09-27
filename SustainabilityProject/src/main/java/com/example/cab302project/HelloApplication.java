@@ -18,6 +18,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Rooted: Water your mind");
         stage.setScene(scene);
         databasetesting.run();
+        aitesting.run();
         stage.show();
         stage.setOnCloseRequest(event -> {
             try {

@@ -8,6 +8,8 @@ module com.example.cab302project {
     requires password4j;
     requires jdk.jshell;
     requires wagon.provider.api;
+    requires langchain4j.open.ai;
+    requires java.net.http;
 
     opens com.example.cab302project to javafx.fxml;
     exports com.example.cab302project;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A suggested starting point for a new goal. Templates prefill the goal
+ * A suggested starting point for a new habit. Templates prefill the goal
  * creation form; the user can change anything before saving.
  */
 public class HabitTemplate {
@@ -21,11 +21,13 @@ public class HabitTemplate {
     private int target;
 
     /**
-     * Creates a goal template.
-     * @param title What the goal suggests doing.
+     * Creates a habit template.
+     * @param title What the habit suggests doing.
      * @param category The wellbeing area this template belongs to.
      * @param taskType Whether it is worked towards or one and done.
      * @param target The value that must be reached to complete it.
+     * @param repeatFrequencyType does it repeat every day, week, month or year.
+     * @param repeatFrequency how often the associated task repeats.
      * @throws IllegalArgumentException if any of the details are invalid.
      */
     public HabitTemplate(String title, Category category,
@@ -130,6 +132,11 @@ public class HabitTemplate {
                 Category.WORLD, TaskType.BINARY, 1,RepeatFrequencyType.WEEKLY,1));
 
         return templates;
+    }
+
+    public static List<HabitTemplate> generateHabitsFromGoal(Goal goal, int number){
+
+        return new ArrayList<HabitTemplate>();
     }
 
     public String getTitle() {

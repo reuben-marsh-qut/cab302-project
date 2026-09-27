@@ -56,7 +56,7 @@ public class Habit {
                  boolean doesContributeDirectlyToGoal) {
         validateTitle(title);
         validateCompletionThreshold(completionThreshold);
-        validateDates(startDate, endDate);
+//        validateDates(startDate, endDate);
         this.id = habitId;
         this.goalId = goalId;
         this.userId = userId;
