@@ -20,4 +20,5 @@ module com.example.cab302project {
     opens com.example.cab302project.controller to javafx.fxml;
     exports com.example.cab302project.model;
     exports com.example.cab302project.model.enums;
+    opens com.example.cab302project.model to javafx.fxml;
 }

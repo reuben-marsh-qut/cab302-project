@@ -1,6 +1,6 @@
 package com.example.cab302project.controller;
 
-import com.example.cab302project.aitesting;
+import com.example.cab302project.ModelConnection;
 import com.example.cab302project.model.*;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
@@ -73,6 +73,7 @@ public class HabitCreationController {
     private int selectedRepeatFrequency;
     private boolean selectedaiTemplate = false;
     private boolean aiIsLoading = false;
+    private boolean hasFetchedAIForThisGoal = false;
     private TaskType selectedActivityType;
 
     public void setGoalDAO(IGoalDAO goalDAO) {
@@ -145,6 +146,7 @@ public class HabitCreationController {
         }
         highlight(noGoalsButton,false);
         selectedGoal = goal;
+        hasFetchedAIForThisGoal = false;
 
     }
     private void selectTemplateVariant(boolean aiTemplate){
@@ -259,6 +261,7 @@ public class HabitCreationController {
 
 
     private List<HabitTemplate> shownTemplates;
+    private List<HabitTemplate> storedAITemplates;
 
     @FXML
     private void onCreateHabit() {
@@ -372,30 +375,49 @@ public class HabitCreationController {
             return;
         }
         if (selectedaiTemplate){
-            template1Button.setText("Loading ...");
-            template2Button.setText("Loading ...");
-            template3Button.setText("Loading ...");
-            aiIsLoading = true;
-            selectCategory(selectedGoal.getCategory());
-            new Thread(()->{
-                StringBuilder previous = new StringBuilder();
-                HabitTemplate template1 = aitesting.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory());
-                Platform.runLater(()->{
-                    template1Button.setText(template1.getTitle());
-                });
-                previous.append(template1.toString());
-                HabitTemplate template2 = aitesting.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory(),previous.toString());
-                Platform.runLater(()->{
-                    template2Button.setText(template2.getTitle());
-                });
-                previous.append("\n"+template2.toString());
-                HabitTemplate template3 = aitesting.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory(),previous.toString());
-                Platform.runLater(()->{
-                    template3Button.setText(template3.getTitle());
-                    shownTemplates = List.of(template1,template2,template3);
-                    aiIsLoading=false;
-                });
-            }).start();
+            if (!ModelConnection.getInstance().isAvailable()){
+                showError("AI model is unavailable");
+                highlight(aiHabitTemplateButton,false);
+                highlight(manualHabitTemplateButton,true);
+
+                return;
+            }
+            if (!hasFetchedAIForThisGoal){
+                template1Button.setText("Loading ...");
+                template2Button.setText("Loading ...");
+                template3Button.setText("Loading ...");
+                aiIsLoading = true;
+                highlight(mindButton, selectedGoal.getCategory() == Category.MIND);
+                highlight(bodyButton, selectedGoal.getCategory() == Category.BODY);
+                highlight(worldButton, selectedGoal.getCategory() == Category.WORLD);
+                new Thread(()->{
+                    StringBuilder previous = new StringBuilder();
+                    HabitTemplate template1 = HabitTemplate.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory());
+                    Platform.runLater(()->{
+                        template1Button.setText(template1.getTitle());
+                    });
+                    previous.append(template1.toString());
+                    HabitTemplate template2 = HabitTemplate.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory(),previous.toString());
+                    Platform.runLater(()->{
+                        template2Button.setText(template2.getTitle());
+                    });
+                    previous.append("\n"+template2.toString());
+                    HabitTemplate template3 = HabitTemplate.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory(),previous.toString());
+                    Platform.runLater(()->{
+                        template3Button.setText(template3.getTitle());
+                        storedAITemplates = List.of(template1,template2,template3);
+                        shownTemplates = storedAITemplates;
+                        aiIsLoading=false;
+                        hasFetchedAIForThisGoal = true;
+                    });
+                }).start();
+            } else {
+                shownTemplates = storedAITemplates;
+                template1Button.setText(shownTemplates.get(0).getTitle());
+                template2Button.setText(shownTemplates.get(1).getTitle());
+                template3Button.setText(shownTemplates.get(2).getTitle());
+            }
+
         } else {
             shownTemplates = HabitTemplate.getTemplatesFor(selectedCategory, selectedActivityType);
 
@@ -415,6 +437,7 @@ public class HabitCreationController {
         titleArea.setText(template.getTitle());
         selectRepeatFrequencyType(template.getRepeatFrequencyType());
         selectRepeatFrequency(template.getRepeatFrequency());
+        selectActivityType(template.getTaskType());
         if (template.getTaskType() == TaskType.PROGRESSIVE) {
             targetField.setText(String.valueOf(template.getTarget()));
         }
