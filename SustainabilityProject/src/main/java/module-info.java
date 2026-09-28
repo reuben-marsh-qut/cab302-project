@@ -10,6 +10,9 @@ module com.example.cab302project {
     requires wagon.provider.api;
     requires langchain4j.open.ai;
     requires java.net.http;
+    requires langchain4j.core;
+    requires langchain4j;
+    requires com.fasterxml.jackson.databind;
 
     opens com.example.cab302project to javafx.fxml;
     exports com.example.cab302project;

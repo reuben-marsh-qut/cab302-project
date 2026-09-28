@@ -162,4 +162,14 @@ public class HabitTemplate {
     public RepeatFrequencyType getRepeatFrequencyType() {
         return repeatFrequencyType;
     }
+
+    @Override
+    public String toString() {
+        return "Title: " + title +
+                " Catagory: " + category.getLabel() +
+                " Task Type: " + taskType.toString() +
+                " Target: " + target +
+                " repeatFrequencyType: " + repeatFrequencyType.toString() +
+                " repeatFrequency: " + repeatFrequency;
+    }
 }
