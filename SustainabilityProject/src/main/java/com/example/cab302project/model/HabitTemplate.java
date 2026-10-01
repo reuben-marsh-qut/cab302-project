@@ -182,9 +182,26 @@ public class HabitTemplate {
                 " repeatFrequencyType: " + repeatFrequencyType.toString() +
                 " repeatFrequency: " + repeatFrequency;
     }
+
+    /**
+     * This uses the Goal's title and Catagory to generate a HabitTemplate.
+     * This method may block and take some time (seconds), it is advised to call this on a separate thread.
+     * @param goalTitle the title of the Goal
+     * @param goalCatagory the Catagory of the Goal
+     * @return the AI generated HabitTemplate
+     */
     public static HabitTemplate generateHabitFromPartialGoal(String goalTitle, Category goalCatagory){
         return generateHabitFromPartialGoal(goalTitle,goalCatagory,null);
     }
+    /**
+     * This uses the Goal's title and Catagory to generate a HabitTemplate.
+     * This method may block and take some time (seconds), it is advised to call this on a separate thread.
+     * The model will avoid generating Habits that match the concatenated HabitTemplate.toString()s provided in doNotGenerate this
+     * @param goalTitle the title of the Goal
+     * @param goalCatagory the Catagory of the Goal
+     * @param doNotGenerateThis a string containing one or more concatenated HabitTemplate.toString()
+     * @return the AI generated HabitTemplate
+     */
     public static HabitTemplate generateHabitFromPartialGoal(String goalTitle, Category goalCatagory, String doNotGenerateThis){
         ChatModel model = ModelConnection.getInstance().getJSONModel();
         ResponseFormat responseFormat = ResponseFormat.builder()
@@ -287,5 +304,14 @@ public class HabitTemplate {
         }
     }
 
+    /**
+     * A partial habit template internally used for structured output in generateHabitFromPartialGoal.
+     * ObjectMapper().readValue() requires this to be public.
+     * @param title title of the habit
+     * @param taskType the type of the activity associated with this habit
+     * @param target the completion goal, this is 1 if the taskType is binary
+     * @param repeatFrequencyType the frequency of repeats
+     * @param repeatFrequency the size of the gap between repeats
+     */
     public static record PartialHabitTemplate(String title, TaskType taskType, int target, RepeatFrequencyType repeatFrequencyType, int repeatFrequency){}
 }
