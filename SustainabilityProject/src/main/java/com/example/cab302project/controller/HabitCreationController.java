@@ -1,9 +1,11 @@
 package com.example.cab302project.controller;
 
+import com.example.cab302project.ModelConnection;
 import com.example.cab302project.model.*;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -70,6 +72,8 @@ public class HabitCreationController {
     private RepeatFrequencyType selectedRepeatFrequencyType;
     private int selectedRepeatFrequency;
     private boolean selectedaiTemplate = false;
+    private boolean aiIsLoading = false;
+    private boolean hasFetchedAIForThisGoal = false;
     private TaskType selectedActivityType;
 
     public void setGoalDAO(IGoalDAO goalDAO) {
@@ -142,6 +146,7 @@ public class HabitCreationController {
         }
         highlight(noGoalsButton,false);
         selectedGoal = goal;
+        hasFetchedAIForThisGoal = false;
 
     }
     private void selectTemplateVariant(boolean aiTemplate){
@@ -157,7 +162,6 @@ public class HabitCreationController {
             highlight(aiHabitTemplateButton,true);
             highlight(manualHabitTemplateButton,false);
             selectedaiTemplate = true;
-            System.err.println("AI NOT IMPLEMENTED");
             hideError();
             showTemplates();
         } else {
@@ -229,21 +233,35 @@ public class HabitCreationController {
 
     @FXML
     private void onTemplate1() {
-        applyTemplate(shownTemplates.get(0));
+        if (aiIsLoading){
+            showError("Please wait for loading to finish");
+        } else {
+            applyTemplate(shownTemplates.get(0));
+        }
+
     }
 
     @FXML
     private void onTemplate2() {
-        applyTemplate(shownTemplates.get(1));
+        if (aiIsLoading){
+            showError("Please wait for loading to finish");
+        } else {
+            applyTemplate(shownTemplates.get(1));
+        }
     }
 
     @FXML
     private void onTemplate3() {
-        applyTemplate(shownTemplates.get(2));
+        if (aiIsLoading){
+            showError("Please wait for loading to finish");
+        } else {
+            applyTemplate(shownTemplates.get(2));
+        }
     }
 
 
     private List<HabitTemplate> shownTemplates;
+    private List<HabitTemplate> storedAITemplates;
 
     @FXML
     private void onCreateHabit() {
@@ -356,12 +374,58 @@ public class HabitCreationController {
         if (selectedCategory == null || selectedActivityType == null) {
             return;
         }
+        if (selectedaiTemplate){
+            if (!ModelConnection.getInstance().isAvailable()){
+                showError("AI model is unavailable");
+                highlight(aiHabitTemplateButton,false);
+                highlight(manualHabitTemplateButton,true);
 
-        shownTemplates = HabitTemplate.getTemplatesFor(selectedCategory, selectedActivityType);
+                return;
+            }
+            if (!hasFetchedAIForThisGoal){
+                template1Button.setText("Loading ...");
+                template2Button.setText("Loading ...");
+                template3Button.setText("Loading ...");
+                aiIsLoading = true;
+                highlight(mindButton, selectedGoal.getCategory() == Category.MIND);
+                highlight(bodyButton, selectedGoal.getCategory() == Category.BODY);
+                highlight(worldButton, selectedGoal.getCategory() == Category.WORLD);
+                new Thread(()->{
+                    StringBuilder previous = new StringBuilder();
+                    HabitTemplate template1 = HabitTemplate.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory());
+                    Platform.runLater(()->{
+                        template1Button.setText(template1.getTitle());
+                    });
+                    previous.append(template1.toString());
+                    HabitTemplate template2 = HabitTemplate.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory(),previous.toString());
+                    Platform.runLater(()->{
+                        template2Button.setText(template2.getTitle());
+                    });
+                    previous.append("\n"+template2.toString());
+                    HabitTemplate template3 = HabitTemplate.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory(),previous.toString());
+                    Platform.runLater(()->{
+                        template3Button.setText(template3.getTitle());
+                        storedAITemplates = List.of(template1,template2,template3);
+                        shownTemplates = storedAITemplates;
+                        aiIsLoading=false;
+                        hasFetchedAIForThisGoal = true;
+                    });
+                }).start();
+            } else {
+                shownTemplates = storedAITemplates;
+                template1Button.setText(shownTemplates.get(0).getTitle());
+                template2Button.setText(shownTemplates.get(1).getTitle());
+                template3Button.setText(shownTemplates.get(2).getTitle());
+            }
 
-        template1Button.setText(shownTemplates.get(0).getTitle());
-        template2Button.setText(shownTemplates.get(1).getTitle());
-        template3Button.setText(shownTemplates.get(2).getTitle());
+        } else {
+            shownTemplates = HabitTemplate.getTemplatesFor(selectedCategory, selectedActivityType);
+
+            template1Button.setText(shownTemplates.get(0).getTitle());
+            template2Button.setText(shownTemplates.get(1).getTitle());
+            template3Button.setText(shownTemplates.get(2).getTitle());
+        }
+
     }
     /**
      * Fills the form in from a template. Everything stays editable.
@@ -373,6 +437,7 @@ public class HabitCreationController {
         titleArea.setText(template.getTitle());
         selectRepeatFrequencyType(template.getRepeatFrequencyType());
         selectRepeatFrequency(template.getRepeatFrequency());
+        selectActivityType(template.getTaskType());
         if (template.getTaskType() == TaskType.PROGRESSIVE) {
             targetField.setText(String.valueOf(template.getTarget()));
         }
