@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane fx:id="rootPane" styleClass="page-body" stylesheets="@../../../stylesheets/home.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302project.controller.UserPageController">
+
+    <padding>
+        <Insets bottom="28" left="28" right="28" top="28" />
+    </padding>
+
+    <left>
+        <fx:include source="sidebar-view.fxml" />
+    </left>
+
+    <center>
+
+        <!--
+            Changing Activity View to Match Goal View
+        -->
+        <BorderPane fx:id="contentPane">
+
+            <center>
+
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+
+                    <VBox spacing="26">
+
+                        <padding>
+                            <Insets bottom="50" left="48" right="20" top="18" />
+                        </padding>
+
+                        <VBox prefHeight="130.0" prefWidth="386.0" spacing="18" styleClass="card">
+                            <HBox fx:id="bannerArea" prefHeight="98.0" prefWidth="328.0">
+
+
+                            </HBox>
+                        </VBox>
+
+                        <Circle fill="#ffffff00" radius="55.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0">
+
+                        </Circle>
+
+                        <VBox prefHeight="477.0" prefWidth="386.0" spacing="18" styleClass="card">
+
+                            <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" maxHeight="412.0" minHeight="270" prefHeight="412.0" prefWidth="328.0" vbarPolicy="NEVER">
+
+                                <content>
+                                    <HBox fx:id="userInfoContainer" prefHeight="449.0" prefWidth="296.0" spacing="20" />
+                                </content>
+
+                            </ScrollPane>
+
+                        </VBox>
+
+                    </VBox>
+
+                </ScrollPane>
+
+            </center>
+
+        </BorderPane>
+
+    </center>
+
+</BorderPane>
