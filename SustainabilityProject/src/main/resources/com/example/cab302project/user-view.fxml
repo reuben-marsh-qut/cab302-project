@@ -41,7 +41,7 @@
                             </HBox>
                         </VBox>
 
-                        <Circle fill="#ffffff00" radius="55.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0">
+                        <Circle fx:id="profileCircle" fill="#ffffff00" radius="55.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0">
 
                         </Circle>
 
