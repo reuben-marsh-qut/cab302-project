@@ -87,4 +87,30 @@ public class ExperienceServiceTest {
         // Assert: only one reward was added.
         assertEquals(120, user.getUserExperience());
     }
+    @Test
+    void activityDoesNotAwardXpToAnotherUser() {
+        // Arrange: this user has ID 2.
+        User user = new User(
+                2, "other@example.com", "unused-test-hash", 100, 4000
+        );
+
+        // The completed activity belongs to user ID 1.
+        Activity activity = new Activity(
+                null, null, 1, "Take a walk",
+                Category.BODY,
+                TaskType.BINARY,
+                LocalDateTime.of(2026, 10, 5, 9, 0),
+                null,
+                1, 1, 20, 0, false
+        );
+
+        ExperienceService service = new ExperienceService();
+
+        // Act.
+        service.awardXp(user, activity);
+
+        // Assert: neither the user nor the award record changes.
+        assertEquals(100, user.getUserExperience());
+        assertEquals(0, activity.getAwardedXpReward().intValue());
+    }
 }

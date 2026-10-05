@@ -3,6 +3,10 @@ package com.example.cab302project.model;
 public class ExperienceService {
 
     public void awardXp(User user, Activity activity) {
+        if (!Integer.valueOf(user.getUserId()).equals(activity.getUserId())) {
+            return;
+        }
+
         if (!activity.isComplete()) {
             return;
         }
