@@ -15,22 +15,41 @@ public class LevelServiceTest {
 
     @Test
     void zeroXpStartsAtLevelOne() {
-        int level = levelService.getLevel(0);
-
-        assertEquals(1, level);
+        assertEquals(1, levelService.getLevel(0));
     }
 
     @Test
     void xpBelowFirstThresholdRemainsAtLevelOne() {
-        int level = levelService.getLevel(99);
-
-        assertEquals(1, level);
+        assertEquals(1, levelService.getLevel(99));
     }
 
     @Test
     void reachingFirstThresholdIncreasesLevelToTwo() {
-        int level = levelService.getLevel(100);
+        assertEquals(2, levelService.getLevel(100));
+    }
 
-        assertEquals(2, level);
+    @Test
+    void xpBelowSecondThresholdRemainsAtLevelTwo() {
+        assertEquals(2, levelService.getLevel(299));
+    }
+
+    @Test
+    void reachingSecondThresholdIncreasesLevelToThree() {
+        assertEquals(3, levelService.getLevel(300));
+    }
+
+    @Test
+    void xpBelowThirdThresholdRemainsAtLevelThree() {
+        assertEquals(3, levelService.getLevel(599));
+    }
+
+    @Test
+    void reachingThirdThresholdIncreasesLevelToFour() {
+        assertEquals(4, levelService.getLevel(600));
+    }
+
+    @Test
+    void totalXpCanDetermineLevelAcrossMultipleThresholds() {
+        assertEquals(5, levelService.getLevel(1000));
     }
 }
