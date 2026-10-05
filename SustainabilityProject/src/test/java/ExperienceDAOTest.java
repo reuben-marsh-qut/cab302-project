@@ -124,6 +124,20 @@ public class ExperienceDAOTest {
         );
     }
 
+    @Test
+    void previouslySavedActivityDoesNotAwardXpAgain() throws SQLException {
+        // Arrange: award and save the first reward.
+        dao.awardXp(1, 1);
+        assertStoredXp(120, 20);
+
+        // Act: a new DAO reads the saved activity and attempts another award.
+        ExperienceDAO anotherDao = new ExperienceDAO(connection);
+        anotherDao.awardXp(1, 1);
+
+        // Assert: the user receives no additional XP.
+        assertStoredXp(120, 20);
+    }
+
     private void assertStoredXp(int expectedUserXp, int expectedActivityXp)
             throws SQLException {
 
