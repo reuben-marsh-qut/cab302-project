@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests daily activity completion counts used by the progress report.
@@ -224,6 +225,27 @@ public class ProgressServiceTest {
                 result,
                 "Every date in the selected range should appear, "
                         + "including days without completions"
+        );
+    }
+
+    @Test
+    void endDateBeforeStartDateIsRejected() {
+        // Arrange: the selected range runs backwards.
+        LocalDate fromDate = LocalDate.of(2026, 10, 7);
+        LocalDate toDate = LocalDate.of(2026, 10, 5);
+
+        ProgressService service = new ProgressService();
+
+        // Act and assert: reject the invalid range, even with no activities.
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> service.getDailyCompletions(
+                        List.of(),
+                        1,
+                        fromDate,
+                        toDate
+                ),
+                "An end date before the start date should be rejected"
         );
     }
 

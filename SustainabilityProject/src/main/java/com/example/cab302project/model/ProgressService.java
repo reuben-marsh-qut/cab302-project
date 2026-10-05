@@ -34,6 +34,7 @@ public class ProgressService {
      * @param fromDate the first date to include
      * @param toDate the last date to include
      * @return completion counts for every selected date in chronological order
+     * @throws IllegalArgumentException if toDate is before fromDate
      */
     public Map<LocalDate, Integer> getDailyCompletions(
             List<Activity> activities,
@@ -41,6 +42,12 @@ public class ProgressService {
             LocalDate fromDate,
             LocalDate toDate
     ) {
+        if (toDate.isBefore(fromDate)) {
+            throw new IllegalArgumentException(
+                    "End date must be on or after start date."
+            );
+        }
+
         Map<LocalDate, Integer> dailyCompletions = new TreeMap<>();
 
         LocalDate date = fromDate;
