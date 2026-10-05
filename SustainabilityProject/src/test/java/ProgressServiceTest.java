@@ -152,6 +152,45 @@ public class ProgressServiceTest {
         );
     }
 
+    @Test
+    void completedActivitiesWithoutKnownCompletionTimeAreExcluded() {
+        LocalDate day = LocalDate.of(2026, 10, 5);
+
+        Activity datedActivity = completedActivity(
+                1,
+                1,
+                day.atTime(9, 0)
+        );
+
+        Activity historicalActivity = completedActivity(
+                2,
+                1,
+                day.atTime(15, 0)
+        );
+
+        // Simulate a completed record loaded from a migrated database:
+        // its progress is complete, but its completion timestamp is unknown.
+        historicalActivity.setCompletedAt(null);
+
+        ProgressService service = new ProgressService();
+
+        // Act: include the historical record in the supplied activities.
+        Map<LocalDate, Integer> result = service.getDailyCompletions(
+                List.of(historicalActivity, datedActivity),
+                1,
+                day,
+                day
+        );
+
+        // Assert: the report counts only the activity with a known date.
+        assertEquals(
+                Map.of(day, 1),
+                result,
+                "An unknown completion time should be skipped "
+                        + "without preventing dated activities from being counted"
+        );
+    }
+
     /**
      * Creates an activity with a known completion timestamp.
      *

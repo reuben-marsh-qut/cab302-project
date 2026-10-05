@@ -1,6 +1,7 @@
 package com.example.cab302project.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -21,8 +22,9 @@ public class ProgressService {
      * selected range are excluded. Both boundary dates are included,
      * regardless of the time of day the activity was completed.</p>
      *
-     * <p>This implementation expects the user's supplied activities to be
-     * completed and have known completion timestamps.</p>
+     * <p>Activities with unknown completion timestamps are excluded because
+     * their completion date cannot be determined accurately. This
+     * implementation expects the supplied activities to be completed.</p>
      *
      * @param activities the completed activities to examine
      * @param userId the user whose completions should be counted
@@ -43,8 +45,13 @@ public class ProgressService {
                 continue;
             }
 
-            LocalDate completionDate =
-                    activity.getCompletedAt().toLocalDate();
+            LocalDateTime completedAt = activity.getCompletedAt();
+
+            if (completedAt == null) {
+                continue;
+            }
+
+            LocalDate completionDate = completedAt.toLocalDate();
 
             if (completionDate.isBefore(fromDate)
                     || completionDate.isAfter(toDate)) {
