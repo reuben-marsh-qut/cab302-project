@@ -125,11 +125,7 @@ public class Activity {
             );
         }
 
-        if (dueDate == null) {
-            return;
-        }
-
-        if (dueDate.isBefore(startsAt)) {
+        if (dueDate != null && dueDate.isBefore(startsAt)) {
             throw new IllegalArgumentException(
                     "Activity due date must not be before its start date."
             );
@@ -216,7 +212,6 @@ public class Activity {
      */
     public void setProgress(Integer progress, LocalDateTime updatedAt) {
         boolean wasComplete = isComplete();
-
         this.progress = progress;
 
         if (!wasComplete && isComplete() && completedAt == null) {
@@ -231,6 +226,18 @@ public class Activity {
      */
     public LocalDateTime getCompletedAt() {
         return completedAt;
+    }
+
+    /**
+     * Restores the completion time read from persistent storage.
+     *
+     * <p>Normal progress updates should use {@link #setProgress(Integer)}
+     * or {@link #setProgress(Integer, LocalDateTime)}.</p>
+     *
+     * @param completedAt the stored completion time, or null if unknown
+     */
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
     }
 
     /** @return the progress required for completion */
