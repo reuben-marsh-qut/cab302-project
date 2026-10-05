@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 
 
 // database connection singleton from activity 4.1
@@ -51,7 +52,20 @@ public class DatabaseConnection {
             throw new RuntimeException(e);
 
         }
+        migrate();
+    }
 
+    private static void migrate() {
+        try {
+            Connection connection = DatabaseConnection.getInstance();
+            Statement statement = connection.createStatement();
+
+            statement.execute("ALTER TABLE goals ADD COLUMN isPaused INTEGER NOT NULL DEFAULT 0");
+
+            System.out.println("Database updated: added isPaused to the goals table.");
+        } catch (SQLException exception) {
+            // The column is already there, so this database is already up to date.
+        }
     }
 }
 
