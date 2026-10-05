@@ -1,7 +1,10 @@
 package com.example.cab302project.model;
 
+import com.example.cab302project.model.enums.Category;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,6 +16,42 @@ import java.util.TreeMap;
  * or JavaFX controls.</p>
  */
 public class ProgressService {
+
+    /**
+     * Counts completed Mind, Body and Social activities in an inclusive period.
+     * Uses the same user and completion-date rules as the daily report.
+     * The supplied activities are expected to be completed.
+     */
+    public Map<Category, Integer> getCategoryCompletions(
+            List<Activity> activities, int userId,
+            LocalDate fromDate, LocalDate toDate
+    ) {
+        if (toDate.isBefore(fromDate)) {
+            throw new IllegalArgumentException(
+                    "End date must be on or after start date."
+            );
+        }
+
+        Map<Category, Integer> counts = new EnumMap<>(Category.class);
+        counts.put(Category.MIND, 0);
+        counts.put(Category.BODY, 0);
+        counts.put(Category.SOCIAL, 0);
+
+        for (Activity activity : activities) {
+            if (!Integer.valueOf(userId).equals(activity.getUserId())
+                    || activity.getCompletedAt() == null
+                    || !counts.containsKey(activity.getCategory())) {
+                continue;
+            }
+
+            LocalDate date = activity.getCompletedAt().toLocalDate();
+            if (!date.isBefore(fromDate) && !date.isAfter(toDate)) {
+                counts.merge(activity.getCategory(), 1, Integer::sum);
+            }
+        }
+
+        return counts;
+    }
 
     /**
      * Groups a user's activity completions into daily counts within an
