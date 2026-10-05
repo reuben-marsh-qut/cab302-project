@@ -15,7 +15,7 @@ public class ExperienceDAO {
         this.connection = connection;
     }
 
-    public void awardXp(int userId, int activityId) throws SQLException {
+    public int awardXp(int userId, int activityId) throws SQLException {
         // This method manages its own transaction.
         if (!connection.getAutoCommit()) {
             throw new SQLException(
@@ -27,9 +27,13 @@ public class ExperienceDAO {
         boolean transactionEnded = false;
 
         try {
-            persistAward(userId, activityId);
+            int earnedXp = persistAward(userId, activityId);
+
             connection.commit();
             transactionEnded = true;
+
+            // Only report the reward after the changes are committed.
+            return earnedXp;
         } catch (SQLException | RuntimeException exception) {
             try {
                 connection.rollback();
@@ -46,7 +50,7 @@ public class ExperienceDAO {
         }
     }
 
-    private void persistAward(int userId, int activityId)
+    private int persistAward(int userId, int activityId)
             throws SQLException {
 
         User user;
@@ -72,7 +76,7 @@ public class ExperienceDAO {
 
             try (ResultSet result = statement.executeQuery()) {
                 if (!result.next()) {
-                    return;
+                    return 0;
                 }
 
                 user = new User(
@@ -98,7 +102,7 @@ public class ExperienceDAO {
         int earnedXp = user.getUserExperience() - previousXp;
 
         if (earnedXp == 0) {
-            return;
+            return 0;
         }
 
         String updateActivitySql = """
@@ -142,5 +146,7 @@ public class ExperienceDAO {
                 );
             }
         }
+
+        return earnedXp;
     }
 }

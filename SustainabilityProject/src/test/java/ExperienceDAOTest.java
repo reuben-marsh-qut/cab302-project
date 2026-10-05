@@ -138,6 +138,16 @@ public class ExperienceDAOTest {
         assertStoredXp(120, 20);
     }
 
+    @Test
+    void successfulAwardReturnsEarnedXp() throws SQLException {
+        // Act.
+        int earnedXp = dao.awardXp(1, 1);
+
+        // Assert: the interface receives the amount actually awarded.
+        assertEquals(20, earnedXp);
+        assertStoredXp(120, 20);
+    }
+
     private void assertStoredXp(int expectedUserXp, int expectedActivityXp)
             throws SQLException {
 
