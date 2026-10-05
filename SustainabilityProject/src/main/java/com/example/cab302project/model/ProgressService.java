@@ -14,14 +14,15 @@ import java.util.TreeMap;
 public class ProgressService {
 
     /**
-     * Groups supplied activity completion timestamps into daily counts.
+     * Groups a user's supplied activity completion timestamps into daily counts.
      *
-     * <p>This initial implementation expects completed activities with known
-     * completion timestamps. User and date filtering will be introduced
-     * through subsequent test-driven development steps.</p>
+     * <p>Activities belonging to other users are excluded. This implementation
+     * expects the user's activities to be completed and have known completion
+     * timestamps. Date filtering will be introduced through subsequent
+     * test-driven development steps.</p>
      *
      * @param activities the completed activities to examine
-     * @param userId the intended reporting user; filtering is not yet implemented
+     * @param userId the user whose completions should be counted
      * @param fromDate the intended first date; filtering is not yet implemented
      * @param toDate the intended last date; filtering is not yet implemented
      * @return completion counts grouped by date in chronological order
@@ -35,6 +36,10 @@ public class ProgressService {
         Map<LocalDate, Integer> dailyCompletions = new TreeMap<>();
 
         for (Activity activity : activities) {
+            if (!Integer.valueOf(userId).equals(activity.getUserId())) {
+                continue;
+            }
+
             LocalDate completionDate =
                     activity.getCompletedAt().toLocalDate();
 

@@ -51,6 +51,41 @@ public class ProgressServiceTest {
         );
     }
 
+    @Test
+    void activitiesBelongingToAnotherUserAreExcluded() {
+        // Arrange: two different users complete an activity on the same day.
+        LocalDate day = LocalDate.of(2026, 10, 5);
+
+        Activity ownActivity = completedActivity(
+                1,
+                1,
+                day.atTime(9, 0)
+        );
+
+        Activity anotherUsersActivity = completedActivity(
+                2,
+                2,
+                day.atTime(15, 0)
+        );
+
+        ProgressService service = new ProgressService();
+
+        // Act: request the report for user 1 only.
+        Map<LocalDate, Integer> result = service.getDailyCompletions(
+                List.of(ownActivity, anotherUsersActivity),
+                1,
+                day,
+                day
+        );
+
+        // Assert: user 2's activity must not contribute to user 1's report.
+        assertEquals(
+                Map.of(day, 1),
+                result,
+                "Only the requested user's activities should be counted"
+        );
+    }
+
     /**
      * Creates an activity with a known completion timestamp.
      *
