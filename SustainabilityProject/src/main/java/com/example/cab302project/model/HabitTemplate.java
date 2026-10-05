@@ -1,15 +1,25 @@
 package com.example.cab302project.model;
 
+import com.example.cab302project.ModelConnection;
 import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.CompletionType;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.langchain4j.data.message.SystemMessage;
+import dev.langchain4j.data.message.UserMessage;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.request.ChatRequest;
+import dev.langchain4j.model.chat.request.ResponseFormat;
+import dev.langchain4j.model.chat.request.ResponseFormatType;
+import dev.langchain4j.model.chat.request.json.JsonObjectSchema;
+import dev.langchain4j.model.chat.request.json.JsonSchema;
+import dev.langchain4j.model.chat.response.ChatResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A suggested starting point for a new goal. Templates prefill the goal
+ * A suggested starting point for a new habit. Templates prefill the goal
  * creation form; the user can change anything before saving.
  */
 public class HabitTemplate {
@@ -21,11 +31,13 @@ public class HabitTemplate {
     private int target;
 
     /**
-     * Creates a goal template.
-     * @param title What the goal suggests doing.
+     * Creates a habit template.
+     * @param title What the habit suggests doing.
      * @param category The wellbeing area this template belongs to.
      * @param taskType Whether it is worked towards or one and done.
      * @param target The value that must be reached to complete it.
+     * @param repeatFrequencyType does it repeat every day, week, month or year.
+     * @param repeatFrequency how often the associated task repeats.
      * @throws IllegalArgumentException if any of the details are invalid.
      */
     public HabitTemplate(String title, Category category,
@@ -132,6 +144,11 @@ public class HabitTemplate {
         return templates;
     }
 
+    public static List<HabitTemplate> generateHabitsFromGoal(Goal goal, int number){
+
+        return new ArrayList<HabitTemplate>();
+    }
+
     public String getTitle() {
         return title;
     }
@@ -155,4 +172,146 @@ public class HabitTemplate {
     public RepeatFrequencyType getRepeatFrequencyType() {
         return repeatFrequencyType;
     }
+
+    @Override
+    public String toString() {
+        return "Title: " + title +
+                " Catagory: " + category.getLabel() +
+                " Task Type: " + taskType.toString() +
+                " Target: " + target +
+                " repeatFrequencyType: " + repeatFrequencyType.toString() +
+                " repeatFrequency: " + repeatFrequency;
+    }
+
+    /**
+     * This uses the Goal's title and Catagory to generate a HabitTemplate.
+     * This method may block and take some time (seconds), it is advised to call this on a separate thread.
+     * @param goalTitle the title of the Goal
+     * @param goalCatagory the Catagory of the Goal
+     * @return the AI generated HabitTemplate
+     */
+    public static HabitTemplate generateHabitFromPartialGoal(String goalTitle, Category goalCatagory){
+        return generateHabitFromPartialGoal(goalTitle,goalCatagory,null);
+    }
+    /**
+     * This uses the Goal's title and Catagory to generate a HabitTemplate.
+     * This method may block and take some time (seconds), it is advised to call this on a separate thread.
+     * The model will avoid generating Habits that match the concatenated HabitTemplate.toString()s provided in doNotGenerate this
+     * @param goalTitle the title of the Goal
+     * @param goalCatagory the Catagory of the Goal
+     * @param doNotGenerateThis a string containing one or more concatenated HabitTemplate.toString()
+     * @return the AI generated HabitTemplate
+     */
+    public static HabitTemplate generateHabitFromPartialGoal(String goalTitle, Category goalCatagory, String doNotGenerateThis){
+        ChatModel model = ModelConnection.getInstance().getJSONModel();
+        ResponseFormat responseFormat = ResponseFormat.builder()
+                .type(ResponseFormatType.JSON)
+                .jsonSchema(JsonSchema.builder()
+                        .name("Habit")
+                        .rootElement(JsonObjectSchema.builder()
+                                .addStringProperty("title","Describe a beneficial task that can be repeated. e.g. Save $2,000, Walk 10,000 steps")
+                                .addEnumProperty("taskType", List.of("BINARY", "PROGRESSIVE"), "Do you progressively work towards completing the task or is completion binary.")
+                                .addIntegerProperty("target", "If the task is Progressive what should be the target number for task completion. If the task is Binary this is 1.")
+                                .addEnumProperty("repeatFrequencyType", List.of("DAILY","WEEKLY","MONTLY","YEARLY"), "How often should the habit repeat.")
+                                .addIntegerProperty("repeatFrequency", "How long should the interval between repeats be. e.g. if repeatFrequencyType is Daily and repeatFrequency is 1 the habit will repeat each day, if repeatFrequency is 2 the habit will repeat every two days.")
+                                .build())
+                        .build())
+                .build();
+        SystemMessage systemMessage = SystemMessage.from("""
+                Generate a habit from a given goal. The habit should be a beneficial task that can be repeated. e.g. Save $2,000, Walk 10,000 steps.
+                Do not generate NULL or null;
+                
+                BAD:
+                {
+                  "title": "Daily Movement Minimum", // WRONG: the title does not describe what the user must do
+                  "taskType": "PROGRESSIVE",
+                  "target": 15,
+                  "repeatFrequencyType": "DAILY",
+                  "repeatFrequency": 7 // WRONG: this means this will repeat every seven days instead of every 1 day
+                }
+                {
+                  "title": "Write down three things you are grateful for each day",
+                  "taskType": "BINARY", 
+                  "target": 3, // WRONG: the target should be 1 if the task is binary
+                  "repeatFrequencyType": "DAILY",
+                  "repeatFrequency": 1
+                }
+                GOOD:
+                Catagory: BODY
+                {
+                  "title": "Move for at least 15 minutes each day",
+                  "taskType": "PROGRESSIVE",
+                  "target": 15,
+                  "repeatFrequencyType": "DAILY",
+                  "repeatFrequency": 1
+                }
+                Catagory: MIND
+                {
+                  "title": "Complete a random act of kindness each month",
+                  "taskType": "BINARY",
+                  "target": 1,
+                  "repeatFrequencyType": "MONTHLY",
+                  "repeatFrequency": 1
+                }
+                Catagory: WORLD
+                {
+                  "title": "Swap at least 5 car trips each week for walking or public transport",
+                  "taskType": "PROGRESSIVE",
+                  "target": 5,
+                  "repeatFrequencyType": "WEEKLY",
+                  "repeatFrequency": 1
+                }
+               Catagory: MIND
+                {
+                  "title": "Journal for 10 minutes each day",
+                  "taskType": "BINARY",
+                  "target": 1,
+                  "repeatFrequencyType": "DAILY",
+                  "repeatFrequency": 1
+                }
+                """);
+        ChatRequest chatRequest;
+        UserMessage userMessage = UserMessage.from(String.format("Generate a Habit from the goal '%s', the catagory of the goal is '%s'",goalTitle,goalCatagory));
+
+        if (doNotGenerateThis != null){
+            SystemMessage preventDuplicates = new SystemMessage(String.format("""
+                    Do NOT duplicate the following habit/s as they have already been presented to the user. Please think of a distinct habit.
+                    %s
+                    """,doNotGenerateThis));
+            chatRequest = ChatRequest.builder()
+                    .responseFormat(responseFormat)
+                    .messages(systemMessage,preventDuplicates,userMessage)
+                    .build();
+        } else {
+            chatRequest = ChatRequest.builder()
+                    .responseFormat(responseFormat)
+                    .messages(systemMessage,userMessage)
+                    .build();
+        }
+
+        ChatResponse response = model.chat(chatRequest);
+        String output = response.aiMessage().text();
+//        System.out.println(output);
+        try {
+            PartialHabitTemplate partialHabitTemplate = new ObjectMapper().readValue(output, PartialHabitTemplate.class);
+            HabitTemplate template = new HabitTemplate(partialHabitTemplate.title(), goalCatagory,partialHabitTemplate.taskType(), partialHabitTemplate.taskType() == TaskType.PROGRESSIVE ? partialHabitTemplate.target() : 1, partialHabitTemplate.repeatFrequencyType(),partialHabitTemplate.repeatFrequency());
+//            System.out.println(template);
+            return template;
+        }   catch (Exception e){
+            System.err.println(e.toString());
+            return null;
+//            throw e;
+        }
+    }
+
+    /**
+     * A partial habit template internally used for structured output in generateHabitFromPartialGoal.
+     * ObjectMapper().readValue() requires this to be public.
+     * @param title title of the habit
+     * @param taskType the type of the activity associated with this habit
+     * @param target the completion goal, this is 1 if the taskType is binary
+     * @param repeatFrequencyType the frequency of repeats
+     * @param repeatFrequency the size of the gap between repeats
+     */
+    public static record PartialHabitTemplate(String title, TaskType taskType, int target, RepeatFrequencyType repeatFrequencyType, int repeatFrequency){}
 }
