@@ -20,25 +20,20 @@
       styleClass="sidebar">
 
     <!-- Rooted branding -->
-    <HBox alignment="CENTER_LEFT"
-          spacing="10">
+    <HBox alignment="CENTER_LEFT" spacing="10">
 
         <ImageView fitWidth="52"
                    fitHeight="52"
                    preserveRatio="true">
-
             <Image url="@../../../assets/logo.png"/>
-
         </ImageView>
 
         <VBox spacing="-2">
-
             <Label text="Rooted"
                    styleClass="sidebar-brand-title"/>
 
             <Label text="Water your mind"
                    styleClass="sidebar-brand-tagline"/>
-
         </VBox>
 
     </HBox>
@@ -73,27 +68,34 @@
             onAction="#onActivitiesButtonClick"
             styleClass="sidebar-button"/>
 
-<!--    <Button fx:id="socialButton"-->
-<!--            text="Social"-->
-<!--            maxWidth="Infinity"-->
-<!--            onAction="#onSocialButtonClick"-->
-<!--            styleClass="sidebar-button"/>-->
-
-<!--    <Button fx:id="statsButton"-->
-<!--            text="Stats"-->
-<!--            maxWidth="Infinity"-->
-<!--            onAction="#onStatsButtonClick"-->
-<!--            styleClass="sidebar-button"/>-->
-
-    <!-- Account navigation -->
-<!--    <Label text="ACCOUNT"-->
-<!--           styleClass="sidebar-section-label"/>-->
-
-<!--    <Button text="Settings"-->
-<!--            maxWidth="Infinity"-->
-<!--            styleClass="sidebar-button"/>-->
+    <!-- Social and stats navigation remain disabled. -->
 
     <Region VBox.vgrow="ALWAYS"/>
+
+    <!-- Current XP, level and level-up feedback -->
+    <VBox fx:id="progressSummary" spacing="6">
+
+        <Label text="YOUR PROGRESS"
+               styleClass="sidebar-section-label"/>
+
+        <Label fx:id="levelLabel"
+               text="Level 1"
+               styleClass="sidebar-user-name"/>
+
+        <Label fx:id="xpLabel"
+               text="0 XP total"
+               styleClass="sidebar-user-email"/>
+
+        <Label fx:id="levelUpLabel"
+               visible="false"
+               managed="false"
+               wrapText="true"
+               maxWidth="200"
+               styleClass="sidebar-user-name"/>
+
+    </VBox>
+
+    <Region prefHeight="16"/>
 
     <!-- Logged-in user -->
     <HBox fx:id="accountMenuButton"
@@ -117,8 +119,7 @@
 
         </StackPane>
 
-        <VBox spacing="2"
-              HBox.hgrow="ALWAYS">
+        <VBox spacing="2" HBox.hgrow="ALWAYS">
 
             <Label fx:id="userNameLabel"
                    text="Rooted User"
