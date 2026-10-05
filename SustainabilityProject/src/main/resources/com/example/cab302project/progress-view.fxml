@@ -178,6 +178,33 @@
                                styleClass="section-description"/>
 
                     </VBox>
+                    <VBox spacing="16" minWidth="0" styleClass="card">
+                        <Label text="Compare wellbeing categories"
+                               styleClass="section-title"/>
+                        <Label text="Completed activities in the selected period. Each activity counts once in its category."
+                               wrapText="true" styleClass="section-description"/>
+                        <Label fx:id="categorySummaryLabel" wrapText="true"
+                               styleClass="section-description"/>
+                        <BarChart fx:id="categoryChart" animated="false"
+                                  legendVisible="false" minWidth="0"
+                                  prefHeight="300" minHeight="300" maxHeight="300"
+                                  horizontalGridLinesVisible="true"
+                                  verticalGridLinesVisible="false"
+                                  alternativeRowFillVisible="false"
+                                  alternativeColumnFillVisible="false"
+                                  styleClass="progress-chart">
+                            <xAxis>
+                                <CategoryAxis label="Wellbeing category" animated="false"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="categoryCompletionAxis"
+                                            label="Completed activities" animated="false"
+                                            autoRanging="false" lowerBound="0"
+                                            upperBound="1" tickUnit="1"
+                                            minorTickVisible="false"/>
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
                 </VBox>
             </content>
         </ScrollPane>

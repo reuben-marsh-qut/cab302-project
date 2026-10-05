@@ -6,6 +6,7 @@ import com.example.cab302project.model.IActivityDAO;
 import com.example.cab302project.model.ProgressService;
 import com.example.cab302project.model.User;
 import com.example.cab302project.model.UserSession;
+import com.example.cab302project.model.enums.Category;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
@@ -77,6 +78,15 @@ public class ProgressController {
 
     @FXML
     private Label undatedLabel;
+
+    @FXML
+    private BarChart<String, Number> categoryChart;
+
+    @FXML
+    private NumberAxis categoryCompletionAxis;
+
+    @FXML
+    private Label categorySummaryLabel;
 
     /**
      * Configures the chart and loads the last 30 calendar days,
@@ -170,6 +180,9 @@ public class ProgressController {
                     );
 
             displayReport(dailyCounts, fromDate, toDate);
+            displayCategoryReport(progressService.getCategoryCompletions(
+                    completedActivities, currentUser.getUserId(), fromDate, toDate
+            ));
             displayUndatedNotice(completedActivities);
         } catch (RuntimeException exception) {
             clearReport();
@@ -273,6 +286,33 @@ public class ProgressController {
         }
     }
 
+    /** Displays all three categories with visible totals, including zero counts. */
+    private void displayCategoryReport(Map<Category, Integer> counts) {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        int largestCount = 0;
+        StringBuilder summary = new StringBuilder();
+
+        for (Map.Entry<Category, Integer> entry : counts.entrySet()) {
+            String label = entry.getKey().getLabel();
+            int count = entry.getValue();
+            series.getData().add(new XYChart.Data<>(label, count));
+            largestCount = Math.max(largestCount, count);
+
+            if (!summary.isEmpty()) {
+                summary.append(" · ");
+            }
+            summary.append(label).append(": ").append(count);
+        }
+
+        double tickUnit = Math.max(1, Math.ceil(largestCount / 5.0));
+        categoryCompletionAxis.setTickUnit(tickUnit);
+        categoryCompletionAxis.setUpperBound(Math.max(
+                tickUnit, Math.ceil((largestCount + 1.0) / tickUnit) * tickUnit
+        ));
+        categoryChart.getData().add(series);
+        categorySummaryLabel.setText(summary.toString());
+    }
+
     /**
      * Adds the exact completion date and count to a bar's tooltip
      * and accessible description.
@@ -339,7 +379,7 @@ public class ProgressController {
                         : " completed activities have")
                         + " no recorded completion date and "
                         + (undatedCount == 1 ? "is" : "are")
-                        + " excluded from the chart."
+                        + " excluded from both charts."
         );
 
         undatedLabel.setVisible(true);
@@ -350,6 +390,10 @@ public class ProgressController {
      * Removes previous report data and messages before another refresh.
      */
     private void clearReport() {
+        categoryChart.getData().clear();
+        categoryCompletionAxis.setUpperBound(1);
+        categoryCompletionAxis.setTickUnit(1);
+        categorySummaryLabel.setText("");
         completionChart.getData().clear();
         completionAxis.setUpperBound(1);
         completionAxis.setTickUnit(1);
