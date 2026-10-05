@@ -1,4 +1,6 @@
 import com.example.cab302project.model.ExperienceDAO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
@@ -6,15 +8,19 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ExperienceDAOTest {
 
-    @Test
-    void awardingXpPersistsUserTotalAndActivityReward() throws Exception {
-        // Locate the schema when running from the module or repository root.
+    private Connection connection;
+    private ExperienceDAO dao;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        // Locate the schema from the module or repository root.
         Path schemaPath = Path.of(
                 "src", "main", "resources", "database", "createDB.sql"
         );
@@ -31,65 +37,117 @@ public class ExperienceDAOTest {
 
         String schema = Files.readString(schemaPath);
 
-        // Create an isolated database; do not use the application's database.
-        try (Connection connection =
-                     DriverManager.getConnection("jdbc:sqlite::memory:")) {
+        // Each test receives its own isolated database.
+        connection = DriverManager.getConnection("jdbc:sqlite::memory:");
 
-            // Arrange: create the application's tables.
-            try (Statement statement = connection.createStatement()) {
-                for (String sql : schema.split(";")) {
-                    if (!sql.isBlank()) {
-                        statement.execute(sql);
-                    }
+        try (Statement statement = connection.createStatement()) {
+            for (String sql : schema.split(";")) {
+                if (!sql.isBlank()) {
+                    statement.execute(sql);
                 }
             }
 
-            // Arrange: user has 100 XP.
-            try (Statement statement = connection.createStatement()) {
-                statement.executeUpdate("""
-                        INSERT INTO users
-                            (userId, email, passwordHash,
-                             userExperience, postcode)
-                        VALUES
-                            (1, 'test@example.com', 'unused-test-hash',
-                             100, 4000)
-                        """);
+            // User starts with 100 XP.
+            statement.executeUpdate("""
+                    INSERT INTO users
+                        (userId, email, passwordHash,
+                         userExperience, postcode)
+                    VALUES
+                        (1, 'test@example.com', 'unused-test-hash',
+                         100, 4000)
+                    """);
 
-                // Completed activity belongs to user 1 and is worth 20 XP.
-                statement.executeUpdate("""
-                        INSERT INTO tasks
-                            (taskId, userId, taskTitle, catagory,
-                             taskType, startsAtUnixTime, progress,
-                             completionThreshold, baseXpReward,
-                             awardedXpReward, doesContributeDirectlyToGoal)
-                        VALUES
-                            (1, 1, 'Take a walk', 0,
-                             0, 0, 1,
-                             1, 20,
-                             0, 0)
-                        """);
+            // Completed activity belongs to user 1 and is worth 20 XP.
+            statement.executeUpdate("""
+                    INSERT INTO tasks
+                        (taskId, userId, taskTitle, catagory,
+                         taskType, startsAtUnixTime, progress,
+                         completionThreshold, baseXpReward,
+                         awardedXpReward, doesContributeDirectlyToGoal)
+                    VALUES
+                        (1, 1, 'Take a walk', 0,
+                         0, 0, 1,
+                         1, 20,
+                         0, 0)
+                    """);
+        }
+
+        dao = new ExperienceDAO(connection);
+    }
+
+    @AfterEach
+    void tearDown() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
+
+    @Test
+    void awardingXpPersistsUserTotalAndActivityReward() throws SQLException {
+        // Act.
+        dao.awardXp(1, 1);
+
+        // Assert.
+        assertStoredXp(120, 20);
+    }
+
+    @Test
+    void failedUserXpUpdateRollsBackActivityAward() throws SQLException {
+        // Arrange: allow the activity update, but reject the user XP update.
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("""
+                    CREATE TEMP TRIGGER reject_user_xp_update
+                    BEFORE UPDATE OF userExperience ON users
+                    BEGIN
+                        SELECT RAISE(ABORT, 'Simulated XP save failure');
+                    END;
+                    """);
+        }
+
+        // Act: attempt the award and capture the expected failure.
+        SQLException exception = assertThrows(
+                SQLException.class,
+                () -> dao.awardXp(1, 1)
+        );
+
+        assertTrue(
+                exception.getMessage().contains("Simulated XP save failure"),
+                "The failure should come from our test trigger"
+        );
+
+        // Assert: both stored values remain unchanged.
+        assertStoredXp(100, 0);
+
+        assertTrue(
+                connection.getAutoCommit(),
+                "Auto-commit should be restored after rollback"
+        );
+    }
+
+    private void assertStoredXp(int expectedUserXp, int expectedActivityXp)
+            throws SQLException {
+
+        try (Statement statement = connection.createStatement()) {
+            try (ResultSet result = statement.executeQuery(
+                    "SELECT userExperience FROM users WHERE userId = 1")) {
+
+                assertTrue(result.next(), "User should exist");
+                assertEquals(
+                        expectedUserXp,
+                        result.getInt("userExperience"),
+                        "Stored user XP should match"
+                );
             }
 
-            // Act.
-            ExperienceDAO dao = new ExperienceDAO(connection);
-            dao.awardXp(1, 1);
+            try (ResultSet result = statement.executeQuery(
+                    "SELECT awardedXpReward FROM tasks WHERE taskId = 1")) {
 
-            // Assert: verify the stored user total.
-            try (Statement statement = connection.createStatement()) {
-                try (ResultSet result = statement.executeQuery(
-                        "SELECT userExperience FROM users WHERE userId = 1")) {
-
-                    assertTrue(result.next(), "User should exist");
-                    assertEquals(120, result.getInt("userExperience"));
-                }
-
-                // Assert: verify the stored activity reward.
-                try (ResultSet result = statement.executeQuery(
-                        "SELECT awardedXpReward FROM tasks WHERE taskId = 1")) {
-
-                    assertTrue(result.next(), "Activity should exist");
-                    assertEquals(20, result.getInt("awardedXpReward"));
-                }
+                assertTrue(result.next(), "Activity should exist");
+                assertEquals(
+                        expectedActivityXp,
+                        result.getInt("awardedXpReward"),
+                        "Stored activity reward should match"
+                );
             }
         }
     }
