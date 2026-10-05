@@ -26,11 +26,14 @@ public class ProgressService {
      * their completion date cannot be determined accurately. This
      * implementation expects the supplied activities to be completed.</p>
      *
+     * <p>Every date in the selected range appears in the result.
+     * Dates without completions have a count of zero.</p>
+     *
      * @param activities the completed activities to examine
      * @param userId the user whose completions should be counted
      * @param fromDate the first date to include
      * @param toDate the last date to include
-     * @return completion counts grouped by date in chronological order
+     * @return completion counts for every selected date in chronological order
      */
     public Map<LocalDate, Integer> getDailyCompletions(
             List<Activity> activities,
@@ -39,6 +42,18 @@ public class ProgressService {
             LocalDate toDate
     ) {
         Map<LocalDate, Integer> dailyCompletions = new TreeMap<>();
+
+        LocalDate date = fromDate;
+
+        while (!date.isAfter(toDate)) {
+            dailyCompletions.put(date, 0);
+
+            if (date.equals(toDate)) {
+                break;
+            }
+
+            date = date.plusDays(1);
+        }
 
         for (Activity activity : activities) {
             if (!Integer.valueOf(userId).equals(activity.getUserId())) {

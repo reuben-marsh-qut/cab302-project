@@ -191,6 +191,42 @@ public class ProgressServiceTest {
         );
     }
 
+    @Test
+    void daysWithoutCompletionsAreIncludedWithZeroCounts() {
+        // Arrange: only the middle day has a completed activity.
+        LocalDate fromDate = LocalDate.of(2026, 10, 5);
+        LocalDate middleDate = fromDate.plusDays(1);
+        LocalDate toDate = fromDate.plusDays(2);
+
+        Activity activity = completedActivity(
+                1,
+                1,
+                middleDate.atTime(12, 0)
+        );
+
+        ProgressService service = new ProgressService();
+
+        // Act: request all three days.
+        Map<LocalDate, Integer> result = service.getDailyCompletions(
+                List.of(activity),
+                1,
+                fromDate,
+                toDate
+        );
+
+        // Assert: quiet days remain present with a count of zero.
+        assertEquals(
+                Map.of(
+                        fromDate, 0,
+                        middleDate, 1,
+                        toDate, 0
+                ),
+                result,
+                "Every date in the selected range should appear, "
+                        + "including days without completions"
+        );
+    }
+
     /**
      * Creates an activity with a known completion timestamp.
      *
