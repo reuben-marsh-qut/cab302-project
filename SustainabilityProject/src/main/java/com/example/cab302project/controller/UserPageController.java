@@ -12,7 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.*;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +53,10 @@ public class UserPageController
             // banner command
             banner(currentUser);
             // profile picture command
+            pfp(currentUser);
             // profile details command
+            userInfo(currentUser);
+
         }
     }
 
@@ -66,18 +70,51 @@ public class UserPageController
         }
         else
         {
-            banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/pfp/banner/banner" + user.bannerNumber + ".png")));
+            banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/banner" + user.bannerNumber + ".png")));
         }
         ImageView bannerImageView = new ImageView(banner);
-        bannerImageView.setPreserveRatio(false);
+        bannerImageView.setPreserveRatio(true);
         bannerImageView.fitHeightProperty().bind(bannerArea.heightProperty());
         bannerImageView.fitWidthProperty().bind(bannerArea.widthProperty());
+        Rectangle clip = new Rectangle();
+        clip.widthProperty().bind(bannerArea.widthProperty());
+        clip.heightProperty().bind(bannerArea.heightProperty());
+        bannerArea.setClip(clip);
 
         bannerArea.getChildren().clear();
         bannerArea.getChildren().add(bannerImageView);
     }
 
+    private void pfp(User user)
+    {
+        Image pfp;
 
+        if (currentUser == null)
+        {
+            pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultPFP)));
+        }
+        else
+        {
+            pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/pfp" + user.pfpNumber + ".png")));
+        }
+        ImagePattern pfpImageView = new ImagePattern(pfp);
+        profileCircle.setFill(pfpImageView);
+    }
+
+    private void userInfo(User user)
+    {
+
+        // User's name
+        // Apparently we don't even have that so it'll be the email for now
+
+        Label nameLabel = new Label("Name");
+        nameLabel.getStyleClass().add("item-category");
+        String email = currentUser.getEmail();
+        Label nameValue = new Label("email: " + email);
+
+        // Streak except we don't have it implemented in the table or user class yet
+
+    }
 
     @FXML
     private void initialize() {
