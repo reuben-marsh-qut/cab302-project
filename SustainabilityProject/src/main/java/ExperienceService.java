@@ -3,6 +3,10 @@ package com.example.cab302project.model;
 public class ExperienceService {
 
     public void awardXp(User user, Activity activity) {
+        if (!activity.isComplete()) {
+            return;
+        }
+
         int currentXp = user.getUserExperience();
         int reward = activity.getBaseXpReward();
 

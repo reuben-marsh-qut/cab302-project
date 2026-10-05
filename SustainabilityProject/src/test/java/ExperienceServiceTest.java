@@ -37,4 +37,29 @@ public class ExperienceServiceTest {
         // Assert.
         assertEquals(120, user.getUserExperience());
     }
+    @Test
+    void incompleteActivityDoesNotAwardXp() {
+        // Arrange: user starts with 100 XP.
+        User user = new User(
+                1, "test@example.com", "unused-test-hash", 100, 4000
+        );
+
+        // Progress = 0, threshold = 1: activity is incomplete.
+        Activity activity = new Activity(
+                null, null, 1, "Take a walk",
+                Category.BODY,
+                TaskType.BINARY,
+                LocalDateTime.of(2026, 10, 5, 9, 0),
+                null,
+                0, 1, 20, 0, false
+        );
+
+        ExperienceService service = new ExperienceService();
+
+        // Act.
+        service.awardXp(user, activity);
+
+        // Assert: XP must remain unchanged.
+        assertEquals(100, user.getUserExperience());
+    }
 }
