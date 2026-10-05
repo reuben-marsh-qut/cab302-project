@@ -7,9 +7,14 @@ public class ExperienceService {
             return;
         }
 
+        if (activity.getAwardedXpReward() > 0) {
+            return;
+        }
+
         int currentXp = user.getUserExperience();
         int reward = activity.getBaseXpReward();
 
         user.setUserExperience(currentXp + reward);
+        activity.setAwardedXpReward(reward);
     }
 }

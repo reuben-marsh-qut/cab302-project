@@ -62,4 +62,29 @@ public class ExperienceServiceTest {
         // Assert: XP must remain unchanged.
         assertEquals(100, user.getUserExperience());
     }
+    @Test
+    void completedActivityDoesNotAwardXpTwice() {
+        // Arrange.
+        User user = new User(
+                1, "test@example.com", "unused-test-hash", 100, 4000
+        );
+
+        Activity activity = new Activity(
+                null, null, 1, "Take a walk",
+                Category.BODY,
+                TaskType.BINARY,
+                LocalDateTime.of(2026, 10, 5, 9, 0),
+                null,
+                1, 1, 20, 0, false
+        );
+
+        ExperienceService service = new ExperienceService();
+
+        // Act: attempt to award the same activity twice.
+        service.awardXp(user, activity);
+        service.awardXp(user, activity);
+
+        // Assert: only one reward was added.
+        assertEquals(120, user.getUserExperience());
+    }
 }
