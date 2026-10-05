@@ -14,17 +14,20 @@ import java.util.TreeMap;
 public class ProgressService {
 
     /**
-     * Groups a user's supplied activity completion timestamps into daily counts.
+     * Groups a user's activity completions into daily counts within an
+     * inclusive date range.
      *
-     * <p>Activities belonging to other users are excluded. This implementation
-     * expects the user's activities to be completed and have known completion
-     * timestamps. Date filtering will be introduced through subsequent
-     * test-driven development steps.</p>
+     * <p>Activities belonging to other users or completed outside the
+     * selected range are excluded. Both boundary dates are included,
+     * regardless of the time of day the activity was completed.</p>
+     *
+     * <p>This implementation expects the user's supplied activities to be
+     * completed and have known completion timestamps.</p>
      *
      * @param activities the completed activities to examine
      * @param userId the user whose completions should be counted
-     * @param fromDate the intended first date; filtering is not yet implemented
-     * @param toDate the intended last date; filtering is not yet implemented
+     * @param fromDate the first date to include
+     * @param toDate the last date to include
      * @return completion counts grouped by date in chronological order
      */
     public Map<LocalDate, Integer> getDailyCompletions(
@@ -42,6 +45,11 @@ public class ProgressService {
 
             LocalDate completionDate =
                     activity.getCompletedAt().toLocalDate();
+
+            if (completionDate.isBefore(fromDate)
+                    || completionDate.isAfter(toDate)) {
+                continue;
+            }
 
             dailyCompletions.merge(completionDate, 1, Integer::sum);
         }

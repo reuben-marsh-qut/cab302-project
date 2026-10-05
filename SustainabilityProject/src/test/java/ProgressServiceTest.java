@@ -86,6 +86,72 @@ public class ProgressServiceTest {
         );
     }
 
+    @Test
+    void selectedDateRangeIncludesBoundaryDatesAndExcludesOutsideDates() {
+        // Arrange: completions before, within and after the selected range.
+        LocalDate fromDate = LocalDate.of(2026, 10, 5);
+        LocalDate middleDate = fromDate.plusDays(1);
+        LocalDate toDate = fromDate.plusDays(2);
+
+        Activity beforeRange = completedActivity(
+                1,
+                1,
+                fromDate.minusDays(1).atTime(23, 59, 59)
+        );
+
+        Activity onFirstDate = completedActivity(
+                2,
+                1,
+                fromDate.atStartOfDay()
+        );
+
+        Activity inMiddle = completedActivity(
+                3,
+                1,
+                middleDate.atTime(12, 0)
+        );
+
+        Activity onLastDate = completedActivity(
+                4,
+                1,
+                toDate.atTime(23, 59, 59)
+        );
+
+        Activity afterRange = completedActivity(
+                5,
+                1,
+                toDate.plusDays(1).atStartOfDay()
+        );
+
+        ProgressService service = new ProgressService();
+
+        // Act: request October 5 through October 7, inclusive.
+        Map<LocalDate, Integer> result = service.getDailyCompletions(
+                List.of(
+                        beforeRange,
+                        onFirstDate,
+                        inMiddle,
+                        onLastDate,
+                        afterRange
+                ),
+                1,
+                fromDate,
+                toDate
+        );
+
+        // Assert: only dates inside the inclusive range are counted.
+        assertEquals(
+                Map.of(
+                        fromDate, 1,
+                        middleDate, 1,
+                        toDate, 1
+                ),
+                result,
+                "The report should include both boundary dates "
+                        + "and exclude dates outside the selected range"
+        );
+    }
+
     /**
      * Creates an activity with a known completion timestamp.
      *
