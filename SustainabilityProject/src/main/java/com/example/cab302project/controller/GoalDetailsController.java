@@ -15,6 +15,8 @@ import javafx.stage.Modality;
 
 import java.util.Optional;
 import java.util.function.Consumer;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
 
 public class GoalDetailsController {
@@ -47,6 +49,15 @@ public class GoalDetailsController {
 
     @FXML
     private HBox completeGoalButtons;
+
+    @FXML
+    private VBox progressColumn;
+
+    @FXML
+    private VBox completeColumn;
+
+    @FXML
+    private Button pauseResumeButton;
 
     /**
      * Closes the current window.
@@ -160,6 +171,16 @@ public class GoalDetailsController {
         }
     }
 
+    @FXML
+    private void onPauseResume() {
+        Goal goal = goalDAO.getGoalById(goalId);
+
+        goal.setIsPaused(!goal.getIsPaused());
+        goalDAO.updateGoal(goal);
+
+        LoadGoalDetails();
+    }
+
     /**
      * Loads the goal details into the form
      */
@@ -171,6 +192,16 @@ public class GoalDetailsController {
         setCategoryText(goal);
         completeGoalButtons.setVisible(!goal.getIsComplete());
         completeGoalButtons.setManaged(!goal.getIsComplete());
+        if (goal.getIsPaused()) {
+            pauseResumeButton.setText("Resume Goal");
+        } else {
+            pauseResumeButton.setText("Pause Goal");
+        }
+
+        progressColumn.setVisible(!goal.getIsPaused());
+        progressColumn.setManaged(!goal.getIsPaused());
+        completeColumn.setVisible(!goal.getIsPaused());
+        completeColumn.setManaged(!goal.getIsPaused());
     }
 
     /**
