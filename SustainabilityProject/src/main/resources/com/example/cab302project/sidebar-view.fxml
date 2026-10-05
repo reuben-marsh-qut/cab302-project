@@ -20,7 +20,8 @@
       styleClass="sidebar">
 
     <!-- Rooted branding -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
+    <HBox alignment="CENTER_LEFT"
+          spacing="10">
 
         <ImageView fitWidth="52"
                    fitHeight="52"
@@ -35,7 +36,6 @@
             <Label text="Water your mind"
                    styleClass="sidebar-brand-tagline"/>
         </VBox>
-
     </HBox>
 
     <Region prefHeight="22"/>
@@ -68,14 +68,21 @@
             onAction="#onActivitiesButtonClick"
             styleClass="sidebar-button"/>
 
-    <!-- Social and stats navigation remain disabled. -->
+    <Button fx:id="statsButton"
+            text="Progress"
+            maxWidth="Infinity"
+            onAction="#onStatsButtonClick"
+            styleClass="sidebar-button"/>
+
+    <!-- Social and settings navigation remain reserved for future pages. -->
 
     <Region VBox.vgrow="ALWAYS"/>
 
-    <!-- Current XP, level and level-up feedback -->
-    <VBox fx:id="progressSummary" spacing="6">
+    <!-- Live XP and level summary -->
+    <VBox fx:id="progressSummary"
+          spacing="6">
 
-        <Label text="YOUR PROGRESS"
+        <Label text="YOUR GROWTH"
                styleClass="sidebar-section-label"/>
 
         <Label fx:id="levelLabel"
@@ -87,12 +94,11 @@
                styleClass="sidebar-user-email"/>
 
         <Label fx:id="levelUpLabel"
-               visible="false"
-               managed="false"
                wrapText="true"
                maxWidth="200"
+               visible="false"
+               managed="false"
                styleClass="sidebar-user-name"/>
-
     </VBox>
 
     <Region prefHeight="16"/>
@@ -116,10 +122,10 @@
             <Label fx:id="avatarInitialLabel"
                    text="U"
                    styleClass="sidebar-avatar-text"/>
-
         </StackPane>
 
-        <VBox spacing="2" HBox.hgrow="ALWAYS">
+        <VBox spacing="2"
+              HBox.hgrow="ALWAYS">
 
             <Label fx:id="userNameLabel"
                    text="Rooted User"
@@ -130,12 +136,9 @@
                    text="user@example.com"
                    maxWidth="145"
                    styleClass="sidebar-user-email"/>
-
         </VBox>
 
         <Label text="⋮"
                styleClass="sidebar-menu-icon"/>
-
     </HBox>
-
 </VBox>

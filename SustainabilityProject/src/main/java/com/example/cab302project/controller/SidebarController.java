@@ -18,12 +18,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
- * Controls sidebar navigation, account actions and the user's XP display.
+ * Controls shared navigation, account actions and the user's XP summary.
  *
- * <p>The sidebar observes the session so refreshed XP values are displayed
- * without requiring navigation to another page.</p>
+ * <p>The sidebar observes replacement of the session user so persisted
+ * XP changes can refresh the displayed total and level.</p>
  */
 public class SidebarController {
 
@@ -38,6 +39,9 @@ public class SidebarController {
 
     @FXML
     private Button activitiesButton;
+
+    @FXML
+    private Button statsButton;
 
     @FXML
     private HBox accountMenuButton;
@@ -67,17 +71,17 @@ public class SidebarController {
 
     private final LevelService levelService = new LevelService();
 
-    /*
-     * Keep a strong reference to the underlying listener while this
-     * controller is in use. The session holds only a weak reference,
-     * allowing discarded sidebars to be garbage-collected.
+    /**
+     * Retains the listener while this controller is active. Registration
+     * uses a weak listener so discarded sidebars are not retained by
+     * the shared session.
      */
     private final ChangeListener<User> sessionListener =
             (observable, previousUser, updatedUser) ->
                     onSessionUserChanged(previousUser, updatedUser);
 
     /**
-     * Initialises the account menu, user details and session observation.
+     * Loads account details and subscribes to session user changes.
      */
     @FXML
     public void initialize() {
@@ -88,44 +92,6 @@ public class SidebarController {
         UserSession.getInstance()
                 .userProperty()
                 .addListener(new WeakChangeListener<>(sessionListener));
-    }
-
-    /**
-     * Refreshes the sidebar and announces a level increase for the same user.
-     *
-     * <p>Signing in or switching accounts does not produce a level-up
-     * message.</p>
-     *
-     * @param previousUser the previous session user, possibly null
-     * @param updatedUser the refreshed session user, possibly null
-     */
-    private void onSessionUserChanged(User previousUser, User updatedUser) {
-        loadUserDetails();
-        clearLevelUpMessage();
-
-        if (previousUser == null || updatedUser == null) {
-            return;
-        }
-
-        if (previousUser.getUserId() != updatedUser.getUserId()) {
-            return;
-        }
-
-        int previousLevel = levelService.getLevel(
-                previousUser.getUserExperience()
-        );
-
-        int updatedLevel = levelService.getLevel(
-                updatedUser.getUserExperience()
-        );
-
-        if (updatedLevel > previousLevel) {
-            levelUpLabel.setText(
-                    "Level up! You reached level " + updatedLevel + "."
-            );
-            levelUpLabel.setVisible(true);
-            levelUpLabel.setManaged(true);
-        }
     }
 
     /**
@@ -149,8 +115,8 @@ public class SidebarController {
         String email = currentUser.getEmail();
         String displayName = createDisplayNameFromEmail(email);
 
-        userEmailLabel.setText(email == null ? "" : email);
         userNameLabel.setText(displayName);
+        userEmailLabel.setText(email == null ? "" : email);
         avatarInitialLabel.setText(
                 displayName.substring(0, 1).toUpperCase()
         );
@@ -165,7 +131,48 @@ public class SidebarController {
     }
 
     /**
-     * Clears and hides the level-up notification.
+     * Refreshes the sidebar and announces a level increase for the same user.
+     *
+     * @param previousUser the previous session user
+     * @param updatedUser the replacement session user
+     */
+    private void onSessionUserChanged(
+            User previousUser,
+            User updatedUser
+    ) {
+        loadUserDetails();
+        clearLevelUpMessage();
+
+        if (previousUser == null || updatedUser == null) {
+            return;
+        }
+
+        if (!Objects.equals(
+                previousUser.getUserId(),
+                updatedUser.getUserId()
+        )) {
+            return;
+        }
+
+        int previousLevel = levelService.getLevel(
+                previousUser.getUserExperience()
+        );
+
+        int updatedLevel = levelService.getLevel(
+                updatedUser.getUserExperience()
+        );
+
+        if (updatedLevel > previousLevel) {
+            levelUpLabel.setText(
+                    "Level up! You reached level " + updatedLevel + "."
+            );
+            levelUpLabel.setVisible(true);
+            levelUpLabel.setManaged(true);
+        }
+    }
+
+    /**
+     * Clears any level-up message from an earlier session update.
      */
     private void clearLevelUpMessage() {
         levelUpLabel.setText("");
@@ -177,7 +184,7 @@ public class SidebarController {
      * Creates a readable display name from the local part of an email.
      *
      * @param email the user's email address
-     * @return a display name, or a fallback when no usable name is present
+     * @return a display name, or a fallback when no usable name is available
      */
     private String createDisplayNameFromEmail(String email) {
         if (email == null || email.isBlank()) {
@@ -202,6 +209,7 @@ public class SidebarController {
         }
 
         String result = displayName.toString().trim();
+
         return result.isBlank() ? "Rooted User" : result;
     }
 
@@ -210,20 +218,28 @@ public class SidebarController {
      */
     private void createAccountMenu() {
         MenuItem profileItem = new MenuItem("Your Profile");
+
         profileItem.setOnAction(event -> {
             try {
                 openProfilePage();
             } catch (IOException exception) {
-                throw new RuntimeException(exception);
+                throw new RuntimeException(
+                        "Could not open the profile page.",
+                        exception
+                );
             }
         });
 
         MenuItem signOutItem = new MenuItem("Sign Out");
+
         signOutItem.setOnAction(event -> {
             try {
                 signOut();
             } catch (IOException exception) {
-                throw new RuntimeException(exception);
+                throw new RuntimeException(
+                        "Could not open the login page.",
+                        exception
+                );
             }
         });
 
@@ -232,7 +248,7 @@ public class SidebarController {
     }
 
     /**
-     * Toggles the account menu above the account button.
+     * Toggles the account menu above the account summary.
      */
     @FXML
     protected void onAccountMenuClick() {
@@ -289,28 +305,40 @@ public class SidebarController {
     }
 
     /**
+     * Opens the activity progress report.
+     *
+     * @throws IOException if the page cannot be loaded
+     */
+    @FXML
+    protected void onStatsButtonClick() throws IOException {
+        openPage(statsButton, "progress-view.fxml");
+    }
+
+    /**
      * Loads a page into the current scene.
      *
      * @param sourceButton the navigation button in the current scene
-     * @param resource the FXML resource to load
+     * @param resource the FXML resource relative to HelloApplication
      * @throws IOException if the page cannot be loaded
      */
-    private void openPage(Button sourceButton, String resource)
-            throws IOException {
-
+    private void openPage(
+            Button sourceButton,
+            String resource
+    ) throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource(resource)
         );
 
         Parent root = loader.load();
-        accountMenu.hide();
+
+        hideAccountMenu();
         sourceButton.getScene().setRoot(root);
     }
 
     /**
-     * Opens the current user's profile.
+     * Opens the authenticated user's profile page.
      *
-     * @throws IOException if the profile page cannot be loaded
+     * @throws IOException if the page cannot be loaded
      */
     private void openProfilePage() throws IOException {
         FXMLLoader loader = new FXMLLoader(
@@ -318,12 +346,13 @@ public class SidebarController {
         );
 
         Parent root = loader.load();
-        accountMenu.hide();
+
+        hideAccountMenu();
         accountMenuButton.getScene().setRoot(root);
     }
 
     /**
-     * Loads the login page and clears the current session.
+     * Loads the login page, clears the session and displays the login screen.
      *
      * @throws IOException if the login page cannot be loaded
      */
@@ -334,8 +363,17 @@ public class SidebarController {
 
         Parent root = loader.load();
 
-        accountMenu.hide();
+        hideAccountMenu();
         UserSession.getInstance().clearUserSession();
         accountMenuButton.getScene().setRoot(root);
+    }
+
+    /**
+     * Hides the account menu before navigation.
+     */
+    private void hideAccountMenu() {
+        if (accountMenu != null) {
+            accountMenu.hide();
+        }
     }
 }
