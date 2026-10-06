@@ -34,10 +34,8 @@
                             <Insets bottom="50" left="48" right="20" top="18" />
                         </padding>
 
-                        <VBox prefHeight="130.0" prefWidth="386.0" spacing="18" styleClass="card" maxHeight="130.0" maxWidth="386.0">
-                            <HBox fx:id="bannerArea" prefHeight="50.0" prefWidth="300.0" maxWidth="300.0" maxHeight="50.0">
-
-
+                        <VBox prefHeight="360" prefWidth="386.0" spacing="18" styleClass="card, card-banner" maxHeight="360" maxWidth="386.0">
+                            <HBox fx:id="bannerArea" prefHeight="360" prefWidth="1000.0" maxWidth="386" maxHeight="360">
                             </HBox>
                         </VBox>
 

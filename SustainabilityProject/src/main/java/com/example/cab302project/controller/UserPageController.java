@@ -6,6 +6,7 @@ import com.example.cab302project.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -74,19 +75,27 @@ public class UserPageController
             //temp fix
             banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultBanner)));
         }
+
+        double targetWidth = bannerArea.getPrefWidth();
+        double targetHeight = bannerArea.getPrefHeight();
         ImageView bannerImageView = new ImageView(banner);
         bannerImageView.setPreserveRatio(true);
-        bannerImageView.setFitHeight(50);
-        bannerImageView.setFitWidth(300);
 
+        double widthScale = targetWidth / banner.getWidth();
+        double heightScale = targetHeight / banner.getHeight();
+        double coverScale = Math.max(widthScale, heightScale);
+        bannerImageView.setFitWidth(banner.getWidth() * coverScale);
+        bannerImageView.setFitHeight(banner.getHeight() * coverScale);
 
-        Rectangle clip = new Rectangle(300, 50);
-        clip.widthProperty().bind(bannerArea.widthProperty());
-        clip.heightProperty().bind(bannerArea.heightProperty());
+        Rectangle clip = new Rectangle(targetWidth, targetHeight);
+        //round
+        clip.setArcWidth(36);
+        clip.setArcHeight(36);
+
         bannerArea.setClip(clip);
-
-        bannerArea.setMaxHeight(50);
-        bannerArea.setMaxWidth(300);
+        bannerArea.setAlignment(Pos.CENTER);
+        bannerArea.setMaxWidth(targetWidth);
+        bannerArea.setMaxHeight(targetHeight);
 
         bannerArea.getChildren().clear();
         bannerArea.getChildren().add(bannerImageView);
