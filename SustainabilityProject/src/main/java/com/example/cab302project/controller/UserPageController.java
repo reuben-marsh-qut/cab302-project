@@ -39,8 +39,8 @@ public class UserPageController
 
     // defaults for fallback
 
-    private static final String defaultPFP = "assets/UserCustomisation/pfp/pfp1.png";
-    private static final String defaultBanner = "assets/UserCustomisation/pfp/banner/banner1.png";
+    private static final String defaultPFP = "/assets/UserCustomisation/pfp/pfp1.png";
+    private static final String defaultBanner = "/assets/UserCustomisation/banners/banner1.png";
 
     private void syncUserPage()
     {
@@ -70,16 +70,23 @@ public class UserPageController
         }
         else
         {
-            banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/banner" + user.bannerNumber + ".png")));
+           // banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/banner" + user.bannerNumber + ".png")));
+            //temp fix
+            banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultBanner)));
         }
         ImageView bannerImageView = new ImageView(banner);
         bannerImageView.setPreserveRatio(true);
-        bannerImageView.fitHeightProperty().bind(bannerArea.heightProperty());
-        bannerImageView.fitWidthProperty().bind(bannerArea.widthProperty());
-        Rectangle clip = new Rectangle();
+        bannerImageView.setFitHeight(50);
+        bannerImageView.setFitWidth(300);
+
+
+        Rectangle clip = new Rectangle(300, 50);
         clip.widthProperty().bind(bannerArea.widthProperty());
         clip.heightProperty().bind(bannerArea.heightProperty());
         bannerArea.setClip(clip);
+
+        bannerArea.setMaxHeight(50);
+        bannerArea.setMaxWidth(300);
 
         bannerArea.getChildren().clear();
         bannerArea.getChildren().add(bannerImageView);
@@ -95,7 +102,9 @@ public class UserPageController
         }
         else
         {
-            pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/pfp" + user.pfpNumber + ".png")));
+            // pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/pfp" + user.pfpNumber + ".png")));
+            //temp fix
+            pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultPFP)));
         }
         ImagePattern pfpImageView = new ImagePattern(pfp);
         profileCircle.setFill(pfpImageView);
@@ -111,9 +120,13 @@ public class UserPageController
         nameLabel.getStyleClass().add("item-category");
         String email = currentUser.getEmail();
         Label nameValue = new Label("email: " + email);
+        nameValue.getStyleClass().add("item-header");
 
         // Streak except we don't have it implemented in the table or user class yet
 
+
+        // add to area
+        userInfoContainer.getChildren().addAll(nameLabel, nameValue);
     }
 
     @FXML

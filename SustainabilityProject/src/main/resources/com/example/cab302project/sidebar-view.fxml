@@ -73,7 +73,14 @@
             onAction="#onActivitiesButtonClick"
             styleClass="sidebar-button"/>
 
-<!--    <Button fx:id="socialButton"-->
+    <Button fx:id="profileButton"
+            text="Your Profile"
+            maxWidth="Infinity"
+            onAction="#onProfileButtonClick"
+            styleClass="sidebar-button"/>
+
+
+    <!--    <Button fx:id="socialButton"-->
 <!--            text="Social"-->
 <!--            maxWidth="Infinity"-->
 <!--            onAction="#onSocialButtonClick"-->

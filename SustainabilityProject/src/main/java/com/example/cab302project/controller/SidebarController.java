@@ -31,6 +31,9 @@ public class SidebarController {
     @FXML
     private Button activitiesButton;
 
+    @FXML
+    private Button profileButton;
+
 //    @FXML
 //    private Button socialButton;
 
@@ -244,6 +247,16 @@ public class SidebarController {
         openPage(
                 activitiesButton,
                 "activity-view.fxml"
+        );
+    }
+
+    @FXML
+    protected void onProfileButtonClick()
+            throws IOException {
+
+        openPage(
+                profileButton,
+                "user-view.fxml"
         );
     }
 
