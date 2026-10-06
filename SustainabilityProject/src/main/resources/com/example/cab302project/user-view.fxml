@@ -34,9 +34,9 @@
                             <Insets bottom="50" left="48" right="20" top="18" />
                         </padding>
 
-                        <VBox prefHeight="360" prefWidth="386.0" spacing="18" styleClass="card, card-banner" maxHeight="360" maxWidth="386.0">
-                            <HBox fx:id="bannerArea" prefHeight="360" prefWidth="1000.0" maxWidth="386" maxHeight="360">
-                            </HBox>
+                        <VBox fx:id="bannerArea" prefHeight="180" prefWidth="1080.0" spacing="18" styleClass="card, card-banner" maxHeight="180" minHeight="180" maxWidth="1080" minWidth="1080">
+
+
                         </VBox>
 
                         <Circle fx:id="profileCircle" fill="#ffffff00" radius="55.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0">

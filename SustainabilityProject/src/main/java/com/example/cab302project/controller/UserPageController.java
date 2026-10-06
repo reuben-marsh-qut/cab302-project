@@ -28,7 +28,7 @@ public class UserPageController
 {
 
     @FXML
-    private HBox bannerArea;
+    private VBox bannerArea;
 
     @FXML
     private Circle profileCircle;
