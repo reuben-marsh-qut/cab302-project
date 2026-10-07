@@ -12,6 +12,8 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         DatabaseConnection.initialise();
+        // llama cpp ignores api keys and model names unless configured otherwise.
+        ModelConnection.getInstance().initialise("http://localhost:8080/","dummyKey","dummy");
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setFullScreen(true);

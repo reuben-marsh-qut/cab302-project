@@ -1,0 +1,81 @@
+/* Progress chart container */
+
+.progress-chart-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-padding: 0;
+}
+
+.progress-chart-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Chart layout */
+
+.progress-chart {
+    -fx-background-color: transparent;
+    -fx-padding: 8 12 0 0;
+}
+
+.progress-chart .chart-content {
+    -fx-padding: 8;
+}
+
+.progress-chart .chart-plot-background {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent transparent #cbd5cb #cbd5cb;
+    -fx-border-width: 0 0 1 1;
+}
+
+/* Explicit axis styling keeps counts and dates readable. */
+
+.progress-chart .axis {
+    -fx-tick-label-fill: #4b584e;
+    -fx-tick-label-font-size: 10px;
+    -fx-tick-length: 4;
+    -fx-opacity: 1;
+}
+
+.progress-chart .axis-label {
+    -fx-text-fill: #303731;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-opacity: 1;
+}
+
+.progress-chart .axis-tick-mark {
+    -fx-stroke: #bdc8be;
+    -fx-stroke-width: 1;
+}
+
+.progress-chart .chart-horizontal-grid-lines {
+    -fx-stroke: #e7ece7;
+    -fx-stroke-width: 1;
+}
+
+.progress-chart .chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.progress-chart .chart-horizontal-zero-line {
+    -fx-stroke: #bdc8be;
+}
+
+.progress-chart .chart-vertical-zero-line {
+    -fx-stroke: transparent;
+}
+
+/* Rooted's green replaces the default orange series colour. */
+
+.progress-chart .chart-bar {
+    -fx-bar-fill: #176b36;
+    -fx-background-color: #176b36;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4 4 0 0;
+    -fx-border-width: 0;
+}
+
+.progress-chart .chart-bar:hover {
+    -fx-bar-fill: #228b49;
+    -fx-background-color: #228b49;
+}
