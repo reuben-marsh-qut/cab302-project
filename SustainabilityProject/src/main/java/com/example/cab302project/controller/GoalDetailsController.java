@@ -59,6 +59,9 @@ public class GoalDetailsController {
     @FXML
     private Button pauseResumeButton;
 
+    @FXML
+    private Label pauseResumeLabel;
+
     /**
      * Closes the current window.
      */
@@ -193,11 +196,12 @@ public class GoalDetailsController {
         completeGoalButtons.setVisible(!goal.getIsComplete());
         completeGoalButtons.setManaged(!goal.getIsComplete());
         if (goal.getIsPaused()) {
+            pauseResumeLabel.setText("Ready to get back into it?");
             pauseResumeButton.setText("Resume Goal");
         } else {
+            pauseResumeLabel.setText("Taking a break?");
             pauseResumeButton.setText("Pause Goal");
         }
-
         progressColumn.setVisible(!goal.getIsPaused());
         progressColumn.setManaged(!goal.getIsPaused());
         completeColumn.setVisible(!goal.getIsPaused());
