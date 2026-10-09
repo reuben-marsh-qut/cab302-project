@@ -96,10 +96,11 @@ public class DatabaseConnection {
     /**
      * Applies schema changes required by existing databases.
      *
-     * <p>The tasks table must already exist. This method adds the nullable
-     * completion timestamp column if it is missing. Historical activities
-     * retain a null timestamp because their actual completion time is
-     * unknown.</p>
+     * <p>The tasks and goals tables must already exist. This method adds the
+     * nullable completion timestamp column to tasks, and the paused flag to
+     * goals, if either is missing. Historical activities retain a null
+     * timestamp because their actual completion time is unknown, and existing
+     * goals default to not paused.</p>
      *
      * <p>This method can be called repeatedly without replacing existing
      * data or changing stored completion timestamps. The supplied connection
@@ -131,6 +132,32 @@ public class DatabaseConnection {
                 statement.executeUpdate("""
                         ALTER TABLE tasks
                         ADD COLUMN completedAtUnixTime INTEGER
+                        """);
+            }
+        }
+
+        boolean pausedColumnExists = false;
+
+        try (Statement statement = connection.createStatement();
+             ResultSet columns = statement.executeQuery(
+                     "PRAGMA table_info(goals)"
+             )) {
+
+            while (columns.next()) {
+                if ("isPaused".equalsIgnoreCase(
+                        columns.getString("name")
+                )) {
+                    pausedColumnExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (!pausedColumnExists) {
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate("""
+                        ALTER TABLE goals
+                        ADD COLUMN isPaused INTEGER NOT NULL DEFAULT 0
                         """);
             }
         }

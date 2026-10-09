@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS goals (
     progress INTEGER NOT NULL,
     completionThreshold INTEGER NOT NULL,
     completionType INTEGER NOT NULL,
+    isPaused INTEGER NOT NULL DEFAULT 0 CHECK (isPaused IN (0, 1)),
     isComplete INT GENERATED ALWAYS AS (progress >= completionThreshold)
     ) STRICT;
 

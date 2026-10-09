@@ -190,6 +190,15 @@ public class GoalController {
         statusLabel.setVisible(goal.isNotAchieved());
         statusLabel.setManaged(goal.isNotAchieved());
 
+        Label pausedLabel = new Label("Paused");
+
+        pausedLabel
+                .getStyleClass()
+                .add("goal-paused");
+
+        pausedLabel.setVisible(goal.getIsPaused());
+        pausedLabel.setManaged(goal.getIsPaused());
+
         Region spacer = new Region();
 
         VBox.setVgrow(
@@ -246,6 +255,7 @@ public class GoalController {
                 progressLabel,
                 endDateLabel,
                 statusLabel,
+                pausedLabel,
                 spacer,
                 imageButtonContainer
         );

@@ -16,6 +16,7 @@ public class Goal {
     private Integer threshold;
     private CompletionType completionType;
     private boolean isComplete;
+    private boolean isPaused = false;
 
     /**
      * Creates a new goal.
@@ -169,5 +170,13 @@ public class Goal {
 
     public void setIsComplete(boolean complete) {
         isComplete = complete;
+    }
+
+    public boolean getIsPaused() {
+        return isPaused;
+    }
+
+    public void setIsPaused(boolean paused) {
+        isPaused = paused;
     }
 }
