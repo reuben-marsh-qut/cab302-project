@@ -18,6 +18,7 @@ import javafx.scene.shape.*;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +27,8 @@ import java.util.List;
 
 public class UserPageController
 {
+
+    private final IUserSettingsDAO UserSettingsDAO;
 
     @FXML
     private VBox bannerArea;
@@ -42,6 +45,8 @@ public class UserPageController
 
     private static final String defaultPFP = "/assets/UserCustomisation/pfp/pfp1.png";
     private static final String defaultBanner = "/assets/UserCustomisation/banners/banner1.png";
+
+    public UserPageController() { UserSettingsDAO = new UserSettingsDAO(); };
 
     private void syncUserPage()
     {
@@ -61,19 +66,37 @@ public class UserPageController
         }
     }
 
+
     private void banner(User user)
     {
         Image banner;
+        Integer bannerNumber = null;
+        ArrayList<UserSetting> userSettings = UserSettingsDAO.getSettingsByUser(user);
 
-        if (currentUser == null)
+        for (UserSetting setting : userSettings)
+        {
+            if ("userBanner".equals( setting.getSettingsKey()))
+            {
+
+                bannerNumber = setting.getSettingsValue();
+
+            }
+            else
+            {
+                UserSettingsDAO.createUserSetting(user.getUserId(), "bannerNumber", 2);
+                bannerNumber = 2;
+            }
+
+
+        }
+
+        if (user == null)
         {
             banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultBanner)));
         }
         else
         {
-           // banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/banner" + user.bannerNumber + ".png")));
-            //temp fix
-            banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultBanner)));
+            banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/UserCustomisation/banners/banner" + bannerNumber.toString() + ".png")));
         }
 
         double targetWidth = bannerArea.getPrefWidth();
@@ -104,16 +127,34 @@ public class UserPageController
     private void pfp(User user)
     {
         Image pfp;
+        Integer pfpNumber = null;
+        ArrayList<UserSetting> userSettings = UserSettingsDAO.getSettingsByUser(user);
 
-        if (currentUser == null)
+        for (UserSetting setting : userSettings)
+        {
+            if ("userPFP".equals( setting.getSettingsKey()))
+            {
+
+                pfpNumber = setting.getSettingsValue();
+
+            }
+            else
+            {
+                UserSettingsDAO.createUserSetting(user.getUserId(), "pfpNumber", 2);
+                pfpNumber = 2;
+            }
+
+
+        }
+
+
+        if (user == null)
         {
             pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultPFP)));
         }
         else
         {
-            // pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("assets/UserCustomisation/pfp" + user.pfpNumber + ".png")));
-            //temp fix
-            pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultPFP)));
+            pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/UserCustomisation/pfp/pfp" + pfpNumber.toString() + ".png")));
         }
         ImagePattern pfpImageView = new ImagePattern(pfp);
         profileCircle.setFill(pfpImageView);

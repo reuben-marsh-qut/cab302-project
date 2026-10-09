@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
+<?import javafx.scene.layout.StackPane?>
 <BorderPane fx:id="rootPane" styleClass="page-body" stylesheets="@../../../stylesheets/home.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302project.controller.UserPageController">
 
     <padding>
@@ -34,14 +35,17 @@
                             <Insets bottom="50" left="48" right="20" top="18" />
                         </padding>
 
-                        <VBox fx:id="bannerArea" prefHeight="180" prefWidth="1080.0" spacing="18" styleClass="card, card-banner" maxHeight="180" minHeight="180" maxWidth="1080" minWidth="1080">
+                        <StackPane>
 
+                            <VBox fx:id="bannerArea" prefHeight="270" prefWidth="1160.0" spacing="18" styleClass="card, card-banner" maxHeight="270" minHeight="270" maxWidth="1160" minWidth="1160">
+                            </VBox>
 
-                        </VBox>
-
-                        <Circle fx:id="profileCircle" fill="#ffffff00" radius="55.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0">
-
-                        </Circle>
+                            <Circle fx:id="profileCircle" fill="#ffffff00" radius="55.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0">
+                                <StackPane.margin>
+                                    <Insets left="30"/>
+                                </StackPane.margin>
+                            </Circle>
+                        </StackPane>
 
                         <VBox prefHeight="477.0" prefWidth="386.0" spacing="18" styleClass="card">
 
