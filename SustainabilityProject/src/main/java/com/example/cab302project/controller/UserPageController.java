@@ -29,6 +29,8 @@ public class UserPageController
 {
 
     private final IUserSettingsDAO UserSettingsDAO;
+    private final IGoalDAO GoalDAO;
+    private final IActivityDAO ActivityDAO;
 
     @FXML
     private VBox bannerArea;
@@ -37,7 +39,7 @@ public class UserPageController
     private Circle profileCircle;
 
     @FXML
-    private HBox userInfoContainer;
+    private VBox userInfoContainer;
 
     private User currentUser;
 
@@ -46,7 +48,12 @@ public class UserPageController
     private static final String defaultPFP = "/assets/UserCustomisation/pfp/pfp1.png";
     private static final String defaultBanner = "/assets/UserCustomisation/banners/banner1.png";
 
-    public UserPageController() { UserSettingsDAO = new UserSettingsDAO(); };
+    public UserPageController()
+    {
+        UserSettingsDAO = new UserSettingsDAO();
+        GoalDAO = new GoalDAO();
+        ActivityDAO = new ActivityDAO();
+    };
 
     private void syncUserPage()
     {
@@ -72,21 +79,29 @@ public class UserPageController
         Image banner;
         Integer bannerNumber = null;
         ArrayList<UserSetting> userSettings = UserSettingsDAO.getSettingsByUser(user);
+        int counter = 0;
+        if (userSettings.isEmpty())
+        {
+            UserSettingsDAO.createUserSetting(user.getUserId(), "bannerNumber", 3);
+            UserSettingsDAO.createUserSetting(user.getUserId(), "pfpNumber", 3);
+            bannerNumber = 3;
+        }
 
         for (UserSetting setting : userSettings)
         {
-            if ("userBanner".equals( setting.getSettingsKey()))
+            counter++;
+            if ("bannerNumber".equals( setting.getSettingsKey()))
             {
 
                 bannerNumber = setting.getSettingsValue();
+                break;
 
             }
-            else
+            else if (counter == userSettings.size())
             {
                 UserSettingsDAO.createUserSetting(user.getUserId(), "bannerNumber", 2);
                 bannerNumber = 2;
             }
-
 
         }
 
@@ -129,22 +144,28 @@ public class UserPageController
         Image pfp;
         Integer pfpNumber = null;
         ArrayList<UserSetting> userSettings = UserSettingsDAO.getSettingsByUser(user);
-
+        int counter = 0;
+        if (userSettings.isEmpty())
+        {
+            UserSettingsDAO.createUserSetting(user.getUserId(), "bannerNumber", 3);
+            UserSettingsDAO.createUserSetting(user.getUserId(), "pfpNumber", 3);
+            pfpNumber = 3;
+        }
         for (UserSetting setting : userSettings)
         {
-            if ("userPFP".equals( setting.getSettingsKey()))
+            counter++;
+            if ("pfpNumber".equals( setting.getSettingsKey()))
             {
 
                 pfpNumber = setting.getSettingsValue();
+                break;
 
             }
-            else
+            else if (counter == userSettings.size())
             {
                 UserSettingsDAO.createUserSetting(user.getUserId(), "pfpNumber", 2);
                 pfpNumber = 2;
             }
-
-
         }
 
 
@@ -166,17 +187,30 @@ public class UserPageController
         // User's name
         // Apparently we don't even have that so it'll be the email for now
 
-        Label nameLabel = new Label("Name");
+        Label nameLabel = new Label("Name: ");
         nameLabel.getStyleClass().add("item-category");
         String email = currentUser.getEmail();
-        Label nameValue = new Label("email: " + email);
+        String name = email.split("@")[0];
+        Label nameValue = new Label(name);
         nameValue.getStyleClass().add("item-header");
+
+        List<Goal> completedGoals = GoalDAO.getCompletedGoalsForUser(user.getUserId());
+        List<Activity> completedActivities = ActivityDAO.getCompletedActivitiesForUser(user.getUserId());
+        int noCompleted = completedGoals.size() + completedActivities.size();
+        String completed = String.valueOf(noCompleted);
+
+        Label completedLabel = new Label("Number of completions: ");
+        completedLabel.getStyleClass().add("item-category");
+        Label completedValue = new Label(completed);
+        completedValue.getStyleClass().add("item-header");
 
         // Streak except we don't have it implemented in the table or user class yet
 
 
         // add to area
         userInfoContainer.getChildren().addAll(nameLabel, nameValue);
+        userInfoContainer.getChildren().addAll(completedLabel, completedValue);
+
     }
 
     @FXML

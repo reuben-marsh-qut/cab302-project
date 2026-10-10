@@ -8,9 +8,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class UserSettingsDAO implements IUserSettingsDAO {
 
-
+    /**
+     *
+     * @param userId
+     * @param settingsKey
+     * @param settingsValue
+     */
     @Override
     public void createUserSetting(int userId, String settingsKey, int settingsValue)
     {
@@ -34,6 +42,12 @@ public class UserSettingsDAO implements IUserSettingsDAO {
 
     }
 
+
+    /**
+     *
+     * @param user
+     * @return
+     */
     @Override
     public ArrayList<UserSetting> getSettingsByUser(User user)
     {
@@ -65,6 +79,13 @@ public class UserSettingsDAO implements IUserSettingsDAO {
 
     }
 
+
+    /**
+     *
+     * @param userId
+     * @param settingsKey
+     * @param settingsValue
+     */
     @Override
     public void updateUserSetting(int userId, String settingsKey, int settingsValue)
     {
@@ -88,6 +109,11 @@ public class UserSettingsDAO implements IUserSettingsDAO {
 
     }
 
+    /**
+     *
+     * @param userId
+     * @param settingsKey
+     */
     @Override
     public void deleteUserSetting(int userId, String settingsKey)
     {

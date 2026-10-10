@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Circle?>
 
 <?import javafx.scene.layout.StackPane?>
-<BorderPane fx:id="rootPane" styleClass="page-body" stylesheets="@../../../stylesheets/home.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302project.controller.UserPageController">
+<BorderPane fx:id="rootPane" styleClass="page-body" stylesheets="@../../../stylesheets/home.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302project.controller.UserPageController">
 
     <padding>
         <Insets bottom="28" left="28" right="28" top="28" />
@@ -52,7 +52,7 @@
                             <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" maxHeight="412.0" minHeight="270" prefHeight="412.0" prefWidth="328.0" vbarPolicy="NEVER">
 
                                 <content>
-                                    <HBox fx:id="userInfoContainer" prefHeight="449.0" prefWidth="296.0" spacing="20" />
+                                    <VBox fx:id="userInfoContainer" prefHeight="449.0" prefWidth="296.0" spacing="20" />
                                 </content>
 
                             </ScrollPane>
