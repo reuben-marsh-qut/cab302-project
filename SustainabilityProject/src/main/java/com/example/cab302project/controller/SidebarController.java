@@ -146,10 +146,25 @@ public class SidebarController {
 
     private void createAccountMenu() {
 
+        MenuItem userSettingsItem =
+                new MenuItem(
+                        "User Settings"
+                );
+
         MenuItem profileItem =
                 new MenuItem(
                         "Your Profile"
                 );
+
+        userSettingsItem.setOnAction(
+                event -> {
+                    try {
+                        openSettingsPage();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
 
         profileItem.setOnAction(
                 event -> {
@@ -179,6 +194,7 @@ public class SidebarController {
         accountMenu =
                 new ContextMenu(
                         profileItem,
+                        userSettingsItem,
                         signOutItem
                 );
 
@@ -300,11 +316,23 @@ public class SidebarController {
         sourceButton.getScene().setRoot(root);
     }
 
-    private void openProfilePage()
+    private void openSettingsPage()
             throws IOException {
 
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("profile-view.fxml")
+        );
+
+        Parent root = loader.load();
+
+        accountMenuButton.getScene().setRoot(root);
+    }
+
+    private void openProfilePage()
+            throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("user-view.fxml")
         );
 
         Parent root = loader.load();

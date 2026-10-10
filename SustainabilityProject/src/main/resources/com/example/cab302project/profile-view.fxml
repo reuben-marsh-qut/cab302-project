@@ -48,7 +48,7 @@
 
                 <VBox spacing="6">
 
-                    <Label text="Your Profile"
+                    <Label text="Your Profile Settings"
                            styleClass="page-header"/>
 
                     <Label text="Manage your account information and security."
