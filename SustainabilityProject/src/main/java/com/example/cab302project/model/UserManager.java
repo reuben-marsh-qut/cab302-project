@@ -8,6 +8,13 @@ public class UserManager {
         this.userDAO = userDAO;
     }
 
+    /**
+     * Registers a new user with their email, password, and postcode
+     * @param email the user's email
+     * @param password the user's password
+     * @param postcode the user's postcode
+     * @return If registration is successful user is created and returns userDAO.createUser, otherwise an error message
+     */
     public String register(
             String email,
             String password,
@@ -47,6 +54,12 @@ public class UserManager {
                 : "Email already registered.";
     }
 
+    /**
+     * Logs in an exisiting user
+     * @param email the user's email
+     * @param password the user's password
+     * @return the logged in user, or null if login fails
+     */
     public User login(
             String email,
             String password
@@ -66,6 +79,13 @@ public class UserManager {
         );
     }
 
+    /**
+     * Updates a user's profile information
+     * @param user the user to update
+     * @param email the user's email
+     * @param postcode the user's postcode
+     * @return null if user is successfully updated, throws an error otherwise
+     */
     public String updateProfile(
             User user,
             String email,
@@ -115,6 +135,13 @@ public class UserManager {
         return null;
     }
 
+    /**
+     * Changes a user's password
+     * @param user the user to change the password for
+     * @param currentPassword the user's current password
+     * @param newPassword the user's new password
+     * @return null if password is successfully changed, otherwise an error message
+     */
     public String changePassword(
             User user,
             String currentPassword,

@@ -43,14 +43,6 @@ public class User {
     private String passwordHash;
     private int userExperience;
     private int postcode;
-    // this should be passed to a createUser? then what is the point TODO delete
-//    public User(String email, String password, int postcode){
-//        this.email = email;
-//        this.passwordHash = password; // TODO: HASH argon2i or whatever java has
-//        this.postcode = postcode;
-//        this.userExperience=0;
-//    }
-//    // debug
     public User(int userId, String email, String passwordHash, int userExperience, int postcode){
         this.userId = userId;
         this.email = email;
@@ -59,6 +51,9 @@ public class User {
         this.userExperience=userExperience;
     }
 
+    /**
+     * @return User's detais in a formatted string pattern
+     */
     @Override
     public String toString() {
         return "User{" +
