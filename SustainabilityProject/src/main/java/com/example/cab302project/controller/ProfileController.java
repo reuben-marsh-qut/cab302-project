@@ -2,10 +2,7 @@ package com.example.cab302project.controller;
 
 import com.example.cab302project.model.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -16,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ProfileController {
+
+    @FXML
+    public VBox bannerCardAreaThing;
 
     @FXML
     private TextField emailField;
@@ -79,6 +79,7 @@ public class ProfileController {
         configureProfileChangeTracking();
         configurePasswordChangeTracking();
 
+        currentUser.giveUserXpTest();
         loadBanners();
 
         hideProfileMessage();
@@ -512,10 +513,17 @@ public class ProfileController {
                 final int bannerNumber = count;
                 Image banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/UserCustomisation/banners/banner" + count + ".png")));
                 ImageView bannerImageView = new ImageView(banner);
+                bannerImageView.setPreserveRatio(true);
+                double width = bannerCardAreaThing.getWidth();
+                width = width - 20;
+                bannerImageView.setFitWidth(500);
+
                 HBox bannerHbox = new HBox();
                 Button bannerButton = new Button("Save Banner" + count);
+                bannerButton.getStyleClass().add("primary-button");
+                bannerButton.setGraphic(bannerImageView);
+                bannerButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 bannerButton.setOnAction(event -> {saveBannerCosmetics(bannerNumber);});
-                bannerHbox.getChildren().add(bannerImageView);
                 bannerHbox.getChildren().add(bannerButton);
                 bannerPicker.getChildren().add(bannerHbox);
             }
@@ -526,19 +534,19 @@ public class ProfileController {
     private void saveBannerCosmetics(int bannerId)
     {
         ArrayList<UserSetting> userSettings = UserSettingsDAO.getSettingsByUser(currentUser);
-        int counter = 0;
+        int counter = 1;
         for (UserSetting setting : userSettings)
         {
             counter++;
             if ("bannerNumber".equals( setting.getSettingsKey()))
             {
 
-                UserSettingsDAO.updateUserSetting(currentUser.getUserId(), "bannerNumber", counter);
+                UserSettingsDAO.updateUserSetting(currentUser.getUserId(), "bannerNumber", bannerId);
 
             }
             else if (counter == userSettings.size())
             {
-                UserSettingsDAO.createUserSetting(currentUser.getUserId(), "bannerNumber", counter);
+                UserSettingsDAO.createUserSetting(currentUser.getUserId(), "bannerNumber", bannerId);
             }
 
         }

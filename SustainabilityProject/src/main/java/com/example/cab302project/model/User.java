@@ -76,4 +76,9 @@ public class User {
         double flooredLevel = Math.floor(level);
         return flooredLevel;
     }
+
+    public void giveUserXpTest()
+    {
+        this.userExperience = this.userExperience + 200;
+    }
 }

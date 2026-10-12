@@ -198,7 +198,8 @@
                 <VBox spacing="0"
                   prefWidth="620"
                   maxWidth="620"
-                  styleClass="card">
+                  styleClass="card"
+                  fx:id = "bannerCardAreaThing">
 
                 <Label text="Profile Cosmetics"
                        styleClass="section-title"/>
