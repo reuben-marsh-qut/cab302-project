@@ -1,9 +1,6 @@
 package com.example.cab302project.controller;
 
-import com.example.cab302project.model.User;
-import com.example.cab302project.model.UserDAO;
-import com.example.cab302project.model.UserManager;
-import com.example.cab302project.model.UserSession;
+import com.example.cab302project.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ProfileController {
@@ -49,6 +49,13 @@ public class ProfileController {
 
     @FXML
     private FlowPane bannerPicker;
+
+    private final IUserSettingsDAO UserSettingsDAO;
+
+    public ProfileController()
+    {
+        UserSettingsDAO = new UserSettingsDAO();
+    }
 
     @FXML
     public void initialize() {
@@ -496,17 +503,44 @@ public class ProfileController {
     private void loadBanners()
     {
         // Change the following variable upon adding new banners
-        int numberOfBanners = 3;
+        int numberOfBanners = 4;
         int count = 1;
         while (count <= numberOfBanners)
         {
             if (checkUserLevel(count))
             {
+                final int bannerNumber = count;
                 Image banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/UserCustomisation/banners/banner" + count + ".png")));
                 ImageView bannerImageView = new ImageView(banner);
-                bannerPicker.getChildren().add(bannerImageView);
+                HBox bannerHbox = new HBox();
+                Button bannerButton = new Button("Save Banner" + count);
+                bannerButton.setOnAction(event -> {saveBannerCosmetics(bannerNumber);});
+                bannerHbox.getChildren().add(bannerImageView);
+                bannerHbox.getChildren().add(bannerButton);
+                bannerPicker.getChildren().add(bannerHbox);
             }
             count++;
+        }
+    }
+
+    private void saveBannerCosmetics(int bannerId)
+    {
+        ArrayList<UserSetting> userSettings = UserSettingsDAO.getSettingsByUser(currentUser);
+        int counter = 0;
+        for (UserSetting setting : userSettings)
+        {
+            counter++;
+            if ("bannerNumber".equals( setting.getSettingsKey()))
+            {
+
+                UserSettingsDAO.updateUserSetting(currentUser.getUserId(), "bannerNumber", counter);
+
+            }
+            else if (counter == userSettings.size())
+            {
+                UserSettingsDAO.createUserSetting(currentUser.getUserId(), "bannerNumber", counter);
+            }
+
         }
     }
 }

@@ -218,7 +218,7 @@
 
                 <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="300">
 
-                    <FlowPane fx:id="bannerPicker" hgap="16" vgap="16">
+                    <FlowPane fx:id="bannerPicker">
                         <!-- banners go here once I figure out how-->
                     </FlowPane>
 
