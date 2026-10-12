@@ -9,6 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+
+import java.util.Objects;
 
 public class ProfileController {
 
@@ -43,6 +48,9 @@ public class ProfileController {
     private User currentUser;
 
     @FXML
+    private FlowPane bannerPicker;
+
+    @FXML
     public void initialize() {
 
         userManager = new UserManager(new UserDAO());
@@ -63,6 +71,8 @@ public class ProfileController {
         configurePostcodeField();
         configureProfileChangeTracking();
         configurePasswordChangeTracking();
+
+        loadBanners();
 
         hideProfileMessage();
         hidePasswordMessage();
@@ -468,5 +478,35 @@ public class ProfileController {
         passwordMessageLabel.setManaged(
                 false
         );
+    }
+
+    private boolean checkUserLevel(int wantedLevel)
+    {
+        double level = currentUser.getUserLevel();
+        if (level >= wantedLevel)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void loadBanners()
+    {
+        // Change the following variable upon adding new banners
+        int numberOfBanners = 3;
+        int count = 1;
+        while (count <= numberOfBanners)
+        {
+            if (checkUserLevel(count))
+            {
+                Image banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/UserCustomisation/banners/banner" + count + ".png")));
+                ImageView bannerImageView = new ImageView(banner);
+                bannerPicker.getChildren().add(bannerImageView);
+            }
+            count++;
+        }
     }
 }

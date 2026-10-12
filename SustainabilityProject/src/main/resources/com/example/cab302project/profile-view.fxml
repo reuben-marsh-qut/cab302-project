@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.FlowPane?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cab302project.controller.ProfileController"
@@ -193,6 +194,68 @@
 
                 </VBox>
 
+                <!-- Cosmetics -->
+                <VBox spacing="0"
+                  prefWidth="620"
+                  maxWidth="620"
+                  styleClass="card">
+
+                <Label text="Profile Cosmetics"
+                       styleClass="section-title"/>
+
+                <Label text="Style Your Profile With Unlocked Cosmetics."
+                       styleClass="section-description"
+                       wrapText="true">
+
+                    <VBox.margin>
+                        <Insets top="6"
+                                bottom="28"/>
+                    </VBox.margin>
+
+                </Label>
+
+                <Label text="Choose a banner" styleClass="field-label"/>
+
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="300">
+
+                    <FlowPane fx:id="bannerPicker" hgap="16" vgap="16">
+                        <!-- banners go here once I figure out how-->
+                    </FlowPane>
+
+                </ScrollPane>
+
+
+
+                <Region prefHeight="18"/>
+
+
+                <Label fx:id="profileCosmeticsLabel"
+                       visible="false"
+                       managed="false"
+                       wrapText="true"
+                       maxWidth="Infinity">
+
+                    <VBox.margin>
+                        <Insets top="14"/>
+                    </VBox.margin>
+
+                </Label>
+
+                <HBox alignment="CENTER_RIGHT">
+
+                    <VBox.margin>
+                        <Insets top="24"/>
+                    </VBox.margin>
+
+                    <Button fx:id="saveCosmeticsButton"
+                            text="Save Cosmetics"
+                            onAction="#onSaveProfileClick"
+                            prefWidth="160"
+                            styleClass="primary-button"/>
+
+                </HBox>
+
+            </VBox>
             </VBox>
 
         </ScrollPane>

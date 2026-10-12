@@ -69,4 +69,11 @@ public class User {
                 ", passwordHash='" + (passwordHash==null ? "null" : "hasPassword") + '\'' +
                 '}';
     }
+
+    public double getUserLevel()
+    {
+        int level = this.userExperience / 100;
+        double flooredLevel = Math.floor(level);
+        return flooredLevel;
+    }
 }
