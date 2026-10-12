@@ -23,37 +23,14 @@ public class Habit {
     private Integer baseXpReward;
     private boolean doesContributeDirectlyToGoal;
 
-
-    public Habit(Integer goalId, Integer userId, String title, Category category,
-                 TaskType habitType, Integer repeatFrequency, LocalDate startDate,
-                 LocalDate endDate, Integer progress, Integer completionThreshold, Integer baseXpReward,
-                 Integer awardedXpReward, boolean doesContributeDirectlyToGoal) {
-        validateTitle(title);
-        validateCompletionThreshold(completionThreshold);
-        validateDates(startDate, endDate);
-
-        this.goalId = goalId;
-        this.userId = userId;
-        this.title = title;
-        this.category = category;
-        this.habitType = habitType;
-        this.repeatFrequency = repeatFrequency;
-        this.repeatFrequencyType = RepeatFrequencyType.DAILY;
-        this.startDate = startDate;
-        this.endDate = endDate;
-//        this.progress = progress;
-        this.completionThreshold = completionThreshold;
-        this.baseXpReward = baseXpReward;
-//        this.awardedXpReward = awardedXpReward;
-        this.doesContributeDirectlyToGoal = doesContributeDirectlyToGoal;
-    }
     public Habit(Integer habitId, Integer goalId, Integer userId, String title, Category category,
                  TaskType taskType, Integer repeatFrequency, RepeatFrequencyType repeatFrequencyType, LocalDate startDate,
                  LocalDate endDate, Integer completionThreshold, Integer baseXpReward,
                  boolean doesContributeDirectlyToGoal) {
         validateTitle(title);
         validateCompletionThreshold(completionThreshold);
-//        validateDates(startDate, endDate);
+        validateDates(startDate, endDate);
+
         this.id = habitId;
         this.goalId = goalId;
         this.userId = userId;
@@ -64,10 +41,8 @@ public class Habit {
         this.repeatFrequencyType = repeatFrequencyType;
         this.startDate = startDate;
         this.endDate = endDate;
-//        this.progress = progress;
         this.completionThreshold = completionThreshold;
         this.baseXpReward = baseXpReward;
-//        this.awardedXpReward = awardedXpReward;
         this.doesContributeDirectlyToGoal = doesContributeDirectlyToGoal;
     }
 
