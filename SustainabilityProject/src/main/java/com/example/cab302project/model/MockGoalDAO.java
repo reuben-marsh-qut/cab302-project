@@ -58,4 +58,26 @@ public class MockGoalDAO implements IGoalDAO {
         }
         return results;
     }
+
+    @Override
+    public List<Goal> getIncompletedGoalsForUser(int userId) {
+        List<Goal> results = new ArrayList<>();
+        for (Goal goal : goals) {
+            if (goal.getUserId() == userId && !goal.getIsComplete()) {
+                results.add(goal);
+            }
+        }
+        return results;
+    }
+
+    @Override
+    public List<Goal> getCompletedGoalsForUser(int userId) {
+        List<Goal> results = new ArrayList<>();
+        for (Goal goal : goals) {
+            if (goal.getUserId() == userId && goal.getIsComplete()) {
+                results.add(goal);
+            }
+        }
+        return results;
+    }
 }

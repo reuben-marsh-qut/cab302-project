@@ -1,6 +1,8 @@
 import com.example.cab302project.model.Habit;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
+import com.example.cab302project.model.enums.RepeatFrequencyType;
+import com.example.cab302project.model.enums.TaskType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +17,9 @@ public class HabitTest {
 
     @BeforeEach
     public void setUp() {
-        habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                CompletionType.BINARY, 1, LocalDate.now(),
-                LocalDate.now().plusDays(30), 21, 31, 41,
-                21, false);
+        habit = new Habit(1, 1, 1, "Read 5 pages a day", Category.MIND,
+                TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
+                LocalDate.now().plusDays(30), 31, 31, true);
     }
 
     @Test
@@ -48,8 +49,8 @@ public class HabitTest {
     }
 
     @Test
-    public void testGetCompletionType() {
-        assertEquals(CompletionType.BINARY, habit.gethabitType());
+    public void testGetTaskType() {
+        assertEquals(TaskType.BINARY, habit.getHabitType());
     }
 
     @Test
@@ -67,10 +68,13 @@ public class HabitTest {
         assertEquals(LocalDate.now().plusDays(30), habit.getDueDateTime());
     }
 
-    @Test
-    public void testGetProgress() {
-        assertEquals(21, habit.getProgress());
-    }
+    /**
+     * Note: the below test was removed since its functionality is associated with activities and goals, not the habit itself
+     */
+//    @Test
+//    public void testGetProgress() {
+//        assertEquals(21, habit.getProgress());
+//    }
 
     @Test
     public void testGetCompletionThreshold() {
@@ -79,70 +83,73 @@ public class HabitTest {
 
     @Test
     public void testGetBaseXpReward() {
-        assertEquals(41, habit.getBaseXpReward());
+        assertEquals(31, habit.getBaseXpReward());
     }
 
-    @Test
-    public void testGetAwardedXp() {
-        assertEquals(21, habit.getAwardedXpReward());
-    }
+    /**
+     * Note: the below test was removed since its functionality is associated with activities and goals, not the habit itself
+     */
+//    @Test
+//    public void testGetAwardedXp() {
+//        assertEquals(21, habit.getAwardedXpReward());
+//    }
 
     @Test
     void testCreateHabitWithNoDueDateShouldSucceed() {
-        Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                CompletionType.BINARY, 1, LocalDate.now(),
-                null, 0, 31, 41,
-                21, false);
+        Habit habit = new Habit(1, 1, 1, "Read 5 pages a day", Category.MIND,
+                TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
+                null, 21, 31, true);
 
         assertNull(habit.getDueDateTime(), "A goal with no due date should never expire.");
     }
 
-    @Test
-    void newHabitShouldNotBeComplete() {
-        Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                CompletionType.BINARY, 1, LocalDate.now(),
-                LocalDate.now().plusDays(30), 0, 31, 41,
-                21, false);
-        assertTrue(habit.getProgress() < habit.getCompletionThreshold());
-    }
+    /**
+     * Note: the below test was removed since its functionality is associated with activities and goals, not the habit itself
+     * A habit itself cannot be complete, it is built
+     */
+//    @Test
+//    void newHabitShouldNotBeComplete() {
+//        Habit habit = new Habit(1, 1, "Read 5 pages a day", Category.MIND,
+//                TaskType.BINARY, 1, LocalDate.now(),
+//                LocalDate.now().plusDays(30), 0, 31, 41,
+//                21, false);
+//        assertTrue(habit.getProgress() < habit.getCompletionThreshold());
+//    }
 
     @Test
     void createHabitWithBlankTitleShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Habit(1, 1, "", Category.MIND,
-                        CompletionType.BINARY, 1, LocalDate.now(),
-                        LocalDate.now().plusDays(30), 21, 31, 41,
-                        21, false),
+                () -> new Habit(1, 1, 1, "", Category.MIND,
+                        TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
+                        LocalDate.now().plusDays(30), 21, 31, true),
                 "A habit with a blank title should throw an exception.");
     }
 
     @Test
     void createHabitWithZeroThresholdShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                        CompletionType.BINARY, 1, LocalDate.now(),
-                        LocalDate.now().plusDays(30), 0, 0, 41,
-                        21, false),
+                () -> new Habit(1, 1, 1,"Read 5 pages a day", Category.MIND,
+                        TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
+                        LocalDate.now().plusDays(30), 0, 0, true),
                 "A goal with a completion threshold of zero should throw an exception.");
     }
 
-    @Test
-    void createHabitWithPastDueDateShouldThrowException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                        CompletionType.BINARY, 1, LocalDate.now().minusDays(60),
-                        LocalDate.now().minusDays(30), 21, 31, 41,
-                        21, false),
-                "A habit with a due date in the past should throw an exception.");
-    }
+    // createHabitWithPastDueDateShouldThrowException() is not relevant. A habit can have a passed due date if it is, for example, a completed habit
+//    @Test
+//    void createHabitWithPastDueDateShouldThrowException() {
+//        assertThrows(IllegalArgumentException.class,
+//                () -> new Habit(1, 1, 1,"Read 5 pages a day", Category.MIND,
+//                        TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now().minusDays(60),
+//                        LocalDate.now().minusDays(30), 21, 31,  true),
+//                "A habit with a due date in the past should throw an exception.");
+//    }
 
     @Test
     void createHabitWithDueDateBeforeStartShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Habit(1, 1, "Read 5 pages a day", Category.MIND,
-                        CompletionType.BINARY, 1, LocalDate.now(),
-                        LocalDate.now().minusDays(30), 21, 31, 41,
-                        21, false),
+                () -> new Habit(1, 1, 1, "Read 5 pages a day", Category.MIND,
+                        TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
+                        LocalDate.now().minusDays(30), 21, 31, true),
                 "A habit that is due before it starts should throw an exception.");
     }
 }

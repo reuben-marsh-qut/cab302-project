@@ -96,7 +96,7 @@ US-17 — Track Habit Completion
 US-18 — View Activities I Need to Complete - Seb
 US-19 — Complete an Activity - Seb
 US-20 — Complete Standalone Activities - Seb
-US-21 — View Activity Information – Reuben
+US-21 — View Activity Information – Seb
 US-22 — View Completed Activities – Reuben
 
 ### Main Tasks

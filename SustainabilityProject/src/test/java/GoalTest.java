@@ -102,18 +102,135 @@ public class GoalTest {
     }
 
     @Test
-    void createGoalWithPastDueDateShouldThrowException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new Goal(1, "Tester Goal", Category.BODY, LocalDate.now().minusDays(14),
-                        LocalDate.now().minusDays(7), 0, 10, CompletionType.BINARY, false),
-                "A goal with a due date in the past should throw an exception.");
-    }
-
-    @Test
     void createGoalWithDueDateBeforeStartShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
                 () -> new Goal(1, "Tester Goal", Category.BODY, LocalDate.now(),
                         LocalDate.now().minusDays(7), 0, 10, CompletionType.BINARY, false),
                 "A goal that is due before it starts should throw an exception.");
+    }
+    @Test
+    public void testGoalWithPassedDeadlineCanBeCreated() {
+        Goal pastGoal = new Goal(1, "Old goal", Category.BODY,
+                LocalDate.now().minusDays(60), LocalDate.now().minusDays(30),
+                2, 10, CompletionType.PROGRESSIVE, false);
+
+        assertEquals("Old goal", pastGoal.getTitle());
+    }
+
+    @Test
+    public void testGoalPastDeadlineWithoutMeetingTargetIsNotAchieved() {
+        Goal missedGoal = new Goal(1, "Missed goal", Category.BODY,
+                LocalDate.now().minusDays(60), LocalDate.now().minusDays(30),
+                2, 10, CompletionType.PROGRESSIVE, false);
+
+        assertTrue(missedGoal.isNotAchieved());
+    }
+
+    @Test
+    public void testGoalPastDeadlineThatMetTargetIsNotFlagged() {
+        Goal metGoal = new Goal(1, "Met goal", Category.BODY,
+                LocalDate.now().minusDays(60), LocalDate.now().minusDays(30),
+                10, 10, CompletionType.PROGRESSIVE, true);
+
+        assertFalse(metGoal.isNotAchieved());
+    }
+
+    @Test
+    public void testGoalStillWithinDeadlineIsNotFlagged() {
+        Goal activeGoal = new Goal(1, "Active goal", Category.BODY,
+                LocalDate.now(), LocalDate.now().plusDays(30),
+                2, 10, CompletionType.PROGRESSIVE, false);
+
+        assertFalse(activeGoal.isNotAchieved());
+    }
+
+    @Test
+    public void testGoalWithNoDeadlineIsNeverNotAchieved() {
+        Goal openGoal = new Goal(1, "Open goal", Category.BODY,
+                LocalDate.now(), null,
+                0, 10, CompletionType.PROGRESSIVE, false);
+
+        assertFalse(openGoal.isNotAchieved());
+    }
+    @Test
+    public void testSetTitleUpdatesTheTitle() {
+        goal.setTitle("Updated goal");
+
+        assertEquals("Updated goal", goal.getTitle());
+    }
+
+    @Test
+    public void testSetBlankTitleThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> goal.setTitle("  "));
+    }
+
+    @Test
+    public void testSetThresholdUpdatesTheThreshold() {
+        goal.setThreshold(25);
+
+        assertEquals(25, goal.getThreshold());
+    }
+
+    @Test
+    public void testSetThresholdBelowOneThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> goal.setThreshold(0));
+    }
+
+    @Test
+    public void testSetDueDateUpdatesTheDueDate() {
+        LocalDate newDueDate = LocalDate.now().plusDays(200);
+
+        goal.setDueDate(newDueDate);
+
+        assertEquals(newDueDate, goal.getDueDate());
+    }
+
+    @Test
+    public void testSetDueDateBeforeStartDateThrowsException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> goal.setDueDate(LocalDate.now().minusDays(10)));
+    }
+
+    @Test
+    public void testNewGoalIsNotPaused() {
+        assertFalse(goal.getIsPaused(),
+                "A new goal should start out active, not paused.");
+    }
+
+    @Test
+    public void testPausingAGoalMarksItPaused() {
+        goal.setIsPaused(true);
+
+        assertTrue(goal.getIsPaused(),
+                "An active goal should be able to be paused.");
+    }
+
+    @Test
+    public void testPausingAGoalKeepsItsProgress() {
+        Integer progressBeforePausing = goal.getProgress();
+
+        goal.setIsPaused(true);
+
+        assertEquals(progressBeforePausing, goal.getProgress(),
+                "Pausing a goal should retain its existing progress.");
+    }
+
+    @Test
+    public void testResumingAGoalMakesItActiveAgain() {
+        goal.setIsPaused(true);
+        goal.setIsPaused(false);
+
+        assertFalse(goal.getIsPaused(),
+                "A paused goal should be able to be resumed.");
+    }
+
+    @Test
+    public void testResumingAGoalKeepsTheProgressItHadWhilePaused() {
+        goal.setProgress(6);
+        goal.setIsPaused(true);
+        goal.setIsPaused(false);
+
+        assertEquals(6, goal.getProgress(),
+                "Resuming a goal should not disturb its progress.");
     }
 }

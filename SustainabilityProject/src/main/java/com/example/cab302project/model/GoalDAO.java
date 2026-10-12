@@ -39,6 +39,11 @@ public class GoalDAO implements IGoalDAO
             int newGoalUserId = goal.getUserId();
             String newGoalTitle = goal.getTitle();
             int newGoalCategory = goal.getCategory().ordinal();
+            int newGoalIsPaused = 0;
+            if (goal.getIsPaused())
+            {
+                newGoalIsPaused = 1;
+            }
             long newGoalStartTime = goal.getStartDate().atStartOfDay(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             long newGoalEndTime;
             if (goal.getDueDate() == null) {
@@ -51,7 +56,7 @@ public class GoalDAO implements IGoalDAO
             int newGoalCompletionThreshold = goal.getThreshold();
             int newGoalCompletionType = goal.getCompletionType().ordinal();
 
-            PreparedStatement statement = addGoalConnect.prepareStatement("INSERT INTO goals (userId, goalTitle, catagory, startsAtUnixTime, dueUnixTime, progress, completionThreshold, completionType) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = addGoalConnect.prepareStatement("INSERT INTO goals (userId, goalTitle, catagory, startsAtUnixTime, dueUnixTime, progress, completionThreshold, completionType, isPaused) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setInt(1, newGoalUserId);
             statement.setString(2, newGoalTitle);
             statement.setInt(3, newGoalCategory);
@@ -67,6 +72,7 @@ public class GoalDAO implements IGoalDAO
             statement.setInt(6, newGoalProgress);
             statement.setInt(7, newGoalCompletionThreshold);
             statement.setInt(8, newGoalCompletionType);
+            statement.setInt(9, newGoalIsPaused);
 
             int resultSet = statement.executeUpdate();
 
@@ -87,37 +93,48 @@ public class GoalDAO implements IGoalDAO
             Connection getGoalconnection = DatabaseConnection.getInstance();
             PreparedStatement getGoal = getGoalconnection.prepareStatement("SELECT * FROM goals WHERE goalId = ?");
             getGoal.setInt(1, id);
-            ResultSet goalGetResults = getGoal.executeQuery();
-            int goalId = goalGetResults.getInt("goalId");
-            int userId = goalGetResults.getInt("userId");
-            String goalTitle = goalGetResults.getString("goalTitle");
-            int category = goalGetResults.getInt("catagory");
-            Category enumCat = Category.values()[category];
-            int startTime = goalGetResults.getInt("startsAtUnixTime");
-            LocalDate localStartDate = Instant.ofEpochSecond(startTime).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
-            String dueDate = goalGetResults.getString("dueUnixTime");
-            int dueDateInt;
-            LocalDate localDueDate;
-            if (dueDate == null)
+            try (ResultSet goalGetResults = getGoal.executeQuery())
             {
-                localDueDate = null;
-            }
-            else
-            {
-                dueDateInt = Integer.parseInt(dueDate);
-                localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
-            }
-            int progress = goalGetResults.getInt("progress");
-            int completionThreshold = goalGetResults.getInt("completionThreshold");
-            int completionType = goalGetResults.getInt("completionType");
-            CompletionType enumComp = CompletionType.values()[completionType];
-            int isComplete = goalGetResults.getInt("isComplete");
-            boolean boolComplete = (isComplete != 0);
+                if (!goalGetResults.next())
+                {
+                    return null;
+                }
+                int goalId = goalGetResults.getInt("goalId");
+                int userId = goalGetResults.getInt("userId");
+                String goalTitle = goalGetResults.getString("goalTitle");
+                int category = goalGetResults.getInt("catagory");
+                Category enumCat = Category.values()[category];
+                int startTime = goalGetResults.getInt("startsAtUnixTime");
+                LocalDate localStartDate = Instant.ofEpochSecond(startTime).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
+                String dueDate = goalGetResults.getString("dueUnixTime");
+                int dueDateInt;
+                LocalDate localDueDate;
+                if (dueDate == null)
+                {
+                    localDueDate = null;
+                }
+                else
+                {
+                    dueDateInt = Integer.parseInt(dueDate);
+                    localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
+                }
+                int progress = goalGetResults.getInt("progress");
+                int completionThreshold = goalGetResults.getInt("completionThreshold");
+                int completionType = goalGetResults.getInt("completionType");
+                CompletionType enumComp = CompletionType.values()[completionType];
+                int isComplete = goalGetResults.getInt("isComplete");
+                boolean boolComplete = (isComplete != 0);
 
-            Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
-            goal.setId(id);
+                Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
+                goal.setId(id);
 
-            return goal;
+                int isPaused = goalGetResults.getInt("isPaused");
+                goal.setIsPaused(isPaused != 0);
+
+                return goal;
+            }
+
+
         }
         catch (Exception e)
         {
@@ -133,24 +150,31 @@ public class GoalDAO implements IGoalDAO
         {
             Connection updateGoalConnection = DatabaseConnection.getInstance();
             int goalId = goal.getId();
-            getGoalById(goalId);
+
 
             int newGoalUserId = goal.getUserId();
             String newGoalTitle = goal.getTitle();
             int newGoalCategory = goal.getCategory().ordinal();
+            int newGoalIsPaused = 0;
+            if (goal.getIsPaused())
+            {
+                newGoalIsPaused = 1;
+            }
             long newGoalStartTime = goal.getStartDate().atStartOfDay(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             long newGoalEndTime;
             if (goal.getDueDate() == null) {
                 newGoalEndTime = 0;
-            } else {
+            }
+            else
+            {
                 newGoalEndTime = goal.getDueDate().atStartOfDay(ZoneId.of("Australia/Brisbane")).toEpochSecond();
             }
 
-            int newGoalProgress = 0;
+            int newGoalProgress = goal.getProgress();
             int newGoalCompletionThreshold = goal.getThreshold();
             int newGoalCompletionType = goal.getCompletionType().ordinal();
 
-            PreparedStatement statement = updateGoalConnection.prepareStatement("UPDATE goals SET userId = ?, goalTitle = ?, catagory = ?, startsAtUnixTime = ?, dueUnixTime = ?, progress = ?, completionThreshold = ?, completionType = ? WHERE goalId = ?");
+            PreparedStatement statement = updateGoalConnection.prepareStatement("UPDATE goals SET userId = ?, goalTitle = ?, catagory = ?, startsAtUnixTime = ?, dueUnixTime = ?, progress = ?, completionThreshold = ?, completionType = ?, isPaused = ? WHERE goalId = ?");
             statement.setInt(1, newGoalUserId);
             statement.setString(2, newGoalTitle);
             statement.setInt(3, newGoalCategory);
@@ -166,7 +190,8 @@ public class GoalDAO implements IGoalDAO
             statement.setInt(6, newGoalProgress);
             statement.setInt(7, newGoalCompletionThreshold);
             statement.setInt(8, newGoalCompletionType);
-            statement.setInt(9, goalId);
+            statement.setInt(9, newGoalIsPaused);
+            statement.setInt(10, goalId);
 
             int resultSet = statement.executeUpdate();
 
@@ -239,6 +264,9 @@ public class GoalDAO implements IGoalDAO
                 Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
                 goal.setId(goalId);
 
+                int isPaused = goalGetResults.getInt("isPaused");
+                goal.setIsPaused(isPaused != 0);
+
                 goalsList.add(goal);
             }
 
@@ -257,6 +285,64 @@ public class GoalDAO implements IGoalDAO
         {
             Connection userGoals = DatabaseConnection.getInstance();
             String query = "SELECT * FROM goals WHERE userId = ?";
+            PreparedStatement preparedStatement = userGoals.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            ResultSet goalGetResults = preparedStatement.executeQuery();
+
+            List<Goal> userGoalsList = new ArrayList<Goal>();
+
+            while (goalGetResults.next())
+            {
+                int goalId = goalGetResults.getInt("goalId");
+                String goalTitle = goalGetResults.getString("goalTitle");
+                int category = goalGetResults.getInt("catagory");
+                Category enumCat = Category.values()[category];
+                int startTime = goalGetResults.getInt("startsAtUnixTime");
+                LocalDate localStartDate = Instant.ofEpochSecond(startTime).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
+                String dueDate = goalGetResults.getString("dueUnixTime");
+                int dueDateInt;
+                LocalDate localDueDate;
+                if (dueDate == null)
+                {
+                    localDueDate = null;
+                }
+                else
+                {
+                    dueDateInt = Integer.parseInt(dueDate);
+                    localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
+                }
+                int progress = goalGetResults.getInt("progress");
+                int completionThreshold = goalGetResults.getInt("completionThreshold");
+                int completionType = goalGetResults.getInt("completionType");
+                CompletionType enumComp = CompletionType.values()[completionType];
+                int isComplete = goalGetResults.getInt("isComplete");
+                boolean boolComplete = (isComplete != 0);
+
+                Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
+                goal.setId(goalId);
+
+                int isPaused = goalGetResults.getInt("isPaused");
+                goal.setIsPaused(isPaused != 0);
+
+                userGoalsList.add(goal);
+            }
+            System.out.println(userGoalsList.size());
+
+            return userGoalsList;
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+    };
+    public List<Goal> getCompletedGoalsForUser(int userId)
+    {
+        try
+        {
+            Connection userGoals = DatabaseConnection.getInstance();
+            String query = "SELECT * FROM goals WHERE userId = ? AND isComplete = 1";
             PreparedStatement preparedStatement = userGoals.prepareStatement(query);
             preparedStatement.setInt(1, userId);
             ResultSet goalGetResults = preparedStatement.executeQuery();
@@ -293,6 +379,9 @@ public class GoalDAO implements IGoalDAO
                 Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
                 goal.setId(goalId);
 
+                int isPaused = goalGetResults.getInt("isPaused");
+                goal.setIsPaused(isPaused != 0);
+
                 userGoalsList.add(goal);
             }
 
@@ -305,5 +394,64 @@ public class GoalDAO implements IGoalDAO
         }
 
     };
+    public List<Goal> getIncompletedGoalsForUser(int userId)
+    {
+        try
+        {
+            Connection userGoals = DatabaseConnection.getInstance();
+            String query = "SELECT * FROM goals WHERE userId = ? AND isComplete = 0";
+            PreparedStatement preparedStatement = userGoals.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            ResultSet goalGetResults = preparedStatement.executeQuery();
+
+            List<Goal> userGoalsList = new ArrayList<>();
+
+            while (goalGetResults.next())
+            {
+                int goalId = goalGetResults.getInt("goalId");
+                String goalTitle = goalGetResults.getString("goalTitle");
+                int category = goalGetResults.getInt("catagory");
+                Category enumCat = Category.values()[category];
+                int startTime = goalGetResults.getInt("startsAtUnixTime");
+                LocalDate localStartDate = Instant.ofEpochSecond(startTime).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
+                String dueDate = goalGetResults.getString("dueUnixTime");
+                int dueDateInt;
+                LocalDate localDueDate;
+                if (dueDate == null)
+                {
+                    localDueDate = null;
+                }
+                else
+                {
+                    dueDateInt = Integer.parseInt(dueDate);
+                    localDueDate = Instant.ofEpochSecond(dueDateInt).atZone(ZoneId.of("Australia/Brisbane")).toLocalDate();
+                }
+                int progress = goalGetResults.getInt("progress");
+                int completionThreshold = goalGetResults.getInt("completionThreshold");
+                int completionType = goalGetResults.getInt("completionType");
+                CompletionType enumComp = CompletionType.values()[completionType];
+                int isComplete = goalGetResults.getInt("isComplete");
+                boolean boolComplete = (isComplete != 0);
+
+                Goal goal = new Goal(userId, goalTitle, enumCat, localStartDate, localDueDate, progress, completionThreshold, enumComp, boolComplete);
+                goal.setId(goalId);
+
+                int isPaused = goalGetResults.getInt("isPaused");
+                goal.setIsPaused(isPaused != 0);
+
+                userGoalsList.add(goal);
+            }
+
+            return userGoalsList;
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+    };
+
+    // Add GetIncompleteGoalsForUser
 
 }

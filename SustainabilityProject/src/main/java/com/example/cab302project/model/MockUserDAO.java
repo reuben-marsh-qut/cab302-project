@@ -1,6 +1,5 @@
 package com.example.cab302project.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,40 +15,77 @@ public class MockUserDAO implements IUserDAO {
 
     @Override
     public boolean createUser(String email, String password, int postcode) {
-        return false;
+        if (getUserByEmail(email) != null) {
+            return false;
+        }
+
+        users.add(
+                new User(
+                        users.size() + 1,
+                        email,
+                        password,
+                        0,
+                        postcode
+                )
+        );
+
+        return true;
     }
 
     @Override
     public User loginUser(String email, String password) {
+
         for (User check : users) {
+
             if (check.getEmail().equalsIgnoreCase(email)) {
-                if (check.getPasswordHash().equals(password)){
+
+                if (check.getPasswordHash().equals(password)) {
                     return check;
                 }
             }
         }
+
         return null;
     }
 
     @Override
     public boolean updateUser(User user) {
-        for (User check : users) {
-            if (check.getUserId() == user.getUserId()) {
-                users.remove(check);
-                users.add(user);
+
+        for (int i = 0; i < users.size(); i++) {
+
+            if (users.get(i).getUserId() == user.getUserId()) {
+                users.set(i, user);
                 return true;
             }
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean updatePassword(User user, String newPassword) {
+
+        for (User existingUser : users) {
+
+            if (existingUser.getUserId() == user.getUserId()) {
+                existingUser.setPasswordHash(newPassword);
+                return true;
+            }
+        }
+
         return false;
     }
 
     @Override
     public User getUserById(int userId) {
+
         for (User user : users) {
+
             if (user.getUserId() == userId) {
                 return user;
             }
         }
+
         return null;
     }
 
@@ -57,6 +93,7 @@ public class MockUserDAO implements IUserDAO {
     public User getUserByEmail(String email) {
 
         for (User user : users) {
+
             if (user.getEmail().equalsIgnoreCase(email)) {
                 return user;
             }
@@ -72,9 +109,12 @@ public class MockUserDAO implements IUserDAO {
 
     @Override
     public void deleteUser(User user) {
-        for (User check : users) {
-            if (check.getUserId() == user.getUserId()) {
-                users.remove(check);
+
+        for (int i = 0; i < users.size(); i++) {
+
+            if (users.get(i).getUserId() == user.getUserId()) {
+                users.remove(i);
+                return;
             }
         }
     }

@@ -8,5 +8,6 @@ public interface IActivityDAO {
     public void deleteActivity(Activity activity); // Delete
     public Activity getActivityById(int id); // Read
     public List<Activity> getAllActivities(); // Read
-
+    public List<Activity> getIncompletedActivitiesForUser(int userId);
+    public List<Activity> getCompletedActivitiesForUser(int userId);
 }

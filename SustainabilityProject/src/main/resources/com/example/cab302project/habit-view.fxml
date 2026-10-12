@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cab302project.controller.HabitController"
+            fx:id="rootPane"
+            stylesheets="@../../../stylesheets/home.css"
+            styleClass="page-body">
+
+    <padding>
+        <Insets top="28" right="28" bottom="28" left="28"/>
+    </padding>
+
+    <left>
+        <fx:include source="sidebar-view.fxml"/>
+    </left>
+
+    <center>
+
+        <!--
+            GoalController uses this pane to swap between:
+            - the normal goals page
+            - goal creation
+            - goal details
+        -->
+        <BorderPane fx:id="contentPane">
+
+            <center>
+
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED">
+
+                    <VBox spacing="26">
+
+                        <padding>
+                            <Insets top="18"
+                                    right="20"
+                                    bottom="50"
+                                    left="48"/>
+                        </padding>
+
+                        <HBox alignment="CENTER_LEFT">
+
+                            <VBox spacing="6"
+                                  HBox.hgrow="ALWAYS">
+
+                                <Label text="Habits"
+                                       styleClass="page-header"/>
+
+                                <Label text="Have you completed your habits for today."
+                                       styleClass="page-subheader"/>
+
+                            </VBox>
+
+                            <Button text="New Habit"
+                                    prefWidth="130"
+                                    onAction="#onNewHabit"
+                                    styleClass="primary-button"/>
+
+                        </HBox>
+
+                        <VBox spacing="18"
+                              styleClass="card">
+
+                            <Label text="Today's habits"
+                                   styleClass="section-title"/>
+
+                            <Label text="The habits you're actively working towards."
+                                   styleClass="section-description"/>
+
+                            <ScrollPane fitToHeight="true"
+                                        hbarPolicy="AS_NEEDED"
+                                        vbarPolicy="NEVER"
+                                        minHeight="270"
+                                        prefHeight="270"
+                                        maxHeight="270">
+
+                                <content>
+                                    <HBox fx:id="todayHabitsContainer"
+                                          spacing="20"/>
+                                </content>
+
+                            </ScrollPane>
+
+                        </VBox>
+
+                        <VBox spacing="18"
+                              styleClass="card">
+
+                            <Label text="Previously completed Habits"
+                                   styleClass="section-title"/>
+
+                            <Label text="Reflect on the habits you've completed in the past."
+                                   styleClass="section-description"/>
+
+                            <ScrollPane fitToHeight="true"
+                                        hbarPolicy="AS_NEEDED"
+                                        vbarPolicy="NEVER"
+                                        minHeight="270"
+                                        prefHeight="270"
+                                        maxHeight="270">
+
+                                <content>
+                                    <HBox fx:id="completeHabitsContainer"
+                                          spacing="20"/>
+                                </content>
+
+                            </ScrollPane>
+
+                        </VBox>
+
+                    </VBox>
+
+                </ScrollPane>
+
+            </center>
+
+        </BorderPane>
+
+    </center>
+
+</BorderPane>

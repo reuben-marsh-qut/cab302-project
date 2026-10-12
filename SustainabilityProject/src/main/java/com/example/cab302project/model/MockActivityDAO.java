@@ -43,4 +43,10 @@ public class MockActivityDAO implements IActivityDAO {
     public List<Activity> getAllActivities() {
         return new ArrayList<>(activities);
     }
+
+    @Override
+    public List<Activity> getCompletedActivitiesForUser(int userId) { return new ArrayList<>(activities);}
+
+    @Override
+    public List<Activity> getIncompletedActivitiesForUser(int userId) { return new ArrayList<>(activities);}
 }

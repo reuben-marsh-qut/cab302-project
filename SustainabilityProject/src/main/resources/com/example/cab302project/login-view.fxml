@@ -148,6 +148,7 @@
                    styleClass="signup-label"/>
 
             <Button text="Create an account"
+                    onAction="#handleCreateAccount"
                     styleClass="link-button"/>
 
         </HBox>

@@ -7,6 +7,12 @@ module com.example.cab302project {
     requires java.sql;
     requires password4j;
     requires jdk.jshell;
+    requires wagon.provider.api;
+    requires langchain4j.open.ai;
+    requires java.net.http;
+    requires langchain4j.core;
+    requires langchain4j;
+    requires com.fasterxml.jackson.databind;
 
     opens com.example.cab302project to javafx.fxml;
     exports com.example.cab302project;
@@ -14,4 +20,5 @@ module com.example.cab302project {
     opens com.example.cab302project.controller to javafx.fxml;
     exports com.example.cab302project.model;
     exports com.example.cab302project.model.enums;
+    opens com.example.cab302project.model to javafx.fxml;
 }

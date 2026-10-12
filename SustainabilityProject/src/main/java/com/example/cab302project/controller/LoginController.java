@@ -4,6 +4,7 @@ import com.example.cab302project.HelloApplication;
 import com.example.cab302project.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -68,23 +69,36 @@ public class LoginController {
     }
 
     private void openHomePage(User user) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("home-view.fxml")
+            );
 
-        FXMLLoader loader = new FXMLLoader(
-                HelloApplication.class.getResource("home-view.fxml")
-        );
+            UserSession.getInstance().setUser(user);
 
-        Scene scene = new Scene(loader.load());
+            Parent root = loader.load();
 
-        HomeController homeController = loader.getController();
+            emailField.getScene().setRoot(root);
+        } catch (IOException e) {
+            showError("Unable to open goals page.");
+            e.printStackTrace();
+        }
+    }
 
-        homeController.setCurrentUser(user);
+    @FXML
+    private void handleCreateAccount() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("register-view.fxml")
+            );
 
-        Stage stage = (Stage) emailField
-                .getScene()
-                .getWindow();
+            Parent root = loader.load();
 
-        stage.setScene(scene);
-        stage.show();
+            emailField.getScene().setRoot(root);
+        } catch (IOException e) {
+            showError("Unable to open registration.");
+            e.printStackTrace();
+        }
     }
 
     private void showError(String message) {

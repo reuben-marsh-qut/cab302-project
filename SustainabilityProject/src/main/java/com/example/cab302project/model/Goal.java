@@ -16,6 +16,7 @@ public class Goal {
     private Integer threshold;
     private CompletionType completionType;
     private boolean isComplete;
+    private boolean isPaused = false;
 
     /**
      * Creates a new goal.
@@ -47,7 +48,7 @@ public class Goal {
     }
 
     /**
-     *
+     * validates the title of the goal
      * @param goalTitle the title of the goal, which must not be blank
      */
     private static void validateTitle(String goalTitle) {
@@ -57,7 +58,7 @@ public class Goal {
     }
 
     /**
-     *
+     * validates the completion threshold of the goal
      * @param completionThreshold The threshold at which point the goal is considered complete, must be greater than zero
      */
     private static void validateCompletionThreshold(int completionThreshold) {
@@ -68,7 +69,7 @@ public class Goal {
     }
 
     /**
-     *
+     * validates the start and end dates of the goal
      * @param startsAt Goal start date, must not be null
      * @param dueDate Goal due date, may be null
      */
@@ -79,21 +80,24 @@ public class Goal {
         if (dueDate == null) {
             return; // A goal with no due date never expires.
         }
-        if (dueDate.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Goal due date must not be in the past.");
-        }
         if (dueDate.isBefore(startsAt)) {
             throw new IllegalArgumentException(
                     "Goal due date must not be before its start date.");
         }
     }
-
     /**
-     * Whether this goal has been achieved. Derived from progress rather than
-     * stored, matching the generated isComplete column in the database design.
-     **/
+     * Whether this goal reached its deadline without meeting its target.
+     * A goal with no deadline can never be not achieved.
+     * @return true if the deadline has passed and the target was not reached.
+     */
+    public boolean isNotAchieved() {
+        if (dueDate == null) {
+            return false;
+        }
+        return dueDate.isBefore(LocalDate.now()) && progress < threshold;
+    }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -109,8 +113,17 @@ public class Goal {
         return title;
     }
 
+    public void setTitle(String title) {
+        validateTitle(title);
+        this.title = title;
+    }
+
     public Category getCategory() {
         return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public LocalDate getStartDate() {
@@ -119,6 +132,11 @@ public class Goal {
 
     public LocalDate getDueDate() {
         return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        validateDates(this.startDate, dueDate);
+        this.dueDate = dueDate;
     }
 
     public Integer getProgress() {
@@ -133,8 +151,17 @@ public class Goal {
         return threshold;
     }
 
+    public void setThreshold(Integer threshold) {
+        validateCompletionThreshold(threshold);
+        this.threshold = threshold;
+    }
+
     public CompletionType getCompletionType() {
         return completionType;
+    }
+
+    public void setCompletionType(CompletionType completionType) {
+        this.completionType = completionType;
     }
 
     public boolean getIsComplete() {
@@ -143,5 +170,13 @@ public class Goal {
 
     public void setIsComplete(boolean complete) {
         isComplete = complete;
+    }
+
+    public boolean getIsPaused() {
+        return isPaused;
+    }
+
+    public void setIsPaused(boolean paused) {
+        isPaused = paused;
     }
 }
