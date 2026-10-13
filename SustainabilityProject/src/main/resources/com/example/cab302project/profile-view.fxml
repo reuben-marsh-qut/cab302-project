@@ -227,6 +227,17 @@
 
 
 
+
+                <Label text="Choose a profile picture" styleClass="field-label"/>
+
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="300">
+                    <FlowPane fx:id="pfpPicker">
+                        <!-- banners go here once I figure out how-->
+                    </FlowPane>
+                </ScrollPane>
+
+
+
                 <Region prefHeight="18"/>
 
 
@@ -248,15 +259,10 @@
                         <Insets top="24"/>
                     </VBox.margin>
 
-                    <Button fx:id="saveCosmeticsButton"
-                            text="Save Cosmetics"
-                            onAction="#onSaveProfileClick"
-                            prefWidth="160"
-                            styleClass="primary-button"/>
-
                 </HBox>
 
             </VBox>
+
             </VBox>
 
         </ScrollPane>

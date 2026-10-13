@@ -18,6 +18,9 @@ public class ProfileController {
     public VBox bannerCardAreaThing;
 
     @FXML
+    public FlowPane pfpPicker;
+
+    @FXML
     private TextField emailField;
 
     @FXML
@@ -81,6 +84,7 @@ public class ProfileController {
 
         currentUser.giveUserXpTest();
         loadBanners();
+        loadPFPs();
 
         hideProfileMessage();
         hidePasswordMessage();
@@ -531,24 +535,61 @@ public class ProfileController {
         }
     }
 
+    private void loadPFPs()
+    {
+        // Change the following variable upon adding new pfps
+        int numberOfPFPs = 4;
+        int count = 1;
+        while (count <= numberOfPFPs)
+        {
+            if (checkUserLevel(count))
+            {
+                final int pfpNumber = count;
+                Image pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/UserCustomisation/pfp/pfp" + count + ".png")));
+                ImageView pfpImageView = new ImageView(pfp);
+                pfpImageView.setPreserveRatio(true);
+                double width = bannerCardAreaThing.getWidth();
+                width = width - 20;
+                pfpImageView.setFitWidth(225);
+
+                HBox pfpHbox = new HBox();
+                Button pfpButton = new Button("Save Profile Picture" + count);
+                pfpButton.getStyleClass().add("primary-button");
+                pfpButton.setGraphic(pfpImageView);
+                pfpButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                pfpButton.setOnAction(event -> {savePFPCosmetics(pfpNumber);});
+                pfpHbox.getChildren().add(pfpButton);
+                pfpPicker.getChildren().add(pfpHbox);
+            }
+            count++;
+        }
+    }
+
+    // my user pfp save didnt work so I refactored and fixed at the same time
+
+    private void saveSetting(String key, int value)
+    {
+        for (UserSetting setting : UserSettingsDAO.getSettingsByUser(currentUser))
+        {
+
+            if (key.equals(setting.getSettingsKey()))
+            {
+                UserSettingsDAO.updateUserSetting(currentUser.getUserId(), key, value);
+                return;
+
+            }
+        }
+
+        UserSettingsDAO.createUserSetting(currentUser.getUserId(), key, value);
+    }
+
+    private void savePFPCosmetics(int pfpId)
+    {
+        saveSetting("pfpNumber", pfpId);
+    }
+
     private void saveBannerCosmetics(int bannerId)
     {
-        ArrayList<UserSetting> userSettings = UserSettingsDAO.getSettingsByUser(currentUser);
-        int counter = 1;
-        for (UserSetting setting : userSettings)
-        {
-            counter++;
-            if ("bannerNumber".equals( setting.getSettingsKey()))
-            {
-
-                UserSettingsDAO.updateUserSetting(currentUser.getUserId(), "bannerNumber", bannerId);
-
-            }
-            else if (counter == userSettings.size())
-            {
-                UserSettingsDAO.createUserSetting(currentUser.getUserId(), "bannerNumber", bannerId);
-            }
-
-        }
+        saveSetting("bannerNumber", bannerId);
     }
 }
