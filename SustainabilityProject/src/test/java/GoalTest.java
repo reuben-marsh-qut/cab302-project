@@ -190,4 +190,47 @@ public class GoalTest {
         assertThrows(IllegalArgumentException.class,
                 () -> goal.setDueDate(LocalDate.now().minusDays(10)));
     }
+
+    @Test
+    public void testNewGoalIsNotPaused() {
+        assertFalse(goal.getIsPaused(),
+                "A new goal should start out active, not paused.");
+    }
+
+    @Test
+    public void testPausingAGoalMarksItPaused() {
+        goal.setIsPaused(true);
+
+        assertTrue(goal.getIsPaused(),
+                "An active goal should be able to be paused.");
+    }
+
+    @Test
+    public void testPausingAGoalKeepsItsProgress() {
+        Integer progressBeforePausing = goal.getProgress();
+
+        goal.setIsPaused(true);
+
+        assertEquals(progressBeforePausing, goal.getProgress(),
+                "Pausing a goal should retain its existing progress.");
+    }
+
+    @Test
+    public void testResumingAGoalMakesItActiveAgain() {
+        goal.setIsPaused(true);
+        goal.setIsPaused(false);
+
+        assertFalse(goal.getIsPaused(),
+                "A paused goal should be able to be resumed.");
+    }
+
+    @Test
+    public void testResumingAGoalKeepsTheProgressItHadWhilePaused() {
+        goal.setProgress(6);
+        goal.setIsPaused(true);
+        goal.setIsPaused(false);
+
+        assertEquals(6, goal.getProgress(),
+                "Resuming a goal should not disturb its progress.");
+    }
 }
