@@ -47,7 +47,9 @@ public class SidebarController {
 //    private Button socialButton;
 
 //    @FXML
-//    private Button statsButton;
+//    private Button statsButton
+
+    @FXML
     private Button statsButton;
 
     @FXML
@@ -255,14 +257,8 @@ public class SidebarController {
                 }
         );
 
-        MenuItem signOutItem =
-                new MenuItem(
-                        "Sign Out"
-                );
-            }
-        });
+        MenuItem signOutItem = new MenuItem( "Sign Out" );
 
-        MenuItem signOutItem = new MenuItem("Sign Out");
 
         accountMenu =
                 new ContextMenu(
@@ -282,7 +278,7 @@ public class SidebarController {
             }
         });
 
-        accountMenu = new ContextMenu(profileItem, signOutItem);
+        accountMenu = new ContextMenu(profileItem, userSettingsItem, signOutItem);
         accountMenu.getStyleClass().add("account-context-menu");
     }
 
@@ -395,9 +391,11 @@ public class SidebarController {
      * @param resource the FXML resource relative to HelloApplication
      * @throws IOException if the page cannot be loaded
      */
+
     private void openPage(
             Button sourceButton,
             String resource
+
     ) throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource(resource)
