@@ -501,7 +501,8 @@ public class ProfileController {
 
     private boolean checkUserLevel(int wantedLevel)
     {
-        double level = currentUser.getUserLevel();
+        int userXP = currentUser.getUserExperience();
+        int level = new LevelService().getLevel(userXP);
         if (level >= wantedLevel)
         {
             return true;
