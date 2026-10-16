@@ -64,4 +64,21 @@ public class User {
                 ", passwordHash='" + (passwordHash==null ? "null" : "hasPassword") + '\'' +
                 '}';
     }
+
+
+    /**
+     * temporary testing function for user level
+     * @return
+     */
+    public double getUserLevel()
+    {
+        int level = this.userExperience / 100;
+        double flooredLevel = Math.floor(level);
+        return flooredLevel;
+    }
+
+    public void giveUserXpTest()
+    {
+        this.userExperience = this.userExperience + 200;
+    }
 }

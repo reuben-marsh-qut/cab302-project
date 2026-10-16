@@ -41,6 +41,15 @@ public class SidebarController {
     private Button activitiesButton;
 
     @FXML
+    private Button profileButton;
+
+//    @FXML
+//    private Button socialButton;
+
+//    @FXML
+//    private Button statsButton
+
+    @FXML
     private Button statsButton;
 
     @FXML
@@ -217,21 +226,47 @@ public class SidebarController {
      * Creates the profile and sign-out account actions.
      */
     private void createAccountMenu() {
-        MenuItem profileItem = new MenuItem("Your Profile");
 
-        profileItem.setOnAction(event -> {
-            try {
-                openProfilePage();
-            } catch (IOException exception) {
-                throw new RuntimeException(
-                        "Could not open the profile page.",
-                        exception
+        MenuItem userSettingsItem =
+                new MenuItem(
+                        "User Settings"
                 );
-            }
-        });
 
-        MenuItem signOutItem = new MenuItem("Sign Out");
+        MenuItem profileItem =
+                new MenuItem(
+                        "Your Profile"
+                );
 
+        userSettingsItem.setOnAction(
+                event -> {
+                    try {
+                        openSettingsPage();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+
+        profileItem.setOnAction(
+                event -> {
+                    try {
+                        openProfilePage();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+
+        MenuItem signOutItem = new MenuItem( "Sign Out" );
+
+
+        accountMenu =
+                new ContextMenu(
+                        profileItem,
+                        userSettingsItem,
+                        signOutItem
+                  );
+          
         signOutItem.setOnAction(event -> {
             try {
                 signOut();
@@ -243,7 +278,7 @@ public class SidebarController {
             }
         });
 
-        accountMenu = new ContextMenu(profileItem, signOutItem);
+        accountMenu = new ContextMenu(profileItem, userSettingsItem, signOutItem);
         accountMenu.getStyleClass().add("account-context-menu");
     }
 
@@ -304,6 +339,41 @@ public class SidebarController {
         openPage(activitiesButton, "activity-view.fxml");
     }
 
+    @FXML
+    protected void onProfileButtonClick()
+            throws IOException {
+
+        openPage(
+                profileButton,
+                "user-view.fxml"
+        );
+    }
+
+//    @FXML
+//    protected void onSocialButtonClick()
+//            throws IOException {
+//
+//        /*
+//         * There is no dedicated social page yet.
+//         */
+//        openPage(
+//                socialButton,
+//                "goal-view.fxml"
+//        );
+//    }
+
+//    @FXML
+//    protected void onStatsButtonClick()
+//            throws IOException {
+//
+//        /*
+//         * There is no dedicated stats page yet.
+//         */
+//        openPage(
+//                statsButton,
+//                "goal-view.fxml"
+//        );
+//    }
     /**
      * Opens the activity progress report.
      *
@@ -321,9 +391,11 @@ public class SidebarController {
      * @param resource the FXML resource relative to HelloApplication
      * @throws IOException if the page cannot be loaded
      */
+
     private void openPage(
             Button sourceButton,
             String resource
+
     ) throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource(resource)
@@ -335,12 +407,9 @@ public class SidebarController {
         sourceButton.getScene().setRoot(root);
     }
 
-    /**
-     * Opens the authenticated user's profile page.
-     *
-     * @throws IOException if the page cannot be loaded
-     */
-    private void openProfilePage() throws IOException {
+    private void openSettingsPage()
+            throws IOException {
+
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("profile-view.fxml")
         );
@@ -351,12 +420,25 @@ public class SidebarController {
         accountMenuButton.getScene().setRoot(root);
     }
 
-    /**
-     * Loads the login page, clears the session and displays the login screen.
-     *
-     * @throws IOException if the login page cannot be loaded
-     */
-    private void signOut() throws IOException {
+    private void openProfilePage()
+            throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("user-view.fxml")
+        );
+
+        Parent root = loader.load();
+
+        accountMenuButton.getScene().setRoot(root);
+    }
+
+    private void signOut()
+            throws IOException {
+
+        UserSession
+                .getInstance()
+                .clearUserSession();
+
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("login-view.fxml")
         );
