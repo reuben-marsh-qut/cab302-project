@@ -12,6 +12,10 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.Objects;
 
+
+/**
+ * Controls the user settings page
+ */
 public class ProfileController {
 
     @FXML
@@ -55,6 +59,9 @@ public class ProfileController {
 
     private final IUserSettingsDAO UserSettingsDAO;
 
+    /**
+     *  creates new instance of the user settings dao
+     */
     public ProfileController()
     {
         UserSettingsDAO = new UserSettingsDAO();

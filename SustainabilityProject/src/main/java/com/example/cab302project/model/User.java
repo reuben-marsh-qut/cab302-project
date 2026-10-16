@@ -65,6 +65,11 @@ public class User {
                 '}';
     }
 
+
+    /**
+     * temporary testing function for user level
+     * @return
+     */
     public double getUserLevel()
     {
         int level = this.userExperience / 100;

@@ -24,7 +24,9 @@ import java.util.Objects;
 
 import java.util.List;
 
-
+/**
+ * controls the user profile page
+ */
 public class UserPageController
 {
 
@@ -48,6 +50,10 @@ public class UserPageController
     private static final String defaultPFP = "/assets/UserCustomisation/pfp/pfp1.png";
     private static final String defaultBanner = "/assets/UserCustomisation/banners/banner1.png";
 
+
+    /**
+     * creates new instances of the DAOs for use
+     */
     public UserPageController()
     {
         UserSettingsDAO = new UserSettingsDAO();
