@@ -62,6 +62,18 @@
 
         <Label text="Log in to continue your journey."
                styleClass="login-subtitle"/>
+        <Label fx:id="successLabel"
+               visible="false"
+               managed="false"
+               wrapText="true"
+               maxWidth="Infinity"
+               styleClass="success-label">
+
+            <VBox.margin>
+                <Insets top="14"/>
+            </VBox.margin>
+
+        </Label>
 
 
         <Region prefHeight="32"/>
