@@ -10,7 +10,7 @@
 ### US-01 - Register an Account
 
 Priority: Must Have
-Estimated Time: 5 hours
+Story Points: 5 
 
 As a user, I want to create an account so that my goal and progress is stored privately for me.
 
@@ -25,7 +25,7 @@ User story was taken from Reuben + Angus
 ### US-02 - Log In
 
 Priority - Must Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 As a registered user, I want to log in so that I can access my goals and progress
 
@@ -42,7 +42,7 @@ Minor Consolidation
 
 ### US-03 - Update Profile Information
 Priority: Should Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 As a user, I want to update my profile information so that my account details remain current
 
@@ -54,7 +54,7 @@ Acceptance Criteria
 ### US-04 - Log Out
 
 Priority: Should Have
-Estimated Time: 1.5 hours
+Story Points: 1.5 
 
 As a user, I want to log out so that another person using my computer cannot access my account
 
@@ -66,7 +66,7 @@ Acceptance Criteria
 ### US-05 - Browse Goal Templates
 
 Priority: Must Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 As a user, I want to browse available goal templates so that I can choose a wellbeing goal appropriate for me
 
@@ -80,9 +80,9 @@ Acceptance Criteria
 ### US-06 - Create a Long-Term Goal
 
 Priority: Must Have
-Estimated Time: 6 hours
+Story Points: 6 
 
-As a user, I want to create a personalized goal from a goal tempalte so that I can work towards an achievable wellbeing outcome
+As a user, I want to create a personalized goal from a goal template so that I can work towards an achievable wellbeing outcome
 
 Acceptance criteria
 - Given that I select a goal template, when I enter the target and deadline the goal is created
@@ -93,7 +93,7 @@ Acceptance criteria
 ### US-07 - Have Multiple Active Goals
 
 Priority: Should Have
-Estimated Time: 3 hours
+Story Points: 3 
 
 As a user, I want to work towards multiple goals at the same time so that I can improve different areas of my wellbeing
 
@@ -104,7 +104,7 @@ Acceptance Criteria
 
 ### US-08 - Edit a Goal
 Priority: Should have
-Estimated Time: 4 hours
+Story Points: 4 
 
 As a user, I want to edit an active goal so that I Can adjust it when my circumstances change
 
@@ -115,7 +115,7 @@ Acceptance Criteria:
 ### US-09 - Pause and Resume a Goal
 
 Priority: Should have
-Estimated Time: 3 hours
+Story Points: 3 
 
 As a user, I want to pause and resume goals so that I can temporarily stop working towards a goal without losing my progress
 
@@ -127,7 +127,7 @@ Acceptance Criteria
 
 ### US-10 - Delete a Goal
 Priority: Should Have
-Estimated Time: 2 hours
+Story Points: 2 
 
 As a user, I want to remove a goal that I no longer want to pursue so that my active goals remain relevant to me
 
@@ -140,7 +140,7 @@ Acceptance Criteria
 ### US-11 - View Goal Progess
 
 Priority: Must Have
-Estimated Time: 7 hours
+Story Points: 7 
 
 As a user, I want to see my progress towards each goal so that I know how close I am to achieving it
 
@@ -155,7 +155,7 @@ Acceptance Criteria
 
 ### US-12 — View Completed Goals
 **Priority:** Should Have
-Estimated Time: 3 hours
+Story Points: 3 
 
 **As a user, I want to view goals I have completed so that I can see what I have achieved over time.**
 
@@ -168,7 +168,7 @@ Estimated Time: 3 hours
 
 ### US-13 — Receive Goal Recommendations
 **Priority:** Should Have
-Estimated Time: 5 hours
+Story Points: 5 
 
 **As a user, I want the application to recommend goals in areas where I have been less active so that I can develop more balanced wellbeing behaviors.**
 
@@ -181,7 +181,7 @@ Estimated Time: 5 hours
 
 ### US-14 — Reconsider an Unsuccessful Goal
 **Priority:** Should Have
-Estimated Time: 5 hours
+Story Points: 5 
 
 **As a user, I want the application to suggest reconsidering a goal when I consistently struggle with its activities so that I can choose something more achievable.**
 
@@ -197,7 +197,7 @@ Estimated Time: 5 hours
 
 ### US-15 — Generate Habits From Goals
 **Priority:** Must Have
-Estimated Time: 6 hours
+Story Points: 6 
 
 **As a user, I want appropriate habits to be established from my goals so that I have repeatable behaviors that help me make progress.**
 
@@ -210,7 +210,7 @@ Estimated Time: 6 hours
 
 ### US-16 — Understand How a Habit Supports a Goal
 **Priority:** Must Have
-Estimated Time: 2 hours
+Story Points: 2 
 
 **As a user, I want to see how a habit relates to my goal so that I understand why I am being asked to complete it.**
 
@@ -223,7 +223,7 @@ Estimated Time: 2 hours
 
 ### US-17 — Track Habit Completion
 **Priority:** Must Have
-Estimated Time: 7 hours
+Story Points: 7 
 
 **As a user, I want my recurring habit completions to be tracked so that I can monitor whether I am maintaining healthy behaviors.**
 
@@ -239,7 +239,7 @@ Estimated Time: 7 hours
 
 ### US-18 — View Activities I Need to Complete
 **Priority:** Must Have
-Estimated Time: 5 hours
+Story Points: 5 
 
 **As a user, I want to see my upcoming activities so that I know what I should work on next.**
 
@@ -253,7 +253,7 @@ Estimated Time: 5 hours
 
 ### US-19 — Complete an Activity
 **Priority:** Must Have
-Estimated Time: 5 hours
+Story Points: 5 
 
 **As a user, I want to mark an activity as completed so that my progress is recorded.**
 
@@ -267,7 +267,7 @@ Estimated Time: 5 hours
 
 ### US-20 — Complete Standalone Activities
 **Priority:** Must Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 **As a user, I want to complete activities outside my existing goals so that I can engage in additional positive wellbeing behaviors.**
 
@@ -281,7 +281,7 @@ Estimated Time: 4 hours
 
 ## US-21 — View Activity Information
 **Priority:** Must Have
-Estimated Time: 2 hours
+Story Points: 2 
 
 **As a user, I want to see information about an activity so that I understand what I need to do and what progress it contributes towards.**
 
@@ -295,7 +295,7 @@ Estimated Time: 2 hours
 
 ### US-22 — View Completed Activities
 **Priority:** Must Have
-Estimated Time: 3 hours
+Story Points: 3 
 
 **As a user, I want to view my completed activities so that I can review what I have accomplished.**
 
@@ -309,7 +309,7 @@ Estimated Time: 3 hours
 
 ### US-23 — Search and Filter Activities
 **Priority:** Could Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 **As a user, I want to search and filter activities so that I can quickly find relevant items.**
 
@@ -324,7 +324,7 @@ Estimated Time: 4 hours
 
 ### US-24 — Earn XP
 **Priority:** Must Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 **As a user, I want to earn XP when I complete activities so that I feel rewarded for making positive progress.**
 
@@ -338,7 +338,7 @@ Estimated Time: 4 hours
 
 ### US-25 — Increase My Level
 **Priority:** Must Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 **As a user, I want my level to increase as I earn XP so that I have a visible sense of progression.**
 
@@ -351,7 +351,7 @@ Estimated Time: 4 hours
 
 ### US-26 — Build Habit Streaks
 **Priority:** Should Have
-Estimated Time: 6 hours
+Story Points: 6 
 
 **As a user, I want to build streaks by consistently completing habits so that I am motivated to maintain positive behaviors.**
 
@@ -365,7 +365,7 @@ Estimated Time: 6 hours
 
 ### US-27 — Earn and View Rewards
 **Priority:** Should Have
-Estimated Time: 6 hours
+Story Points: 6 
 
 **As a user, I want to unlock rewards when I achieve milestones so that my progress feels meaningful and rewarding.**
 
@@ -381,7 +381,7 @@ Estimated Time: 6 hours
 
 ### US-28 — View Progress Over Time
 **Priority:** Must Have
-Estimated Time: 7 hours
+Story Points: 7 
 
 **As a user, I want to view my activity progress over time so that I can see how consistently I have been working on my wellbeing.**
 
@@ -395,7 +395,7 @@ Estimated Time: 7 hours
 
 ### US-29 — Compare Wellbeing Categories
 **Priority:** Should Have
-Estimated Time: 5 hours
+Story Points: 5 
 
 **As a user, I want to compare my Mind, Body and Social progress so that I can identify areas of my wellbeing receiving less attention.**
 
@@ -411,7 +411,7 @@ Estimated Time: 5 hours
 
 ### US-30 — Navigate the Main Application
 **Priority:** Must Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 **As a user, I want to easily navigate between the application's primary features so that I can use Rooted without unnecessary effort.**
 
@@ -424,7 +424,7 @@ Estimated Time: 4 hours
 
 ### US-31 — Use Different Window Sizes
 **Priority:** Must Have
-Estimated Time: 6 hours
+Story Points: 6 
 
 **As a user, I want the application to remain usable when its window size changes so that I can use it on different displays.**
 
@@ -437,7 +437,7 @@ Estimated Time: 6 hours
 
 ### US-32 — Persist My Progress
 **Priority:** Must Have
-Estimated Time: 6 hours
+Story Points: 6 
 
 **As a user, I want my progress to remain saved after I close the application so that I do not lose my work.**
 
@@ -452,7 +452,7 @@ Estimated Time: 6 hours
 
 ### CE-01 — High-Contrast Theme
 **Priority:** Could Have
-Estimated Time: 4 hours
+Story Points: 4 
 
 **As a user with visual accessibility needs, I want a high-contrast display option so that application content is easier to distinguish.**
 
@@ -460,7 +460,7 @@ Estimated Time: 4 hours
 
 ### CE-02 — Screen Reader Accessibility
 **Priority:** Could Have
-Estimated Time: 8 hours
+Story Points: 8 
 
 **As a user who relies on assistive technology, I want application controls and content to work effectively with screen readers so that I can navigate the application.**
 
@@ -468,7 +468,7 @@ Estimated Time: 8 hours
 
 ### CE-03 — Notification Reminders
 **Priority:** Could Have
-Estimated Time: 6 hours
+Story Points: 6 
 
 **As a user, I want optional reminders for activities so that I am encouraged to remain consistent.**
 
@@ -476,7 +476,7 @@ Estimated Time: 6 hours
 
 ### CE-04 — Application Theme Customisation
 **Priority:** Could Have
-Estimated Time: 5 hours
+Story Points: 5 
 
 **As a user, I want to customize the visual theme so that I can choose an interface I find comfortable.**
 
