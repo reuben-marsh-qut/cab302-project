@@ -15,6 +15,7 @@
     </padding>
 
     <Label fx:id="habitNameLabel" styleClass="page-header"/>
+    <Label fx:id="xpRewardLabel"/>
 
     <Text fx:id="categoryText"/>
     <Text fx:id="goalText"/>
@@ -22,7 +23,8 @@
     <Text fx:id="startDateText"/>
     <Text fx:id="endDateText"/>
     <Text fx:id="progressText"/>
-    
+
+
     <HBox spacing="100" fx:id="completeHabitActivityButtons">
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Update your progress!"/>
@@ -33,8 +35,13 @@
 
         <VBox spacing="20">
             <Label styleClass="page-subheader" text="Mark your habit as complete!"/>
-            <Button styleClass="primary-button" mnemonicParsing="false" onAction="#onComplete" prefHeight="40.0" prefWidth="200.0"
-                    text="Mark as Complete"/>
+            <Button fx:id="completeButton"
+                    mnemonicParsing="false"
+                    onAction="#onComplete"
+                    prefHeight="40.0"
+                    prefWidth="200.0"
+                    text="Mark as Complete"
+                    styleClass="primary-button"/>
         </VBox>
     </HBox>
 

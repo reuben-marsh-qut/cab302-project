@@ -4,166 +4,306 @@ import com.example.cab302project.DatabaseConnection;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
-import javafx.concurrent.Task;
 
 import java.sql.*;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class HabitDAO implements IHabitDAO{
-    @Override
-    public boolean addHabit(Habit habit) {
-        Connection conn = DatabaseConnection.getInstance();
+
+    private final Connection suppliedConnection;
+
+    /**
+     * Creates a DAO that uses the shared application connection.
+     *
+     * <p>The connection is obtained only when a database operation runs.</p>
+     */
+    public HabitDAO() {
+        suppliedConnection = null;
+    }
+
+    /**
+     * Creates a DAO using a supplied connection.
+     *
+     * @param connection the database connection
+     * @throws NullPointerException if the connection is null
+     */
+    public HabitDAO(Connection connection) {
+        suppliedConnection = Objects.requireNonNull(connection);
+    }
+
+    /**
+     * Returns the supplied connection or the application connection.
+     *
+     * @return the connection used for database operations
+     */
+    private Connection getConnection() {
+        return suppliedConnection != null
+                ? suppliedConnection
+                : DatabaseConnection.getInstance();
+    }
+
+    /**
+     * Converts the current result row into a habit.
+     *
+     * <p>For compatibility with existing callers, absent goal and habit
+     * IDs are represented as zero. Stored timestamps have whole-second
+     * precision and are converted into the system's local time.</p>
+     *
+     * @param results the result set positioned at a habit row
+     * @return the habit represented by that row
+     */
+    protected Habit habitFromDatabaseRequest(ResultSet results) {
         try {
-            PreparedStatement insertInto = conn.prepareStatement("INSERT INTO habits (goalId , userId , baseXpReward , habitTitle, taskType, catagory, repeatFrequencyType, repeatFrequency, startsAtUnixTime, dueUnixTime, completionThreshold, doesContributeDirectlyToGoal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-            insertInto.setInt(1,habit.getGoalId());
-            insertInto.setInt(2,habit.getUserId());
-            insertInto.setInt(3,habit.getBaseXpReward());
-            insertInto.setString(4,habit.getTitle());
-            insertInto.setInt(5, habit.getHabitType().ordinal());
-            insertInto.setInt(6, habit.getCategory().ordinal());
-            insertInto.setInt(7, habit.getRepeatFrequencyType().ordinal());
-            insertInto.setInt(8, habit.getRepeatFrequency());
-            ZoneId timezone = ZoneId.systemDefault();
-            insertInto.setInt(9, habit.getStartDateTime().atStartOfDay(timezone).getSecond());
-            insertInto.setInt(10, habit.getDueDateTime().atStartOfDay(timezone).getSecond());
-            insertInto.setInt(11, habit.getCompletionThreshold());
-            insertInto.setInt(12, habit.getDoesContributeDirectlyToGoal() ? 1:0);
+            Habit habit = new Habit(
+                    results.getInt("goalId"),
+                    results.getInt("userId"),
+                    results.getString("habitTitle"),
+                    Category.values()[results.getInt("catagory")],
+                    TaskType.values()[results.getInt("taskType")],
+                    results.getInt("repeatFrequency"),
+                    RepeatFrequencyType.values()[results.getInt("repeatFrequencyType")],
+                    readDate(results, "startsAtUnixTime"),
+                    readDate(results, "dueUnixTime"),
+                    results.getInt("completionThreshold"),
+                    results.getInt("baseXpReward"),
+                    results.getBoolean("doesContributeDirectlyToGoal")
+            );
 
-            int rowsAffected = insertInto.executeUpdate();
-//            System.out.println(rowsAffected);
-            if (rowsAffected!=1){
-                return false;
-            }
+            habit.setId(results.getInt("habitId"));
 
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            if (e.getMessage().contains("UNIQUE")){
-                return false;
-            }
-            throw new RuntimeException(e);
+            return habit;
+        } catch (SQLException exception) {
+            throw new RuntimeException("Could not read habit.", exception);
+        }
+    }
+
+    /**
+     * Converts the current result row into an activity.
+     *
+     * <p>For compatibility with existing callers, absent goal and habit
+     * IDs are represented as zero. Stored timestamps have whole-second
+     * precision and are converted into the system's local time.</p>
+     *
+     * @param results the result set positioned at an activity row
+     * @return the activity represented by that row
+     */
+    protected Activity activityFromDatabaseRequest(ResultSet results) {
+        try {
+            Activity activity = new Activity(
+                    results.getInt("goalId"),
+                    results.getInt("habitId"),
+                    results.getInt("userId"),
+                    results.getString("taskTitle"),
+                    Category.values()[results.getInt("catagory")],
+                    TaskType.values()[results.getInt("taskType")],
+                    readDateTime(results, "startsAtUnixTime"),
+                    readDateTime(results, "dueUnixTime"),
+                    results.getInt("progress"),
+                    results.getInt("completionThreshold"),
+                    results.getInt("baseXpReward"),
+                    results.getInt("awardedXpReward"),
+                    results.getBoolean("doesContributeDirectlyToGoal")
+            );
+
+            activity.setId(results.getInt("taskId"));
+            activity.setCompletedAt(
+                    readDateTime(results, "completedAtUnixTime")
+            );
+
+            return activity;
+        } catch (SQLException exception) {
+            throw new RuntimeException("Could not read activity.", exception);
+        }
+    }
+
+    /**
+     * Reads a nullable Unix timestamp as a local date.
+     *
+     * @param results the current result row
+     * @param column the timestamp column
+     * @return the local date, or null for SQL NULL
+     * @throws SQLException if the column cannot be read
+     */
+    private LocalDate readDate(
+            ResultSet results,
+            String column
+    ) throws SQLException {
+        long seconds = results.getLong(column);
+
+        if (results.wasNull()) {
+            return null;
+        }
+
+        return Instant.ofEpochSecond(seconds)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    /**
+     * Reads a nullable Unix timestamp as a local date and time.
+     *
+     * @param results the current result row
+     * @param column the timestamp column
+     * @return the local date and time, or null for SQL NULL
+     * @throws SQLException if the column cannot be read
+     */
+    private LocalDateTime readDateTime(
+            ResultSet results,
+            String column
+    ) throws SQLException {
+        long seconds = results.getLong(column);
+
+        if (results.wasNull()) {
+            return null;
+        }
+
+        return Instant.ofEpochSecond(seconds)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+    }
+
+    /**
+     * Binds the habit fields shared by insert and update statements.
+     *
+     * @param statement the statement to populate
+     * @param habit the habit whose values are written
+     * @throws SQLException if parameter binding fails
+     */
+    private void bindHabit(
+            PreparedStatement statement,
+            Habit habit
+    ) throws SQLException {
+        setOptionalId(statement, 1, habit.getGoalId());
+
+        statement.setInt(2, habit.getUserId());
+        statement.setInt(3, habit.getBaseXpReward());
+        statement.setString(4, habit.getTitle());
+        statement.setInt(5, habit.getCategory().ordinal());
+        statement.setInt(6, habit.getHabitType().ordinal());
+        statement.setInt(7, habit.getRepeatFrequencyType().ordinal());
+        statement.setInt(8, habit.getRepeatFrequency());
+
+        setDate(statement, 9, habit.getStartDateTime());
+        setDate(statement, 10, habit.getDueDateTime());
+
+        statement.setInt(11, habit.getCompletionThreshold());
+        statement.setInt(
+                12,
+                habit.getDoesContributeDirectlyToGoal() ? 1 : 0
+        );
+    }
+
+    /**
+     * Binds a nullable date and time as Unix seconds.
+     *
+     * @param statement the statement to populate
+     * @param index the parameter index
+     * @param value the date and time, or null
+     * @throws SQLException if parameter binding fails
+     */
+    private void setDate(
+            PreparedStatement statement,
+            int index,
+            LocalDate value
+    ) throws SQLException {
+        if (value == null) {
+            statement.setNull(index, Types.INTEGER);
+        } else {
+            statement.setLong(
+                    index,
+                    value.atStartOfDay(ZoneId.systemDefault()).toEpochSecond()
+            );
+        }
+    }
+
+    /**
+     * Binds an optional foreign key, treating zero as absent.
+     *
+     * @param statement the statement to populate
+     * @param index the parameter index
+     * @param id the optional ID
+     * @throws SQLException if parameter binding fails
+     */
+    private void setOptionalId(
+            PreparedStatement statement,
+            int index,
+            Integer id
+    ) throws SQLException {
+        if (id == null || id == 0) {
+            statement.setNull(index, Types.INTEGER);
+        } else {
+            statement.setInt(index, id);
         }
     }
 
     @Override
-    public boolean updateHabit(Habit habit) {
-        Connection conn = DatabaseConnection.getInstance();
-        try {
-            PreparedStatement getHabit = conn.prepareStatement("SELECT * FROM habits WHERE habitId=?");
-            getHabit.setInt(1, habit.getId());
-            ResultSet doesOtherExist = getHabit.executeQuery();
-            if (!doesOtherExist.next()) {
-                return false;
-            }
-            if (doesOtherExist.getInt("habitId")!=habit.getId()){
-                return false;
-            }
-            PreparedStatement update = conn.prepareStatement("UPDATE habits SET goalId=?, userId=?, baseXpReward=?, habitTitle=?, taskType=?, catagory=?, repeatFrequencyType=?, repeatFrequency=?, startsAtUnixTime=?, dueUnixTime=?, completionThreshold=?, doesContributeDirectlyToGoal=? WHERE habitId=?");
+    public void updateHabit(Habit habit) {
 
-            update.setInt(1,habit.getGoalId());
-            update.setInt(2,habit.getUserId());
-            update.setInt(3,habit.getBaseXpReward());
-            update.setString(4,habit.getTitle());
-            update.setInt(5, habit.getHabitType().ordinal());
-            update.setInt(6, habit.getCategory().ordinal());
-            update.setInt(7, habit.getRepeatFrequencyType().ordinal());
-            update.setInt(8, habit.getRepeatFrequency());
-            ZoneId timezone = ZoneId.systemDefault();
-            update.setInt(9, habit.getStartDateTime().atStartOfDay(timezone).getSecond());
-            update.setInt(10, habit.getDueDateTime().atStartOfDay(timezone).getSecond());
-            update.setInt(11, habit.getCompletionThreshold());
-            update.setInt(12, habit.getDoesContributeDirectlyToGoal() ? 1:0);
-            update.setInt(13,habit.getId());
-            if (update.executeUpdate()!=1){
-                throw new RuntimeException("update did not work"); // should just return null instead idk?
-            }
-            return false;
+        String sql = "UPDATE habits SET goalId=?, userId=?, baseXpReward=?, habitTitle=?, taskType=?, catagory=?, repeatFrequencyType=?, " +
+                "repeatFrequency=?, startsAtUnixTime=?, dueUnixTime=?, completionThreshold=?, doesContributeDirectlyToGoal=? WHERE habitId=?";
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        try (PreparedStatement statement =
+                     getConnection().prepareStatement(sql)) {
+            bindHabit(statement, habit);
+            statement.setInt(10, habit.getId());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Could not update habit.", exception);
         }
     }
 
     @Override
     public void deleteHabit(Habit habit) {
-        Connection conn = DatabaseConnection.getInstance();
-        try {
-            PreparedStatement deleteUser = conn.prepareStatement("DELETE FROM habits WHERE habitId=?");
-            deleteUser.setInt(1,habit.getId());
-            deleteUser.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        String sql = "DELETE FROM habits WHERE goalId = ?";
+
+        try (PreparedStatement statement =
+                     getConnection().prepareStatement(sql)) {
+            statement.setInt(1, habit.getId());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Could not delete habit.", exception);
         }
     }
 
     @Override
     public Habit getHabitById(int id) {
-        Connection conn = DatabaseConnection.getInstance();
+        List<Habit> habits = queryHabits(
+                "SELECT * FROM habits WHERE habitId=?",
+                id
+        );
 
-        try {
-            PreparedStatement getHabit = conn.prepareStatement("SELECT * FROM habits WHERE habitId=?");
-
-            getHabit.setInt(1,id);
-
-            ResultSet habitSet = getHabit.executeQuery();
-            if (!habitSet.next()) {
-                return null;
-            }
-            return habitFromResultSet(habitSet);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (habits.isEmpty()) {
+            return null;
         }
+
+        return habits.getFirst();
     }
 
     @Override
     public List<Habit> getHabitsByUserId(int id) {
-        Connection conn = DatabaseConnection.getInstance();
-        List<Habit> habits = new ArrayList<Habit>();
-
-        try {
-            // TODO: document that this returns tasks oldest to youngest in docstring
-            PreparedStatement getHabits = conn.prepareStatement("SELECT * FROM habits WHERE userId=? ORDER BY habitId ASC");
-            getHabits.setInt(1,id);
-            ResultSet habitSet = getHabits.executeQuery();
-
-            while (habitSet.next()){
-                habits.add(habitFromResultSet(habitSet));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return habits;
+        return queryHabits(
+                "SELECT * FROM habits WHERE userId=? ORDER BY habitId ASC",
+                id
+        );
     }
 
     @Override
     public List<Habit> getAllHabits() {
-        Connection conn = DatabaseConnection.getInstance();
-        List<Habit> habits = new ArrayList<Habit>();
-
-        try {
-            // TODO: document that this returns tasks oldest to youngest in docstring kinda
-            PreparedStatement getHabits = conn.prepareStatement("SELECT * FROM habits ORDER BY habitId ASC");
-            ResultSet habitSet = getHabits.executeQuery();
-            while (habitSet.next()){
-                habits.add(habitFromResultSet(habitSet));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return habits;
+        return queryHabits(
+                "SELECT * FROM habits ORDER BY habitId ASC",
+                null
+        );
     }
 
 
     @Override
     public int getHabitCompletionStreak(Habit habit) {
         List<Activity> tasks = getAllAssociatedTasks(habit);
-        // get all tasks
-        // what is the interval?
-        // assume complete tasks align with the repeat interval
-        // if stretch broken return zero else
+
         int streak = 0;
         for (int i = 0; i < tasks.size(); i++) {
             Activity task = tasks.get(i);
@@ -180,145 +320,98 @@ public class HabitDAO implements IHabitDAO{
 
     @Override
     public Activity getCurrentAssociatedTask(Habit habit) {
-        Connection conn = DatabaseConnection.getInstance();
-        List<Activity> tasks = new ArrayList<Activity>();
-        Activity task = null;
-        ActivityDAO dao = new ActivityDAO();
-        ZoneId timezone = ZoneId.systemDefault();
-        try {
-            // DESC grabs the latest task first
-            PreparedStatement getTasks = conn.prepareStatement("SELECT * FROM tasks WHERE habitId=? AND startsAtUnixTime <= ? AND dueUnixTime >= ? ORDER BY habitId DESC");
-            getTasks.setInt(1,habit.getId());
-            long now = Instant.now().getEpochSecond();
-            getTasks.setLong(2,now);
-            getTasks.setLong(3,now);
-//            getTasks.setLong(2,habit.getStartDateTime().atStartOfDay(timezone).toEpochSecond());
-//            getTasks.setLong(3,habit.getDueDateTime().atStartOfDay(timezone).toEpochSecond());
-            ResultSet taskSet = getTasks.executeQuery();
-            while (taskSet.next()){
-                tasks.add(dao.activityFromDatabaseRequest(taskSet));
+        List<Activity> tasks = queryActivities(
+                "SELECT * FROM tasks WHERE habitId=? AND startsAtUnixTime <= ? AND dueUnixTime >= ? ORDER BY habitId DESC",
+                habit.getId(),
+                habit.getStartDateTime(),
+                habit.getDueDateTime()
+        );
 
-            }
-//            System.out.println("sz"+ tasks.size());
-            task = tasks.getFirst();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchElementException e){
+        try {
+            return tasks.getFirst();
+        } catch (NoSuchElementException e) {
             return null;
         }
-//        LocalDate dateOfTask = LocalDate.now();
-//        List<Activity> tasks = getAllAssociatedTasks(habit);
-        return task;
     }
 
     // TODO: document that this returns tasks oldest to youngest in docstring
     @Override
     public List<Activity> getAllAssociatedTasks(Habit habit) {
-        Connection conn = DatabaseConnection.getInstance();
-        List<Activity> tasks = new ArrayList<Activity>();
+        return queryActivities(
+                "SELECT * FROM tasks WHERE habitId=? ORDER BY startsAtUnixTime ASC",
+                habit.getId()
+        );
+    }
+
+    private void createActivityFromHabit(Habit habit) {
         ActivityDAO dao = new ActivityDAO();
-        try {
-            PreparedStatement getTasks = conn.prepareStatement("SELECT * FROM tasks WHERE habitId=? ORDER BY startsAtUnixTime ASC");
-            getTasks.setInt(1,habit.getId());
-//
-            ResultSet taskSet = getTasks.executeQuery();
-            while (taskSet.next()){
-                tasks.add(dao.activityFromDatabaseRequest(taskSet));
-//                System.out.println(tasks.getFirst().getTitle() + " eee");
+
+        LocalDate endUnix;
+        LocalDate startDate = habit.getStartDateTime();
+        Integer repeatFrequency = habit.getRepeatFrequency();
+
+        switch (habit.getRepeatFrequencyType()){
+            case DAILY -> {
+                endUnix = startDate.plusDays(repeatFrequency);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            case WEEKLY -> {
+                endUnix = startDate.plusDays(repeatFrequency*7);
+            }
+            case MONTHLY -> {
+                endUnix = startDate.plusMonths(repeatFrequency);
+            }
+            case YEARLY -> {
+                endUnix = startDate.plusYears(repeatFrequency);
+            }
+            default -> {
+                endUnix = startDate.plusDays(repeatFrequency);
+            }
         }
-        return tasks;
-    }
 
-
-    private Habit habitFromResultSet(ResultSet res) throws SQLException {
-        ZoneId timezone = ZoneId.systemDefault();
-        return new Habit(
-                res.getInt("habitId"),
-                res.getInt("goalId"),
-                res.getInt("userId"),
-                res.getString("habitTitle"),
-                Category.values()[res.getInt("catagory")],
-                TaskType.values()[res.getInt("taskType")],
-                res.getInt("repeatFrequency"),
-                RepeatFrequencyType.values()[res.getInt("repeatFrequencyType")],
-                Instant.ofEpochSecond(res.getInt("startsAtUnixTime")).atZone(timezone).toLocalDate(),
-                Instant.ofEpochSecond(res.getInt("dueUnixTime")).atZone(timezone).toLocalDate(),
-                res.getInt("completionThreshold"),
-                res.getInt("baseXpReward"),
-                res.getBoolean("doesContributeDirectlyToGoal")
-            );
-    }
-
-    @Override
-    public boolean createHabit(Goal goal, User user, String title, Category category, TaskType taskType, int completionThreshold, int baseXpReward, int repeatFrequency, RepeatFrequencyType repeatFrequencyType,LocalDate startDate, LocalDate endDate, boolean doesContributeDirectlyToGoal) {
-        Connection conn = DatabaseConnection.getInstance();
         try {
-            PreparedStatement insertInto = conn.prepareStatement("INSERT INTO habits (goalId , userId , baseXpReward , habitTitle, taskType, catagory, repeatFrequencyType, repeatFrequency, startsAtUnixTime, dueUnixTime, completionThreshold, doesContributeDirectlyToGoal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) RETURNING habitId");
-            if (goal == null){
-                insertInto.setNull(1, Types.INTEGER);
-            } else {
-                insertInto.setInt(1,goal.getId());
-            }
-
-            insertInto.setInt(2,user.getUserId());
-            insertInto.setInt(3,baseXpReward);
-            insertInto.setString(4,title);
-            insertInto.setInt(5, taskType.ordinal());
-            insertInto.setInt(6, category.ordinal());
-            insertInto.setInt(7, repeatFrequencyType.ordinal());
-            insertInto.setInt(8, repeatFrequency);
-            ZoneId timezone = ZoneId.systemDefault();
-            long startUnix = startDate.atStartOfDay(timezone).toEpochSecond();
-            long endHabitUnix = endDate.atStartOfDay(timezone).toEpochSecond();
-
-//            System.out.println(startUnix+" " +endUnix);
-            insertInto.setLong(9,startUnix);
-            insertInto.setLong(10, endHabitUnix);
-            insertInto.setInt(11, completionThreshold);
-            insertInto.setInt(12, doesContributeDirectlyToGoal ? 1:0);
-
-            ResultSet rs = insertInto.executeQuery();
-//            System.out.println(rowsAffected);
-            int habitId = -1;
-            while (rs.next()){
-                habitId = rs.getInt("habitId");
-            }
-
-            ActivityDAO dao = new ActivityDAO();
-            LocalDate endUnix;
-//            int numberOfHabits;
-            switch (repeatFrequencyType){
-                case DAILY -> {
-                    endUnix = startDate.plusDays(repeatFrequency);
-                }
-                case WEEKLY -> {
-                    endUnix = startDate.plusDays(repeatFrequency*7);
-                }
-                case MONTHLY -> {
-                    endUnix = startDate.plusMonths(repeatFrequency);
-                }
-                case YEARLY -> {
-                    endUnix = startDate.plusYears(repeatFrequency);
-                }
-                default -> {
-                    endUnix = startDate.plusDays(repeatFrequency);
-                }
-            }
-//            for
-            dao.addActivity(new Activity((goal==null) ? 0 : goal.getId(), habitId,user.getUserId(), title,category, taskType, startDate.atStartOfDay(), endUnix.atStartOfDay().minusSeconds(1),0,completionThreshold,baseXpReward,0,doesContributeDirectlyToGoal));
-
-            return true;
-        } catch (SQLException e) {
+            dao.addActivity(new Activity((habit.getGoalId()==null) ? 0 : habit.getGoalId(), habit.getId(),habit.getUserId(),
+                    habit.getTitle(),habit.getCategory(), habit.getHabitType(), startDate.atStartOfDay(),
+                    endUnix.atStartOfDay().minusSeconds(1),0,habit.getCompletionThreshold(),habit.getBaseXpReward(),
+                    0,habit.getDoesContributeDirectlyToGoal()));
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-            if (e.getMessage().contains("UNIQUE")){
-                return false;
-            }
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Adds a habit to the database.
+     * @param habit the habit to add
+     */
+    @Override
+    public void createHabit(Habit habit)
+    {
+        String sql = "INSERT INTO habits (goalId , userId , baseXpReward , habitTitle, catagory, " +
+                "taskType, repeatFrequencyType, repeatFrequency, startsAtUnixTime, " +
+                "dueUnixTime, completionThreshold, doesContributeDirectlyToGoal) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        try (PreparedStatement statement =
+                     getConnection().prepareStatement(sql)) {
+
+            if (habit.getGoalId() == null){
+                statement.setNull(1, Types.INTEGER);
+            } else {
+                statement.setInt(1,habit.getGoalId());
+            }
+
+            bindHabit(statement, habit);
+            statement.executeUpdate();
+            habit.setId(statement.getGeneratedKeys().getInt(1));
+        } catch (SQLException exception) {
+            throw new RuntimeException("Could not create goal.", exception);
+        }
+
+        // Now we have created the goal, we have to create the activity
+
+        createActivityFromHabit(habit);
+    }
+
 
     public void debugCreateAssociatedTasks(Habit habit, int completionProgress, LocalDate startTime, LocalDate endTime){
         ActivityDAO dao = new ActivityDAO();
@@ -330,8 +423,70 @@ public class HabitDAO implements IHabitDAO{
 
     }
 
-//    @Override
-//    public boolean createHabit(User user, String title, Category category, CompletionType completionType, int completionThreshold, int baseXpReward, int repeatFrequency, RepeatFrequencyType repeatFrequencyType, LocalDate endDate) {
-//        return createHabit(null, user,title,category,completionType,completionThreshold,baseXpReward,repeatFrequency,repeatFrequencyType,endDate);
-//    }
+
+    /**
+     * Runs a habit query with an optional user ID parameter.
+     *
+     * @param sql the query to run
+     * @param id the user filter, or null for an unfiltered query
+     * @return the matching habits
+     */
+    private List<Habit> queryHabits(String sql, Integer id) {
+        try (PreparedStatement statement =
+                     getConnection().prepareStatement(sql)) {
+            if (id != null) {
+                statement.setInt(1, id);
+            }
+
+            List<Habit> habits = new ArrayList<>();
+
+            try (ResultSet results = statement.executeQuery()) {
+                while (results.next()) {
+                    habits.add(habitFromDatabaseRequest(results));
+                }
+            }
+
+            return habits;
+        } catch (SQLException exception) {
+            throw new RuntimeException("Could not load habits.", exception);
+        }
+    }
+
+    /**
+     * Runs an activity query with an optional habit ID parameter.
+     *
+     * @param sql the query to run
+     * @param habitId the habit filter, or null for an unfiltered query
+     * @return the matching activities
+     */
+    private List<Activity> queryActivities(String sql, Integer habitId, LocalDate startDateTime, LocalDate dueDateTime) {
+        try (PreparedStatement statement =
+                     getConnection().prepareStatement(sql)) {
+            if (habitId != null) {
+                statement.setInt(1, habitId);
+            }
+            if (startDateTime != null) {
+                setDate(statement, 2, startDateTime);
+            }
+            if (dueDateTime != null) {
+                setDate(statement, 3, startDateTime);
+            }
+
+            List<Activity> activities = new ArrayList<>();
+
+            try (ResultSet results = statement.executeQuery()) {
+                while (results.next()) {
+                    activities.add(activityFromDatabaseRequest(results));
+                }
+            }
+
+            return activities;
+        } catch (SQLException exception) {
+            throw new RuntimeException("Could not load activities.", exception);
+        }
+    }
+
+    private List<Activity> queryActivities(String sql, Integer habitId) {
+        return queryActivities(sql, habitId, null, null);
+    }
 }

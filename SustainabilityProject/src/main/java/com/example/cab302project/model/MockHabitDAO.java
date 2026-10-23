@@ -13,22 +13,13 @@ public class MockHabitDAO implements IHabitDAO {
     private int autoIncrementedId = 0;
 
     @Override
-    public boolean addHabit(Habit activity) {
-        activity.setId(autoIncrementedId);
-        autoIncrementedId++;
-        habits.add(activity);
-        return true;
-    }
-
-    @Override
-    public boolean updateHabit(Habit activity) {
+    public void updateHabit(Habit activity) {
         for (int i = 0; i < habits.size(); i++) {
             if (habits.get(i).getId() == activity.getId()) {
                 habits.set(i, activity);
                 break;
             }
         }
-        return false;
     }
 
     @Override
@@ -72,7 +63,9 @@ public class MockHabitDAO implements IHabitDAO {
     }
 
     @Override
-    public boolean createHabit(Goal goal, User user, String title, Category category, TaskType taskType, int completionThreshold, int baseXpReward, int repeatFrequency, RepeatFrequencyType repeatFrequencyType, LocalDate startDate, LocalDate endDate, boolean doesContributeDirectlyToGoal) {
-        return false;
+    public void createHabit(Habit habit) {
+        habit.setId(autoIncrementedId);
+        autoIncrementedId++;
+        habits.add(habit);
     }
 }
