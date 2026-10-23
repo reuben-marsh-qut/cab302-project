@@ -13,22 +13,13 @@ public class MockHabitDAO implements IHabitDAO {
     private int autoIncrementedId = 0;
 
     @Override
-    public boolean addHabit(Habit activity) {
-        activity.setId(autoIncrementedId);
-        autoIncrementedId++;
-        habits.add(activity);
-        return true;
-    }
-
-    @Override
-    public boolean updateHabit(Habit activity) {
+    public void updateHabit(Habit activity) {
         for (int i = 0; i < habits.size(); i++) {
             if (habits.get(i).getId() == activity.getId()) {
                 habits.set(i, activity);
                 break;
             }
         }
-        return false;
     }
 
     @Override

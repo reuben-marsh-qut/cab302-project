@@ -97,11 +97,11 @@ public class HabitManager {
                 .toList();
     }
 
-    /**
-     * Adds a habit to the database
-     * @param habit the habit to add
-     */
-    public void addHabit(Habit habit) {
-        habitDAO.addHabit(habit);
-    }
+//    /**
+//     * Adds a habit to the database
+//     * @param habit the habit to add
+//     */
+//    public void addHabit(Habit habit) {
+//        habitDAO.addHabit(habit);
+//    }
 }
