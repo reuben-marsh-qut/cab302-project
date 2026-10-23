@@ -9,6 +9,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -57,6 +58,9 @@ public class ProfileController {
     @FXML
     private FlowPane bannerPicker;
 
+    @FXML
+    private Label profileCosmeticsLabel;
+
     private final IUserSettingsDAO UserSettingsDAO;
 
     /**
@@ -89,7 +93,6 @@ public class ProfileController {
         configureProfileChangeTracking();
         configurePasswordChangeTracking();
 
-        currentUser.giveUserXpTest();
         loadBanners();
         loadPFPs();
 
@@ -594,10 +597,42 @@ public class ProfileController {
     private void savePFPCosmetics(int pfpId)
     {
         saveSetting("pfpNumber", pfpId);
+        showCosmeticsSuccess("Profile Picture Updated Successfully");
     }
 
     private void saveBannerCosmetics(int bannerId)
     {
         saveSetting("bannerNumber", bannerId);
+        showCosmeticsSuccess("Profile Banner Updated Successfully");
+    }
+
+    private void showCosmeticsSuccess(
+            String message
+    ) {
+
+        profileCosmeticsLabel
+                .getStyleClass()
+                .removeAll(
+                        "form-success",
+                        "form-error"
+                );
+
+        profileCosmeticsLabel
+                .getStyleClass()
+                .add(
+                        "form-success"
+                );
+
+        profileCosmeticsLabel.setText(
+                message
+        );
+
+        profileCosmeticsLabel.setVisible(
+                true
+        );
+
+        profileCosmeticsLabel.setManaged(
+                true
+        );
     }
 }

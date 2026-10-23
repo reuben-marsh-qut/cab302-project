@@ -225,10 +225,19 @@
 
                 </ScrollPane>
 
+                    <Label>
+
+                        <VBox.margin>
+                            <Insets top="6"
+                                    bottom="28"/>
+                        </VBox.margin>
+
+                    </Label>
+
+                    <Label text="Choose a profile picture" styleClass="field-label">
 
 
-
-                <Label text="Choose a profile picture" styleClass="field-label"/>
+                    </Label>
 
                 <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="300">
                     <FlowPane fx:id="pfpPicker">
