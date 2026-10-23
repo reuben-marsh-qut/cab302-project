@@ -11,9 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
-
-import javax.annotation.processing.Completion;
-import javax.smartcardio.CardTerminal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -238,10 +235,10 @@ public class HabitCreationController {
         }
         try {
             if (selectedGoal != null) {
-                Habit habit = new Habit(selectedGoal.getId(), userId,title,selectedCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
+                Habit habit = new Habit(selectedGoal.getId(), userId,title,selectedGoalCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
                 habitDAO.createHabit(habit);
             } else {
-                Habit habit = new Habit(null, userId,title,selectedCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
+                Habit habit = new Habit(null, userId,title,selectedGoalCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
                 habitDAO.createHabit(habit);
             }
 
