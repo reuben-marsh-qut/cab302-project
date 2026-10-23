@@ -221,29 +221,6 @@ public class HabitDAO implements IHabitDAO{
     }
 
     /**
-     * Binds a nullable date and time as Unix seconds.
-     *
-     * @param statement the statement to populate
-     * @param index the parameter index
-     * @param value the date and time, or null
-     * @throws SQLException if parameter binding fails
-     */
-    private void setDateTime(
-            PreparedStatement statement,
-            int index,
-            LocalDateTime value
-    ) throws SQLException {
-        if (value == null) {
-            statement.setNull(index, Types.INTEGER);
-        } else {
-            statement.setLong(
-                    index,
-                    value.atZone(ZoneId.systemDefault()).toEpochSecond()
-            );
-        }
-    }
-
-    /**
      * Binds an optional foreign key, treating zero as absent.
      *
      * @param statement the statement to populate
@@ -262,10 +239,6 @@ public class HabitDAO implements IHabitDAO{
             statement.setInt(index, id);
         }
     }
-
-
-
-    /////////
 
     @Override
     public void updateHabit(Habit habit) {
