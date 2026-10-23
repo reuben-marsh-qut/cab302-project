@@ -3,6 +3,7 @@ package com.example.cab302project.controller;
 import com.example.cab302project.ModelConnection;
 import com.example.cab302project.model.*;
 import com.example.cab302project.model.enums.Category;
+import com.example.cab302project.model.enums.CompletionType;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
 import javafx.application.Platform;
@@ -10,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,16 +25,6 @@ public class HabitCreationController {
     private TextField targetField;
     @FXML
     private TextField repeatFrequencyField;
-    @FXML
-    private Button mindButton;
-    @FXML
-    private Button bodyButton;
-    @FXML
-    private Button worldButton;
-    @FXML
-    private Button workOverTimeButton;
-    @FXML
-    private Button oneAndDoneButton;
     @FXML
     private Button noGoalsButton;
     @FXML
@@ -53,11 +43,6 @@ public class HabitCreationController {
     @FXML
     private Button yearlyButton;
 
-    @FXML
-    private Button manualHabitTemplateButton;
-    @FXML
-    private Button aiHabitTemplateButton;
-
 
     private IGoalDAO goalDAO;
     private IHabitDAO habitDAO;
@@ -65,8 +50,9 @@ public class HabitCreationController {
     private int userId;
     private Runnable onFinished;
     private static final String SELECTED_STYLE_CLASS = "option-selected";
+    private Category selectedGoalCategory;
+    private CompletionType selectedGoalCompletionType;
 
-    private Category selectedCategory;
     private Goal selectedGoal;
     private RepeatFrequencyType selectedRepeatFrequencyType;
     private int selectedRepeatFrequency;
@@ -101,11 +87,7 @@ public class HabitCreationController {
     @FXML
     public void initialize() {
         hideError();
-        selectCategory(Category.MIND);
-        selectActivityType(TaskType.PROGRESSIVE);
-        selectGoal(null);
         selectRepeatFrequencyType(RepeatFrequencyType.DAILY);
-        selectTemplateVariant(false);
     }
 
     @FXML
@@ -115,9 +97,11 @@ public class HabitCreationController {
 
     private void setupGoalList(){
         List<Goal> goals = goalDAO.getGoalsForUser(userId);
-//        System.out.println("size: " + goals.size());
 
         goalSelectDropDown.getItems().addAll(goals);
+
+        selectGoal(goals.getFirst());
+        goalSelectDropDown.setValue(goals.getFirst());
 
         goalSelectDropDown.setConverter(new StringConverter<Goal>() {
             @Override
@@ -138,49 +122,37 @@ public class HabitCreationController {
     private void selectGoal(Goal goal){
         hideError();
         if (goal == null){
-            highlight(noGoalsButton,true);
+            selectedaiTemplate = true;
+            hideError();
+            showTemplates();
             goalSelectDropDown.setValue(null);
             selectedGoal = goal;
             return;
         }
-        highlight(noGoalsButton,false);
         selectedGoal = goal;
+        selectedGoalCompletionType = goal.getCompletionType();
+        if (selectedGoalCompletionType == CompletionType.BINARY) {selectedActivityType = TaskType.BINARY;}
+        else {selectedActivityType = TaskType.PROGRESSIVE;}
+        selectedGoalCategory = goal.getCategory();
         hasFetchedAIForThisGoal = false;
-
+        selectTemplateVariant(true);
     }
     private void selectTemplateVariant(boolean aiTemplate){
         if (aiTemplate){
             if(selectedGoal == null) {
                 selectedaiTemplate = false;
                 showError("Please select a goal to generate Habits from");
-                highlight(aiHabitTemplateButton,false);
-                highlight(manualHabitTemplateButton,true);
                 showTemplates();
                 return;
             }
-            highlight(aiHabitTemplateButton,true);
-            highlight(manualHabitTemplateButton,false);
             selectedaiTemplate = true;
             hideError();
             showTemplates();
         } else {
-            highlight(aiHabitTemplateButton,false);
-            highlight(manualHabitTemplateButton,true);
             selectedaiTemplate = false;
             hideError();
             showTemplates();
         }
-
-    }
-
-
-    @FXML
-    private void onSelectManualHabitTemplates() {
-        selectTemplateVariant(false);
-    }
-    @FXML
-    private void onSelectAITemplates() {
-        selectTemplateVariant(true);
     }
 
     @FXML
@@ -199,36 +171,14 @@ public class HabitCreationController {
     private void onSelectYearly() {
         selectRepeatFrequencyType(RepeatFrequencyType.YEARLY);
     }
-    @FXML
-    private void onSelectMind() {
-        selectCategory(Category.MIND);
-    }
 
-    @FXML
-    private void onSelectBody() {
-        selectCategory(Category.BODY);
-    }
-
-    @FXML
-    private void onSelectWorld() {
-        selectCategory(Category.WORLD);
-    }
-
-    @FXML
-    private void onWorkOverTime() {
-        selectActivityType(TaskType.PROGRESSIVE);
-    }
-
-    @FXML
-    private void onOneAndDone() {
-        selectActivityType(TaskType.BINARY);
-    }
     @FXML
     private Button template1Button;
     @FXML
     private Button template2Button;
     @FXML
     private Button template3Button;
+
 
     @FXML
     private void onTemplate1() {
@@ -276,16 +226,6 @@ public class HabitCreationController {
             return;
         }
         repeatFreq = enteredRepeatFreq;
-        if (selectedActivityType == TaskType.PROGRESSIVE) {
-            Integer enteredTarget = parseInteger(targetField.getText());
-
-            if (enteredTarget == null) {
-                showError("Target must be a whole number, for example 600.");
-                return;
-            }
-
-            target = enteredTarget;
-        }
         LocalDate endDate = LocalDate.now();
         switch (selectedRepeatFrequencyType){
             case DAILY -> endDate = endDate.plusDays(100);
@@ -295,10 +235,10 @@ public class HabitCreationController {
         }
         try {
             if (selectedGoal != null) {
-                Habit habit = new Habit(selectedGoal.getId(), userId,title,selectedCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
+                Habit habit = new Habit(selectedGoal.getId(), userId,title,selectedGoalCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
                 habitDAO.createHabit(habit);
             } else {
-                Habit habit = new Habit(null, userId,title,selectedCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
+                Habit habit = new Habit(null, userId,title,selectedGoalCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
                 habitDAO.createHabit(habit);
             }
 
@@ -347,18 +287,6 @@ public class HabitCreationController {
         errorLabel.setManaged(false);
     }
 
-    /**
-     * Records the chosen category and highlights its button.
-     * @param category The category the user picked.
-     */
-    private void selectCategory(Category category) {
-        selectedCategory = category;
-
-        highlight(mindButton, category == Category.MIND);
-        highlight(bodyButton, category == Category.BODY);
-        highlight(worldButton, category == Category.WORLD);
-        showTemplates();
-    }
     private void selectRepeatFrequencyType(RepeatFrequencyType repeatFrequencyType) {
         this.selectedRepeatFrequencyType = repeatFrequencyType;
 
@@ -377,15 +305,12 @@ public class HabitCreationController {
          * completion type on the three template buttons.
          */
     private void showTemplates() {
-        if (selectedCategory == null || selectedActivityType == null) {
+        if (selectedGoal == null) {
             return;
         }
         if (selectedaiTemplate){
             if (!ModelConnection.getInstance().isAvailable()){
                 showError("AI model is unavailable");
-                highlight(aiHabitTemplateButton,false);
-                highlight(manualHabitTemplateButton,true);
-
                 return;
             }
             if (!hasFetchedAIForThisGoal){
@@ -393,9 +318,6 @@ public class HabitCreationController {
                 template2Button.setText("Loading ...");
                 template3Button.setText("Loading ...");
                 aiIsLoading = true;
-                highlight(mindButton, selectedGoal.getCategory() == Category.MIND);
-                highlight(bodyButton, selectedGoal.getCategory() == Category.BODY);
-                highlight(worldButton, selectedGoal.getCategory() == Category.WORLD);
                 new Thread(()->{
                     StringBuilder previous = new StringBuilder();
                     HabitTemplate template1 = HabitTemplate.generateHabitFromPartialGoal(selectedGoal.getTitle(),selectedGoal.getCategory());
@@ -424,14 +346,7 @@ public class HabitCreationController {
                 template3Button.setText(shownTemplates.get(2).getTitle());
             }
 
-        } else {
-            shownTemplates = HabitTemplate.getTemplatesFor(selectedCategory, selectedActivityType);
-
-            template1Button.setText(shownTemplates.get(0).getTitle());
-            template2Button.setText(shownTemplates.get(1).getTitle());
-            template3Button.setText(shownTemplates.get(2).getTitle());
         }
-
     }
     /**
      * Fills the form in from a template. Everything stays editable.
@@ -443,10 +358,6 @@ public class HabitCreationController {
         titleArea.setText(template.getTitle());
         selectRepeatFrequencyType(template.getRepeatFrequencyType());
         selectRepeatFrequency(template.getRepeatFrequency());
-        selectActivityType(template.getTaskType());
-        if (template.getTaskType() == TaskType.PROGRESSIVE) {
-            targetField.setText(String.valueOf(template.getTarget()));
-        }
     }
 
     private void highlight(Button button, boolean selected) {
@@ -457,19 +368,4 @@ public class HabitCreationController {
         }
     }
 
-    private void selectActivityType(TaskType taskType) {
-        selectedActivityType = taskType;
-
-        highlight(workOverTimeButton, taskType == TaskType.PROGRESSIVE);
-        highlight(oneAndDoneButton, taskType == TaskType.BINARY);
-
-        boolean needsTarget = taskType == TaskType.PROGRESSIVE;
-
-        targetField.setDisable(!needsTarget);
-
-        if (!needsTarget) {
-            targetField.clear();
-        }
-        showTemplates();
-    }
 }

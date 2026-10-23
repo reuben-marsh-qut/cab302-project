@@ -26,21 +26,8 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Label maxWidth="1.7976931348623157E308" text="Habit type: What category does this habit fall under?" wrapText="true" />
+                  <Label maxWidth="1.7976931348623157E308" text="For what goal?" wrapText="true" />
                   <Separator />
-                  <Button fx:id="mindButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectMind" text="Mind" />
-                  <Button fx:id="bodyButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectBody" text="Body" />
-                  <Button fx:id="worldButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectWorld" text="World" />
-               </children>
-            </VBox>
-            <VBox maxWidth="1.7976931348623157E308" prefWidth="100.0" spacing="10.0" styleClass="item-card" HBox.hgrow="ALWAYS">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-               <children>
-                  <Label maxWidth="1.7976931348623157E308" text="Which goal (if any) corresponds to this habit" wrapText="true" />
-                  <Separator />
-                  <Button fx:id="noGoalsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNoGoals" text="None" />
                   <ChoiceBox fx:id="goalSelectDropDown" maxWidth="1.7976931348623157E308"/>
                </children>
             </VBox>
@@ -49,19 +36,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Label maxWidth="1.7976931348623157E308" text="Do you work towards this habit or is it a one and done thing? (e.g. go to the gym daily)" wrapText="true" />
-                  <Separator />
-                  <Button fx:id="workOverTimeButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWorkOverTime" text="Work Over Time" />
-                  <Button fx:id="oneAndDoneButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOneAndDone" text="One And Done" />
-                  <TextField fx:id="targetField" promptText="Number for Completion" />
-               </children>
-            </VBox>
-            <VBox maxWidth="1.7976931348623157E308" prefWidth="100.0" spacing="10.0" styleClass="item-card" HBox.hgrow="ALWAYS">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-               <children>
-                  <Label maxWidth="1.7976931348623157E308" text="Choose a title for your habit. Make it understandable so you can remember in the future" wrapText="true" />
+                  <Label maxWidth="1.7976931348623157E308" text="Choose a memorable title" wrapText="true" />
                   <Separator />
                   <TextArea fx:id="titleArea" prefRowCount="4" promptText="e.g. Save $2,000, walk 100,000 steps" />
                </children>
@@ -89,8 +64,7 @@
          </padding>
          <children>
             <VBox alignment="CENTER_LEFT"  maxWidth="250.0">
-               <Button fx:id="manualHabitTemplateButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectManualHabitTemplates" text="Habit templates" />
-               <Button fx:id="aiHabitTemplateButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectAITemplates" text="AI Suggested Habits" />
+               <Label text="Generated Habits" styleClass="field-label"/>
             </VBox>
             <Button fx:id="template1Button" onAction="#onTemplate1" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true" />
             <Button fx:id="template2Button" onAction="#onTemplate2" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true" />

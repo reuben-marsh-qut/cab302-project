@@ -308,7 +308,12 @@ public class HabitController {
      */
     @FXML
     private void onNewHabit() throws IOException {
+        List<Goal> goals = goalDAO.getGoalsForUser(currentUser.getUserId());
+
         if (currentUser == null)
+        {
+            return;
+        } else if (goals.isEmpty())
         {
             return;
         }
