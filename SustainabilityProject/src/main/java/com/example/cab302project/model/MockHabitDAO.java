@@ -63,5 +63,9 @@ public class MockHabitDAO implements IHabitDAO {
     }
 
     @Override
-    public void createHabit(Habit habit) {}
+    public void createHabit(Habit habit) {
+        habit.setId(autoIncrementedId);
+        autoIncrementedId++;
+        habits.add(habit);
+    }
 }
