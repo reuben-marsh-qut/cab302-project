@@ -2,7 +2,6 @@ import com.example.cab302project.model.Habit;
 import com.example.cab302project.model.HabitManager;
 import com.example.cab302project.model.MockHabitDAO;
 import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.CompletionType;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
 import org.junit.jupiter.api.BeforeEach;

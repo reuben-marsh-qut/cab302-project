@@ -1,9 +1,5 @@
 package com.example.cab302project.model;
 
-import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.CompletionType;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

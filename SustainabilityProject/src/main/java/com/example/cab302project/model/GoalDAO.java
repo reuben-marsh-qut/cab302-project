@@ -3,18 +3,15 @@ package com.example.cab302project.model;
 import com.example.cab302project.DatabaseConnection;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;
-import com.example.cab302project.model.enums.TaskType;
 
 import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static java.lang.Integer.parseInt;
 
 //table is called goals
 ///

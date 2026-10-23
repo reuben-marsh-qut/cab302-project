@@ -1,6 +1,5 @@
 package com.example.cab302project;
 
-import com.example.cab302project.controller.LoginController;
 import com.example.cab302project.model.*;
 import com.example.cab302project.model.enums.Category;
 import com.example.cab302project.model.enums.CompletionType;

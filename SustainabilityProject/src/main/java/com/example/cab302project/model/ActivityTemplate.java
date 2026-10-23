@@ -1,7 +1,6 @@
 package com.example.cab302project.model;
 
 import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.CompletionType;
 import com.example.cab302project.model.enums.TaskType;
 
 import java.util.ArrayList;

@@ -1,10 +1,5 @@
 package com.example.cab302project.model;
 
-import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.RepeatFrequencyType;
-import com.example.cab302project.model.enums.TaskType;
-
-import java.time.LocalDate;
 import java.util.List;
 
 public interface IHabitDAO {
