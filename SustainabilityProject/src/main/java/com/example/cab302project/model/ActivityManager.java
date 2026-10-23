@@ -2,7 +2,6 @@ package com.example.cab302project.model;
 
 import com.example.cab302project.model.enums.Category;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

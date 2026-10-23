@@ -1,12 +1,9 @@
 import com.example.cab302project.model.Activity;
 import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.CompletionType;
 import com.example.cab302project.model.enums.TaskType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 

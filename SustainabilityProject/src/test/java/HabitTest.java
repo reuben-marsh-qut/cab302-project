@@ -1,6 +1,5 @@
 import com.example.cab302project.model.Habit;
 import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.CompletionType;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HabitTest {
