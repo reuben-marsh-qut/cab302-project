@@ -133,6 +133,17 @@
 
     -fx-padding: 9 11 9 11;
 }
+.success-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+
+    -fx-text-fill: #176b36;
+
+    -fx-background-color: #eef8f0;
+    -fx-background-radius: 7;
+
+    -fx-padding: 9 11 9 11;
+}
 
 
 /* =========================================================

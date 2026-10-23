@@ -5,7 +5,6 @@ import com.example.cab302project.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.sql.SQLException;
@@ -51,8 +50,8 @@ public class HabitActivityDetailsController {
     @FXML
     private HBox completeHabitActivityButtons;
 
-    @FXML
-    private VBox progressControls;
+//    @FXML
+//    private VBox progressControls;
 
     @FXML
     private Button completeButton;
@@ -321,8 +320,8 @@ public class HabitActivityDetailsController {
             );
         }
 
-        progressControls.setVisible(!complete);
-        progressControls.setManaged(!complete);
+//        progressControls.setVisible(!complete);
+//        progressControls.setManaged(!complete);
 
         boolean showActions = !complete || rewardPending;
         completeHabitActivityButtons.setVisible(showActions);

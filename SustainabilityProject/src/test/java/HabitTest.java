@@ -1,6 +1,5 @@
 import com.example.cab302project.model.Habit;
 import com.example.cab302project.model.enums.Category;
-import com.example.cab302project.model.enums.CompletionType;
 import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HabitTest {
@@ -17,7 +15,7 @@ public class HabitTest {
 
     @BeforeEach
     public void setUp() {
-        habit = new Habit(1, 1, 1, "Read 5 pages a day", Category.MIND,
+        habit = new Habit( 1, 1, "Read 5 pages a day", Category.MIND,
                 TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                 LocalDate.now().plusDays(30), 31, 31, true);
     }
@@ -96,7 +94,7 @@ public class HabitTest {
 
     @Test
     void testCreateHabitWithNoDueDateShouldSucceed() {
-        Habit habit = new Habit(1, 1, 1, "Read 5 pages a day", Category.MIND,
+        Habit habit = new Habit( 1, 1, "Read 5 pages a day", Category.MIND,
                 TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                 null, 21, 31, true);
 
@@ -119,7 +117,7 @@ public class HabitTest {
     @Test
     void createHabitWithBlankTitleShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Habit(1, 1, 1, "", Category.MIND,
+                () -> new Habit( 1, 1, "", Category.MIND,
                         TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                         LocalDate.now().plusDays(30), 21, 31, true),
                 "A habit with a blank title should throw an exception.");
@@ -128,7 +126,7 @@ public class HabitTest {
     @Test
     void createHabitWithZeroThresholdShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Habit(1, 1, 1,"Read 5 pages a day", Category.MIND,
+                () -> new Habit( 1, 1,"Read 5 pages a day", Category.MIND,
                         TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                         LocalDate.now().plusDays(30), 0, 0, true),
                 "A goal with a completion threshold of zero should throw an exception.");
@@ -147,7 +145,7 @@ public class HabitTest {
     @Test
     void createHabitWithDueDateBeforeStartShouldThrowException() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Habit(1, 1, 1, "Read 5 pages a day", Category.MIND,
+                () -> new Habit( 1, 1, "Read 5 pages a day", Category.MIND,
                         TaskType.BINARY, 1, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                         LocalDate.now().minusDays(30), 21, 31, true),
                 "A habit that is due before it starts should throw an exception.");

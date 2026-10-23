@@ -1,16 +1,27 @@
 package com.example.cab302project.controller;
 
-import com.example.cab302project.model.User;
-import com.example.cab302project.model.UserDAO;
-import com.example.cab302project.model.UserManager;
-import com.example.cab302project.model.UserSession;
+import com.example.cab302project.model.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
+import java.util.Objects;
+
+
+/**
+ * Controls the user settings page
+ */
 public class ProfileController {
+
+    @FXML
+    public VBox bannerCardAreaThing;
+
+    @FXML
+    public FlowPane pfpPicker;
 
     @FXML
     private TextField emailField;
@@ -43,6 +54,22 @@ public class ProfileController {
     private User currentUser;
 
     @FXML
+    private FlowPane bannerPicker;
+
+    @FXML
+    private Label profileCosmeticsLabel;
+
+    private final IUserSettingsDAO UserSettingsDAO;
+
+    /**
+     *  creates new instance of the user settings dao
+     */
+    public ProfileController()
+    {
+        UserSettingsDAO = new UserSettingsDAO();
+    }
+
+    @FXML
     public void initialize() {
 
         userManager = new UserManager(new UserDAO());
@@ -63,6 +90,9 @@ public class ProfileController {
         configurePostcodeField();
         configureProfileChangeTracking();
         configurePasswordChangeTracking();
+
+        loadBanners();
+        loadPFPs();
 
         hideProfileMessage();
         hidePasswordMessage();
@@ -467,6 +497,140 @@ public class ProfileController {
 
         passwordMessageLabel.setManaged(
                 false
+        );
+    }
+
+    private boolean checkUserLevel(int wantedLevel)
+    {
+        int userXP = currentUser.getUserExperience();
+        int level = new LevelService().getLevel(userXP);
+        if (level >= wantedLevel)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void loadBanners()
+    {
+        // Change the following variable upon adding new banners
+        int numberOfBanners = 4;
+        int count = 1;
+        while (count <= numberOfBanners)
+        {
+            if (checkUserLevel(count))
+            {
+                final int bannerNumber = count;
+                Image banner = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/UserCustomisation/banners/banner" + count + ".png")));
+                ImageView bannerImageView = new ImageView(banner);
+                bannerImageView.setPreserveRatio(true);
+                double width = bannerCardAreaThing.getWidth();
+                width = width - 20;
+                bannerImageView.setFitWidth(500);
+
+                HBox bannerHbox = new HBox();
+                Button bannerButton = new Button("Save Banner" + count);
+                bannerButton.getStyleClass().add("primary-button");
+                bannerButton.setGraphic(bannerImageView);
+                bannerButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                bannerButton.setOnAction(event -> {saveBannerCosmetics(bannerNumber);});
+                bannerHbox.getChildren().add(bannerButton);
+                bannerPicker.getChildren().add(bannerHbox);
+            }
+            count++;
+        }
+    }
+
+    private void loadPFPs()
+    {
+        // Change the following variable upon adding new pfps
+        int numberOfPFPs = 4;
+        int count = 1;
+        while (count <= numberOfPFPs)
+        {
+            if (checkUserLevel(count))
+            {
+                final int pfpNumber = count;
+                Image pfp = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/UserCustomisation/pfp/pfp" + count + ".png")));
+                ImageView pfpImageView = new ImageView(pfp);
+                pfpImageView.setPreserveRatio(true);
+                double width = bannerCardAreaThing.getWidth();
+                width = width - 20;
+                pfpImageView.setFitWidth(225);
+
+                HBox pfpHbox = new HBox();
+                Button pfpButton = new Button("Save Profile Picture" + count);
+                pfpButton.getStyleClass().add("primary-button");
+                pfpButton.setGraphic(pfpImageView);
+                pfpButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                pfpButton.setOnAction(event -> {savePFPCosmetics(pfpNumber);});
+                pfpHbox.getChildren().add(pfpButton);
+                pfpPicker.getChildren().add(pfpHbox);
+            }
+            count++;
+        }
+    }
+
+    // my user pfp save didnt work so I refactored and fixed at the same time
+
+    private void saveSetting(String key, int value)
+    {
+        for (UserSetting setting : UserSettingsDAO.getSettingsByUser(currentUser))
+        {
+
+            if (key.equals(setting.getSettingsKey()))
+            {
+                UserSettingsDAO.updateUserSetting(currentUser.getUserId(), key, value);
+                return;
+
+            }
+        }
+
+        UserSettingsDAO.createUserSetting(currentUser.getUserId(), key, value);
+    }
+
+    private void savePFPCosmetics(int pfpId)
+    {
+        saveSetting("pfpNumber", pfpId);
+        showCosmeticsSuccess("Profile Picture Updated Successfully");
+    }
+
+    private void saveBannerCosmetics(int bannerId)
+    {
+        saveSetting("bannerNumber", bannerId);
+        showCosmeticsSuccess("Profile Banner Updated Successfully");
+    }
+
+    private void showCosmeticsSuccess(
+            String message
+    ) {
+
+        profileCosmeticsLabel
+                .getStyleClass()
+                .removeAll(
+                        "form-success",
+                        "form-error"
+                );
+
+        profileCosmeticsLabel
+                .getStyleClass()
+                .add(
+                        "form-success"
+                );
+
+        profileCosmeticsLabel.setText(
+                message
+        );
+
+        profileCosmeticsLabel.setVisible(
+                true
+        );
+
+        profileCosmeticsLabel.setManaged(
+                true
         );
     }
 }

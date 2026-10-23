@@ -6,7 +6,6 @@ import com.example.cab302project.model.enums.RepeatFrequencyType;
 import com.example.cab302project.model.enums.TaskType;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Habit {
     private Integer id;
@@ -23,7 +22,7 @@ public class Habit {
     private Integer baseXpReward;
     private boolean doesContributeDirectlyToGoal;
 
-    public Habit(Integer habitId, Integer goalId, Integer userId, String title, Category category,
+    public Habit(Integer goalId, Integer userId, String title, Category category,
                  TaskType taskType, Integer repeatFrequency, RepeatFrequencyType repeatFrequencyType, LocalDate startDate,
                  LocalDate endDate, Integer completionThreshold, Integer baseXpReward,
                  boolean doesContributeDirectlyToGoal) {
@@ -31,7 +30,6 @@ public class Habit {
         validateCompletionThreshold(completionThreshold);
         validateDates(startDate, endDate);
 
-        this.id = habitId;
         this.goalId = goalId;
         this.userId = userId;
         this.title = title;

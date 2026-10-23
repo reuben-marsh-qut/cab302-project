@@ -7,12 +7,9 @@ import com.example.cab302project.model.UserManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class RegisterController {
@@ -63,7 +60,7 @@ public class RegisterController {
         }
 
         try {
-            openLoginPage();
+            openLoginPage(true);
         } catch (IOException e) {
             showError("Unable to open the login page.");
             e.printStackTrace();
@@ -73,19 +70,26 @@ public class RegisterController {
     @FXML
     private void handleLogin() {
         try {
-            openLoginPage();
+            openLoginPage(false);
         } catch (IOException e) {
             showError("Unable to open the login page.");
             e.printStackTrace();
         }
     }
 
-    private void openLoginPage() throws IOException {
+    private void openLoginPage(boolean accountJustCreated) throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("login-view.fxml")
         );
 
         Parent root = loader.load();
+
+        if (accountJustCreated) {
+            LoginController loginController = loader.getController();
+            loginController.showSuccess(
+                    "Account created. Log in to get started."
+            );
+        }
 
         emailField.getScene().setRoot(root);
     }
@@ -95,4 +99,5 @@ public class RegisterController {
         errorLabel.setVisible(true);
         errorLabel.setManaged(true);
     }
+
 }

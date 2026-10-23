@@ -1,6 +1,5 @@
 package com.example.cab302project.controller;
 
-import com.example.cab302project.HelloApplication;
 import com.example.cab302project.model.Goal;
 import com.example.cab302project.model.GoalDAO;
 import com.example.cab302project.model.IGoalDAO;
@@ -11,10 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 

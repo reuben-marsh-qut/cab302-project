@@ -1,0 +1,46 @@
+must be able to present all if absent
+USB
+read marking criteria
+must hit all points in criteria
+basic good pptx design
+
+what is why important
+how is this distinct from other 
+what issue does this solve
+'passionate'
+
+langchain4j
+vs rest
+vs other
+
+friday prac 5pm to 7pm - f101
+dont need to actually say name
+
+AGILE
+cost time features quality
+
+!!!!quality
+
+pr
+pr reviews
+tdd
+refactoring
+unit testing
+user testing
+
+sprint retro + sprint planning
+
+tech stack diagram
+
+challenge fall back for users without ai?
+
+
+work out validateDates()
+write script
+fix broken habit()
+
+health and well being
+
+people planet prosperty
+education
+

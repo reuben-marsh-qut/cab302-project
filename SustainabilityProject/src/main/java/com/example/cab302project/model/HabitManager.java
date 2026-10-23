@@ -101,7 +101,7 @@ public class HabitManager {
      * Adds a habit to the database
      * @param habit the habit to add
      */
-    public void addHabit(Habit habit) {
-        habitDAO.addHabit(habit);
+    public void createHabit(Habit habit) {
+        habitDAO.createHabit(habit);
     }
 }
