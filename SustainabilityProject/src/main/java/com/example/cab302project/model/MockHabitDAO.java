@@ -72,7 +72,5 @@ public class MockHabitDAO implements IHabitDAO {
     }
 
     @Override
-    public boolean createHabit(Goal goal, User user, String title, Category category, TaskType taskType, int completionThreshold, int baseXpReward, int repeatFrequency, RepeatFrequencyType repeatFrequencyType, LocalDate startDate, LocalDate endDate, boolean doesContributeDirectlyToGoal) {
-        return false;
-    }
+    public void createHabit(Habit habit) {}
 }
