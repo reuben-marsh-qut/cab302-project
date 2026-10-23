@@ -18,19 +18,19 @@ public class HabitManagerTest {
     private HabitManager habitManager;
 
     private Habit[] habits = {
-            new Habit(1, 1, 1,"Mow the lawn weekly", Category.BODY,
+            new Habit( 1, 1,"Mow the lawn weekly", Category.BODY,
                     TaskType.BINARY, 7, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                     LocalDate.now().plusDays(30), 21, 31, true),
-            new Habit(2, 1, 1,"Water the garden twice a week", Category.BODY,
+            new Habit( 1, 1,"Water the garden twice a week", Category.BODY,
                     TaskType.BINARY, 7, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                     LocalDate.now().plusDays(30), 21, 31, true),
-            new Habit(3, 2, 2,"Read 5 pages a day", Category.MIND,
+            new Habit( 2, 2,"Read 5 pages a day", Category.MIND,
                     TaskType.BINARY, 7, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                     LocalDate.now().plusDays(100), 21, 31, true),
-            new Habit(4, 3, 2,"Walk 30 minutes a day", Category.BODY,
+            new Habit( 3, 2,"Walk 30 minutes a day", Category.BODY,
                     TaskType.BINARY, 7, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                     LocalDate.now().plusDays(60), 21, 31, true),
-            new Habit(5, 4, 3,"Eat three meals a day", Category.BODY,
+            new Habit( 4, 3,"Eat three meals a day", Category.BODY,
                     TaskType.BINARY, 7, RepeatFrequencyType.WEEKLY, LocalDate.now(),
                     LocalDate.now().plusMonths(3), 21, 31, true),
     };
@@ -40,7 +40,7 @@ public class HabitManagerTest {
 
     @Test
     public void testSearchByTitleInOneHabit() {
-        habitManager.addHabit(habits[0]); // add just the first habit
+        habitManager.createHabit(habits[0]); // add just the first habit
         List<Habit> habits = habitManager.searchHabitsByTitle("Mow the lawn weekly"); // search for habit based on firstname
         assertEquals(1, habits.size()); // assertion - correct quantity
         assertEquals(this.habits[0], habits.get(0)); // assertion - correct item
@@ -48,7 +48,7 @@ public class HabitManagerTest {
 
     @Test
     public void testSearchByCategoryInOneHabit() {
-        habitManager.addHabit(habits[0]); // add just the first habit
+        habitManager.createHabit(habits[0]); // add just the first habit
         List<Habit> habits = habitManager.searchHabitsByCategory(Category.BODY); // search for habit based on firstname
         assertEquals(1, habits.size()); // assertion - correct quantity
         assertEquals(this.habits[0], habits.get(0)); // assertion - correct item
@@ -57,7 +57,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchByTitleInMultipleHabits() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List<Habit> habits = habitManager.searchHabitsByTitle("Read 5 pages a day"); // search for habit based on firstname
         assertEquals(1, habits.size()); // assertion - correct quantity
@@ -69,7 +69,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchByCategoryInMultipleHabits() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List<Habit> habits = habitManager.searchHabitsByCategory(Category.BODY); // search for habit based on firstname
         assertEquals(4, habits.size()); // assertion - correct quantity
@@ -81,7 +81,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchNoResults() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List<Habit> habits = habitManager.searchHabitsByTitle("Joseph's Habit");
         assertEquals(0, habits.size());
@@ -90,7 +90,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchEmptyQuery() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List<Habit> habits = habitManager.searchHabitsByTitle("");
         assertEquals(5, habits.size());
@@ -99,7 +99,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchNullQuery() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List<Habit> habits = habitManager.searchHabitsByTitle(null);
         assertEquals(5, habits.size());
@@ -108,7 +108,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchByTitleCaseInsensitive() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List<Habit> habits = habitManager.searchHabitsByTitle("eat three meals a day");
         assertEquals(1, habits.size());
@@ -120,7 +120,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchPartialQuery() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List<Habit> habits = habitManager.searchHabitsByTitle("the");
         assertEquals(2, habits.size());
@@ -137,7 +137,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchByUserId() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List<Habit> habits = habitManager.searchHabitsByUserId(2);
         assertEquals(2, habits.size());
@@ -147,7 +147,7 @@ public class HabitManagerTest {
     @Test
     public void testSearchByDate() {
         for (Habit habit : habits) { // add all habits
-            habitManager.addHabit(habit);
+            habitManager.createHabit(habit);
         }
         List <Habit> habits = habitManager.getHabitsBeforeDate(LocalDate.now().plusDays(50));
         assertEquals(2, habits.size());
