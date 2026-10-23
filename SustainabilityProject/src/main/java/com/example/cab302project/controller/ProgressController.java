@@ -290,7 +290,7 @@ public class ProgressController {
                 : " activities completed");
 
         Tooltip.install(bar, new Tooltip(description));
-        bar.setAccessibleText(description);
+//        bar.setAccessibleText(description);
     }
 
     /**

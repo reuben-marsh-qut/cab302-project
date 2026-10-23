@@ -89,7 +89,6 @@ public class ProfileController {
         configureProfileChangeTracking();
         configurePasswordChangeTracking();
 
-        currentUser.giveUserXpTest();
         loadBanners();
         loadPFPs();
 
