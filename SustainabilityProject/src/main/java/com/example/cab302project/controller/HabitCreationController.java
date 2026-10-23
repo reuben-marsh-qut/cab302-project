@@ -295,7 +295,14 @@ public class HabitCreationController {
             case YEARLY -> endDate = endDate.plusYears(2);
         }
         try {
-            habitDAO.createHabit(selectedGoal, userDAO.getUserById(userId),title,selectedCategory,selectedActivityType,target,10,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,false);
+            if (selectedGoal != null) {
+                Habit habit = new Habit(selectedGoal.getId(), userId,title,selectedCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
+                habitDAO.createHabit(habit);
+            } else {
+                Habit habit = new Habit(null, userId,title,selectedCategory,selectedActivityType,repeatFreq,selectedRepeatFrequencyType, LocalDate.now(),endDate,target,10, false);
+                habitDAO.createHabit(habit);
+            }
+
             close();
         } catch (IllegalArgumentException exception) {
             showError(exception.getMessage());
@@ -450,6 +457,7 @@ public class HabitCreationController {
             button.getStyleClass().add(SELECTED_STYLE_CLASS);
         }
     }
+
     private void selectActivityType(TaskType taskType) {
         selectedActivityType = taskType;
 

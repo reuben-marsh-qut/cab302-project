@@ -51,8 +51,8 @@ public class HabitActivityDetailsController {
     @FXML
     private HBox completeHabitActivityButtons;
 
-    @FXML
-    private VBox progressControls;
+//    @FXML
+//    private VBox progressControls;
 
     @FXML
     private Button completeButton;
@@ -321,8 +321,8 @@ public class HabitActivityDetailsController {
             );
         }
 
-        progressControls.setVisible(!complete);
-        progressControls.setManaged(!complete);
+//        progressControls.setVisible(!complete);
+//        progressControls.setManaged(!complete);
 
         boolean showActions = !complete || rewardPending;
         completeHabitActivityButtons.setVisible(showActions);
