@@ -47,7 +47,8 @@ public class databasetesting {
                 HabitDAO habitDAO = new HabitDAO();
                 LocalDate start = LocalDate.of(2026, 9, 1);
                 LocalDate habitEnd = LocalDate.of(2026, 9, 19);
-                habitDAO.createHabit(jail, anne, "Walk 10,000 steps", Category.BODY, TaskType.PROGRESSIVE, 10000, 10, 1, RepeatFrequencyType.DAILY, start, habitEnd, false);
+                Habit firstHabit = new Habit(jail.getId(), anne.getUserId(), "Walk 10,000 steps", Category.BODY, TaskType.PROGRESSIVE, 10000, RepeatFrequencyType.DAILY, start, habitEnd, 10, 10, false);
+                habitDAO.createHabit(firstHabit);
                 Habit habit = habitDAO.getHabitsByUserId(anne.getUserId()).getFirst();
                 habitDAO.debugCreateAssociatedTasks(habit, 10000, start.plusDays(1), start.plusDays(2));
                 habitDAO.debugCreateAssociatedTasks(habit, 10000, start.plusDays(2), start.plusDays(3));
@@ -61,16 +62,17 @@ public class databasetesting {
                 List<Activity> tasks = habitDAO.getAllAssociatedTasks(habit);
 
                 LocalDate startOfAug = LocalDate.of(2026, 8, 1);
-                habitDAO.createHabit(jail, anne, "Go To Gym each day in August", Category.BODY, TaskType.BINARY, 1, 10, 1, RepeatFrequencyType.DAILY,
-                        startOfAug, LocalDate.of(2026,8,31), false);
+
+                Habit secondHabit = new Habit(jail.getId(), anne.getUserId(), "Go To Gym each day in August", Category.BODY, TaskType.BINARY, 1, RepeatFrequencyType.DAILY, startOfAug, LocalDate.of(2026,8,31), 30, 10, false);
+                habitDAO.createHabit(secondHabit);
+
                 Habit habit2 = habitDAO.getHabitsByUserId(anne.getUserId()).getLast();
                 for (int i = 0; i <30; i++){
                     habitDAO.debugCreateAssociatedTasks(habit2, 1, startOfAug.plusDays(1+i), start.plusDays(2+i));
                 }
                 habitDAO.debugCreateAssociatedTasks(habit, 10000, start.plusDays(5), start.plusDays(6));
                 System.out.println(habitDAO.getHabitCompletionStreak(habit));
-                //            ActivityDAO activityDAO = new ActivityDAO();
-//            System.out.println(activityDAO.getActivityById(habitDAO.getAllAssociatedTasks()));
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
