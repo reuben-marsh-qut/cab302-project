@@ -334,7 +334,6 @@ public class HabitDAO implements IHabitDAO{
         }
     }
 
-    // TODO: document that this returns tasks oldest to youngest in docstring
     @Override
     public List<Activity> getAllAssociatedTasks(Habit habit) {
         return queryActivities(
@@ -343,6 +342,10 @@ public class HabitDAO implements IHabitDAO{
         );
     }
 
+    /**
+     * Creates an activity from a habit.
+     * @param habit the habit to create the activity from
+     */
     private void createActivityFromHabit(Habit habit) {
         ActivityDAO dao = new ActivityDAO();
 
@@ -412,7 +415,13 @@ public class HabitDAO implements IHabitDAO{
         createActivityFromHabit(habit);
     }
 
-
+    /**
+     * Debugs the creation of associated tasks for a habit.
+     * @param habit the habit to create the associated tasks for
+     * @param completionProgress the completion progress of the habit
+     * @param startTime the start time of the associated tasks
+     * @param endTime the end time of the associated tasks
+     */
     public void debugCreateAssociatedTasks(Habit habit, int completionProgress, LocalDate startTime, LocalDate endTime){
         ActivityDAO dao = new ActivityDAO();
         int awardedXPReward = 0;
@@ -486,6 +495,12 @@ public class HabitDAO implements IHabitDAO{
         }
     }
 
+    /**
+     * Runs an activity query with only the habit ID parameter.
+     * @param sql the query to run
+     * @param habitId the habit filter, or null for an unfiltered query
+     * @return the matching activities
+     */
     private List<Activity> queryActivities(String sql, Integer habitId) {
         return queryActivities(sql, habitId, null, null);
     }
