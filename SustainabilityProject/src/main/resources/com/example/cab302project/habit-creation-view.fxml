@@ -28,7 +28,7 @@
                <children>
                   <Label maxWidth="1.7976931348623157E308" text="For what goal?" wrapText="true" />
                   <Separator />
-                  <ChoiceBox fx:id="goalSelectDropDown" maxWidth="1.7976931348623157E308"/>
+                  <ChoiceBox fx:id="goalSelectDropDown" maxWidth="1.7976931348623157E308" accessibleText="Choose a goal for this habit"/>
                </children>
             </VBox>
             <VBox maxWidth="1.7976931348623157E308" prefWidth="100.0" spacing="10.0" styleClass="item-card" HBox.hgrow="ALWAYS">
@@ -38,7 +38,7 @@
                <children>
                   <Label maxWidth="1.7976931348623157E308" text="Choose a memorable title" wrapText="true" />
                   <Separator />
-                  <TextArea fx:id="titleArea" prefRowCount="4" promptText="e.g. Save $2,000, walk 100,000 steps" />
+                  <TextArea fx:id="titleArea" prefRowCount="4" promptText="e.g. Save $2,000, walk 100,000 steps"  accessibleText="Habit name and description"/>
                </children>
             </VBox>
             <VBox maxWidth="1.7976931348623157E308" prefWidth="130.0" spacing="10.0" styleClass="item-card" HBox.hgrow="ALWAYS">
@@ -53,7 +53,7 @@
                   <Button fx:id="monthlyButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectMonthly" text="Monthly" />
                   <Button fx:id="yearlyButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectYearly" text="Yearly" />
                   <Label maxWidth="1.7976931348623157E308" text="How large should the interval between repeats be (e.g daily=1,every 2 days=2)?" wrapText="true" />
-                  <TextField fx:id="repeatFrequencyField" promptText="eg daily=1,every 2 days=2" />
+                  <TextField fx:id="repeatFrequencyField" promptText="eg daily=1,every 2 days=2"  accessibleText="How often this habit repeats"/>
                </children>
             </VBox>
          </children>
@@ -66,9 +66,9 @@
             <VBox alignment="CENTER_LEFT"  maxWidth="250.0">
                <Label text="Generated Habits" styleClass="field-label"/>
             </VBox>
-            <Button fx:id="template1Button" onAction="#onTemplate1" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true" />
-            <Button fx:id="template2Button" onAction="#onTemplate2" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true" />
-            <Button fx:id="template3Button" onAction="#onTemplate3" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true" />
+            <Button fx:id="template1Button" onAction="#onTemplate1" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true"  accessibleText="Select first habit template"/>
+            <Button fx:id="template2Button" onAction="#onTemplate2" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true"  accessibleText="Select second habit template"/>
+            <Button fx:id="template3Button" onAction="#onTemplate3" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true"  accessibleText="Select third habit template"/>
          </children>
       </HBox>
       <Label fx:id="errorLabel" managed="false" styleClass="form-error" visible="false" wrapText="true" />

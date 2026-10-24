@@ -82,7 +82,7 @@
 
                     <TextField fx:id="emailField"
                                promptText="you@example.com"
-                               maxWidth="Infinity"/>
+                               maxWidth="Infinity" accessibleText="Profile email address"/>
 
                     <Region prefHeight="18"/>
 
@@ -91,7 +91,7 @@
 
                     <TextField fx:id="postcodeField"
                                promptText="4000"
-                               maxWidth="Infinity"/>
+                               maxWidth="Infinity" accessibleText="Profile postcode"/>
 
                     <Label fx:id="profileMessageLabel"
                            visible="false"
@@ -146,7 +146,7 @@
 
                     <PasswordField fx:id="currentPasswordField"
                                    promptText="Enter your current password"
-                                   maxWidth="Infinity"/>
+                                   maxWidth="Infinity" accessibleText="Current password"/>
 
                     <Region prefHeight="18"/>
 
@@ -155,7 +155,7 @@
 
                     <PasswordField fx:id="newPasswordField"
                                    promptText="Enter a new password"
-                                   maxWidth="Infinity"/>
+                                   maxWidth="Infinity" accessibleText="New password"/>
 
                     <Region prefHeight="18"/>
 
@@ -164,7 +164,7 @@
 
                     <PasswordField fx:id="confirmPasswordField"
                                    promptText="Enter your new password again"
-                                   maxWidth="Infinity"/>
+                                   maxWidth="Infinity" accessibleText="Confirm new password"/>
 
                     <Label fx:id="passwordMessageLabel"
                            visible="false"
