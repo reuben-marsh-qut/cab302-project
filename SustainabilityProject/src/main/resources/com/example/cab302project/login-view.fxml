@@ -86,7 +86,7 @@
         <TextField fx:id="emailField"
                    promptText="you@example.com"
                    maxWidth="Infinity"
-                   styleClass="login-field"/>
+                   styleClass="login-field" accessibleText="Email address for signing in"/>
 
 
         <Region prefHeight="18"/>
@@ -99,7 +99,7 @@
         <PasswordField fx:id="passwordField"
                        promptText="Enter your password"
                        maxWidth="Infinity"
-                       styleClass="login-field"/>
+                       styleClass="login-field" accessibleText="Account password"/>
 
 
         <!-- Error -->

@@ -42,7 +42,7 @@
                   <Separator />
                   <Button fx:id="workOverTimeButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWorkOverTime" text="Work Over Time" />
                   <Button fx:id="oneAndDoneButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOneAndDone" text="One And Done" />
-                  <TextField fx:id="targetField" promptText="Number for Completion" />
+                  <TextField fx:id="targetField" promptText="Number for Completion"  accessibleText="Goal completion target number"/>
                </children>
             </VBox>
             <VBox maxWidth="1.7976931348623157E308" prefWidth="100.0" spacing="10.0" styleClass="item-card" HBox.hgrow="ALWAYS">
@@ -52,9 +52,9 @@
                <children>
                   <Label maxWidth="1.7976931348623157E308" text="Choose a title for your goal. Make it understandable so you can remember in the future" wrapText="true" />
                   <Separator />
-                  <TextArea fx:id="titleArea" prefRowCount="4" promptText="e.g. Save $2,000, walk 100,000 steps" />
+                  <TextArea fx:id="titleArea" prefRowCount="4" promptText="e.g. Save $2,000, walk 100,000 steps"  accessibleText="Goal name and description"/>
                   <Label maxWidth="1.7976931348623157E308" text="When do you want to finish by?" wrapText="true" />
-                  <DatePicker fx:id="dueDatePicker" maxWidth="1.7976931348623157E308" />
+                  <DatePicker fx:id="dueDatePicker" maxWidth="1.7976931348623157E308"  accessibleText="Goal due date"/>
                </children>
             </VBox>
          </children>
@@ -64,9 +64,9 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
          <children>
-            <Button fx:id="template1Button" onAction="#onTemplate1" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true" />
-            <Button fx:id="template2Button" onAction="#onTemplate2" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true" />
-            <Button fx:id="template3Button" onAction="#onTemplate3" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true" />
+            <Button fx:id="template1Button" onAction="#onTemplate1" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true"  accessibleText="Select first goal template"/>
+            <Button fx:id="template2Button" onAction="#onTemplate2" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true"  accessibleText="Select second goal template"/>
+            <Button fx:id="template3Button" onAction="#onTemplate3" prefHeight="120.0" prefWidth="250.0" styleClass="template-card" wrapText="true"  accessibleText="Select third goal template"/>
          </children>
       </HBox>
       <Label fx:id="errorLabel" managed="false" styleClass="form-error" visible="false" wrapText="true" />

@@ -41,7 +41,7 @@
                    text="Update your progress!"/>
 
             <TextField fx:id="progressUpdate"
-                       promptText="Add to progress"/>
+                       promptText="Add to progress" accessibleText="Enter the amount to add to habit progress"/>
 
             <Button mnemonicParsing="false"
                     onAction="#onUpdateProgress"
