@@ -7,7 +7,6 @@ module com.example.cab302project {
     requires java.sql;
     requires password4j;
     requires jdk.jshell;
-    requires wagon.provider.api;
     requires langchain4j.open.ai;
     requires java.net.http;
     requires langchain4j.core;
