@@ -51,7 +51,7 @@
         <TextField fx:id="emailField"
                    promptText="you@example.com"
                    maxWidth="Infinity"
-                   styleClass="login-field"/>
+                   styleClass="login-field" accessibleText="Email address"/>
 
         <Region prefHeight="10"/>
 
@@ -59,7 +59,7 @@
         <PasswordField fx:id="passwordField"
                        promptText="Enter your password"
                        maxWidth="Infinity"
-                       styleClass="login-field"/>
+                       styleClass="login-field" accessibleText="New account password"/>
 
         <Region prefHeight="10"/>
 
@@ -67,7 +67,7 @@
         <PasswordField fx:id="confirmPasswordField"
                        promptText="Confirm your password"
                        maxWidth="Infinity"
-                       styleClass="login-field"/>
+                       styleClass="login-field" accessibleText="Confirm new account password"/>
 
         <Region prefHeight="10"/>
 
@@ -75,7 +75,7 @@
         <TextField fx:id="postcodeField"
                    promptText="4000"
                    maxWidth="Infinity"
-                   styleClass="login-field"/>
+                   styleClass="login-field" accessibleText="Postcode"/>
 
         <Label fx:id="errorLabel"
                visible="false"
